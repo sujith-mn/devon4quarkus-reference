@@ -1,6 +1,6 @@
 # devon4quarkus cloud native reference project
 
-This is the reference project of https://github.com/devonfw/devon4quarkus[devon4quarkus].
+This is the reference project of [devon4quarkus](https://github.com/devonfw/devon4quarkus).
 
 If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
 
