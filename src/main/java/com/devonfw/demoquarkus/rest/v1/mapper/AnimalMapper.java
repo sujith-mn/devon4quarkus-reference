@@ -1,10 +1,9 @@
 package com.devonfw.demoquarkus.rest.v1.mapper;
 
-import java.util.stream.Stream;
-
-import com.devonfw.demoquarkus.domain.model.AnimalSearchCriteria;
 import com.devonfw.demoquarkus.domain.model.Animal;
-import com.devonfw.demoquarkus.rest.v1.model.AnimalSearchCriteriaDTO;
+
+import java.util.List;
+
 import org.mapstruct.Mapper;
 import org.tkit.quarkus.rs.mappers.OffsetDateTimeMapper;
 
@@ -17,9 +16,7 @@ public interface AnimalMapper {
 
   AnimalDTO map(Animal model);
 
-  Stream<AnimalDTO> map(Stream<Animal> model);
-
   Animal create(NewAnimalDTO dto);
-
-  AnimalSearchCriteria map(AnimalSearchCriteriaDTO dto);
+  
+  List<AnimalDTO> map(List<Animal> animals);
 }

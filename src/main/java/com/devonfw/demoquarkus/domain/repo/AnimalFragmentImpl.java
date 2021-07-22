@@ -69,16 +69,18 @@ public class AnimalFragmentImpl implements AnimalFragment {
 	}
 
 	@Override
-	public List<Animal> findByNameQuery(AnimalSearchCriteriaDTO dto) {
+	public Page<Animal> findByNameQuery(AnimalSearchCriteriaDTO dto) {
 		Query query = this.em.createQuery("select a from Animal a where a.name = :name");
 		query.setParameter("name", dto.getName());
-		return query.getResultList();
+		List<Animal> animals = query.getResultList();
+		return new PageImpl<>(animals, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animals.size());
 	}
 	
 	@Override
-	public List<Animal> findByNameNativeQuery(AnimalSearchCriteriaDTO dto) {
-		Query query = this.em.createNativeQuery("select * from Animal where name = :name");
+	public Page<Animal> findByNameNativeQuery(AnimalSearchCriteriaDTO dto) {
+		Query query = this.em.createNativeQuery("select * from Animal where name = :name", Animal.class);
 		query.setParameter("name", dto.getName());
-		return query.getResultList();
+		List<Animal> animals = query.getResultList();
+		return new PageImpl<>(animals, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animals.size());
 	}
 }
