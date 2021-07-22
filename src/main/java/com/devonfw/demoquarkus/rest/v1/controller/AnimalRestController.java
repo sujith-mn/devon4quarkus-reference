@@ -6,7 +6,6 @@ import com.devonfw.demoquarkus.domain.repo.AnimalRepository;
 import com.devonfw.demoquarkus.rest.v1.model.AnimalDTO;
 import com.devonfw.demoquarkus.rest.v1.model.AnimalSearchCriteriaDTO;
 import com.devonfw.demoquarkus.rest.v1.model.NewAnimalDTO;
-import com.google.common.collect.Lists;
 
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.faulttolerance.Retry;
@@ -35,6 +34,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -70,7 +70,8 @@ public class AnimalRestController {
     // We did not define custom @Path - so it will use class level path
     public Page<AnimalDTO> getAll(@BeanParam AnimalSearchCriteriaDTO dto) {
     	Iterable<Animal> animalsIterator = this.animalRepository.findAll();
-    	List<Animal> animals = Lists.newArrayList(animalsIterator);
+    	List<Animal> animals = new ArrayList<Animal>();
+    	animalsIterator.forEach(animals::add);
     	List<AnimalDTO> animalsDto = mapper.map(animals);
      	return new PageImpl<>(animalsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animalsDto.size());
     }
