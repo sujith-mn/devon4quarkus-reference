@@ -6,6 +6,7 @@ import com.devonfw.demoquarkus.domain.repo.AnimalRepository;
 import com.devonfw.demoquarkus.rest.v1.model.AnimalDTO;
 import com.devonfw.demoquarkus.rest.v1.model.AnimalSearchCriteriaDTO;
 import com.devonfw.demoquarkus.rest.v1.model.NewAnimalDTO;
+
 import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.openapi.annotations.Operation;
@@ -15,6 +16,8 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.tkit.quarkus.rs.models.PageResultDTO;
 
 import javax.inject.Inject;
@@ -29,10 +32,9 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -66,44 +68,52 @@ public class AnimalRestController {
     @GET
     // REST service methods should not declare exceptions, any thrown error will be transformed by exceptionMapper in tkit-rest
     // We did not define custom @Path - so it will use class level path
-    public Response getAll(@BeanParam AnimalSearchCriteriaDTO dto) {
-    	Iterable<Animal> animals = this.animalRepository.findAll();
-     	return Response.ok(animals).build();
+    public Page<AnimalDTO> getAll(@BeanParam AnimalSearchCriteriaDTO dto) {
+    	Iterable<Animal> animalsIterator = this.animalRepository.findAll();
+    	List<Animal> animals = new ArrayList<Animal>();
+    	animalsIterator.forEach(animals::add);
+    	List<AnimalDTO> animalsDto = mapper.map(animals);
+     	return new PageImpl<>(animalsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animalsDto.size());
     }
     
     @GET
     @Path("criteriaApi")
-    public Response getAllCriteriaApi(@BeanParam AnimalSearchCriteriaDTO dto) {
-    	Page<Animal> page = this.animalRepository.findAllCriteriaApi(dto);
-     	return Response.ok(page).build();
+    public Page<AnimalDTO> getAllCriteriaApi(@BeanParam AnimalSearchCriteriaDTO dto) {
+    	List<Animal> animals = this.animalRepository.findAllCriteriaApi(dto).getContent();
+    	List<AnimalDTO> animalsDto = mapper.map(animals);
+    	return new PageImpl<>(animalsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animalsDto.size());
     }
     
     @GET
     @Path("queryDsl")
-    public Response getAllQueryDsl(@BeanParam AnimalSearchCriteriaDTO dto) {
-    	Page<Animal> page = this.animalRepository.findAllQueryDsl(dto);
-     	return Response.ok(page).build();
+    public Page<AnimalDTO> getAllQueryDsl(@BeanParam AnimalSearchCriteriaDTO dto) {
+    	List<Animal> animals = this.animalRepository.findAllQueryDsl(dto).getContent();
+    	List<AnimalDTO> animalsDto = mapper.map(animals);
+    	return new PageImpl<>(animalsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animalsDto.size());
     }
     
     @GET
     @Path("query")
-    public Response getAllQuery(@BeanParam AnimalSearchCriteriaDTO dto) {
-    	List<Animal> animals = this.animalRepository.findByNameQuery(dto);
-     	return Response.ok(animals).build();
+    public Page<AnimalDTO> getAllQuery(@BeanParam AnimalSearchCriteriaDTO dto) {
+    	List<Animal> animals = this.animalRepository.findByNameQuery(dto).getContent();
+    	List<AnimalDTO> animalsDto = mapper.map(animals);
+    	return new PageImpl<>(animalsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animalsDto.size());
     }
     
     @GET
     @Path("nativeQuery")
-    public Response getAllNativeQuery(@BeanParam AnimalSearchCriteriaDTO dto) {
-    	List<Animal> animals = this.animalRepository.findByNameNativeQuery(dto);
-     	return Response.ok(animals).build();
+    public Page<AnimalDTO> getAllNativeQuery(@BeanParam AnimalSearchCriteriaDTO dto) {
+    	List<Animal> animals = this.animalRepository.findByNameNativeQuery(dto).getContent();
+    	List<AnimalDTO> animalsDto = mapper.map(animals);
+    	return new PageImpl<>(animalsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animalsDto.size());
     }
     
     @GET
     @Path("ordered")
-    public Response getAllOrderedByName() {
-    	Page<Animal> page = this.animalRepository.findAllByOrderByName();
-     	return Response.ok(page).build();
+    public Page<AnimalDTO> getAllOrderedByName() {
+    	List<Animal> animals = this.animalRepository.findAllByOrderByName().getContent();
+    	List<AnimalDTO> animalsDto = mapper.map(animals);
+    	return new PageImpl<>(animalsDto);
     }
 
     @APIResponses({
@@ -114,43 +124,38 @@ public class AnimalRestController {
     @POST
     // We did not define custom @Path - so it will use class level path.
     // Although we now have 2 methods with same path, it is ok, because it is a different method (get vs post)
-    public Response createNewAnimal(NewAnimalDTO dto) {
+    public AnimalDTO createNewAnimal(NewAnimalDTO dto) {
 
     	Animal created = this.animalRepository.save(this.mapper.create(dto));
-        // we want to construct a link to our newly created animal
-        // we take the current URI = /animals
-        UriBuilder uriBuilder = this.uriInfo.getAbsolutePathBuilder();
-        // and add a path element corresponding to our id/name
-        uriBuilder.path(String.valueOf(created.getId()));
-        return Response.created(uriBuilder.build()).build();
+        return mapper.map(created);
     }
 
     @APIResponses({
-            @APIResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = Animal.class))),
+            @APIResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = AnimalDTO.class))),
             @APIResponse(responseCode = "404", description = "Animal not found"),
             @APIResponse(responseCode = "500")})
     @Operation(operationId = "getAnimalById", description = "Returns animal with given id")
     @GET
     @Path("{id}")
-    public Response getAnimalById(@Parameter(description = "Animal unique id") @PathParam("id") String id) {
+    public AnimalDTO getAnimalById(@Parameter(description = "Animal unique id") @PathParam("id") String id) {
 
     	Animal animal = this.animalRepository.findById(Long.valueOf(id)).get();
         if (animal != null) {
-            return Response.ok(animal).build();
+            return mapper.map(animal);
         } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return null;
         }
     }
     
     @GET
     @Path("name/{name}")
-    public Response getAnimalByName(@PathParam("name") String name) {
+    public AnimalDTO getAnimalByName(@PathParam("name") String name) {
 
     	Animal animal = this.animalRepository.findByName(name);
         if (animal != null) {
-            return Response.ok(animal).build();
+            return mapper.map(animal);
         } else {
-            return Response.noContent().build();
+            return null;
         }
     }
 
@@ -162,14 +167,14 @@ public class AnimalRestController {
     @Path("{id}")
     // we add transaction here, cause we do select and then pass the detached entity to DAO for deletion
     @Transactional
-    public Response deleteAnimalByName(@Parameter(description = "Animal unique id") @PathParam("id") String id) {
+    public AnimalDTO deleteAnimalByName(@Parameter(description = "Animal unique id") @PathParam("id") String id) {
 
     	Animal animal = this.animalRepository.findById(Long.valueOf(id)).get();
         if (animal != null) {
             this.animalRepository.delete(animal);
-            return Response.ok(mapper.map(animal)).build();
+            return mapper.map(animal);
         } else {
-            return Response.status(Response.Status.NOT_FOUND).build();
+            return null;
         }
     }
 
@@ -196,7 +201,7 @@ public class AnimalRestController {
             return List.of("imagine real data here", "and also this shocking fact");
         }
     }
-
-  private static class PagedAnimalResponse extends PageResultDTO<AnimalDTO> {}
+    
+    private static class PagedAnimalResponse extends PageResultDTO<AnimalDTO> {}
 
 }

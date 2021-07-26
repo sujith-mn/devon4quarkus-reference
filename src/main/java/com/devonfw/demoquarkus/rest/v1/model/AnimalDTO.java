@@ -2,13 +2,12 @@ package com.devonfw.demoquarkus.rest.v1.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.tkit.quarkus.rs.models.TraceableDTO;
 
 @Getter
 @Setter
-public class AnimalDTO extends TraceableDTO {
+public class AnimalDTO {
 
-    private static final long serialVersionUID = 3180533017106203282L;
+    private Long id;
 
     private String name;
 
