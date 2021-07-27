@@ -8,9 +8,9 @@ import org.springframework.data.repository.query.Param;
 import com.devonfw.demoquarkus.domain.model.Animal;
 
 public interface AnimalRepository extends CrudRepository<Animal, Long>, AnimalFragment {
-	
-	@Query("select a from Animal a where name = :name")
-	Animal findByName(@Param("name") String name);
-	
-	Page<Animal> findAllByOrderByName();
+
+  @Query("select a from Animal a where name = :name")
+  Animal findByName(@Param("name") String name);
+
+  Page<Animal> findAllByOrderByName();
 }

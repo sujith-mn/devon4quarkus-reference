@@ -3,6 +3,7 @@ package com.devonfw.demoquarkus.domain.model;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,7 +17,7 @@ public class Animal {
   @Id
   @GeneratedValue
   private Long id;
-	
+
   private String name;
 
   // every primitive attribute on this class will be represented as column in animal table

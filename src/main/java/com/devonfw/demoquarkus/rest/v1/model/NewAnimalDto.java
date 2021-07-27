@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class NewAnimalDTO {
+public class NewAnimalDto {
 
   @Schema(nullable = false, description = "Animal name", minLength = 3, maxLength = 50)
   private String name;
