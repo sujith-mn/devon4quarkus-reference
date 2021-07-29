@@ -25,7 +25,6 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.tkit.quarkus.rs.models.PageResultDTO;
@@ -69,7 +68,7 @@ public class AnimalRestController {
   // REST service methods should not declare exceptions, any thrown error will be transformed by exceptionMapper in
   // tkit-rest
   // We did not define custom @Path - so it will use class level path
-  public Page<AnimalDto> getAll(@BeanParam AnimalSearchCriteriaDto dto) {
+  public PageImpl<AnimalDto> getAll(@BeanParam AnimalSearchCriteriaDto dto) {
 
     Iterable<Animal> animalsIterator = this.animalRepository.findAll();
     List<Animal> animals = new ArrayList<Animal>();
@@ -80,7 +79,7 @@ public class AnimalRestController {
 
   @GET
   @Path("criteriaApi")
-  public Page<AnimalDto> getAllCriteriaApi(@BeanParam AnimalSearchCriteriaDto dto) {
+  public PageImpl<AnimalDto> getAllCriteriaApi(@BeanParam AnimalSearchCriteriaDto dto) {
 
     List<Animal> animals = this.animalRepository.findAllCriteriaApi(dto).getContent();
     List<AnimalDto> animalsDto = this.mapper.map(animals);
@@ -89,7 +88,7 @@ public class AnimalRestController {
 
   @GET
   @Path("queryDsl")
-  public Page<AnimalDto> getAllQueryDsl(@BeanParam AnimalSearchCriteriaDto dto) {
+  public PageImpl<AnimalDto> getAllQueryDsl(@BeanParam AnimalSearchCriteriaDto dto) {
 
     List<Animal> animals = this.animalRepository.findAllQueryDsl(dto).getContent();
     List<AnimalDto> animalsDto = this.mapper.map(animals);
@@ -98,7 +97,7 @@ public class AnimalRestController {
 
   @GET
   @Path("query")
-  public Page<AnimalDto> getAllQuery(@BeanParam AnimalSearchCriteriaDto dto) {
+  public PageImpl<AnimalDto> getAllQuery(@BeanParam AnimalSearchCriteriaDto dto) {
 
     List<Animal> animals = this.animalRepository.findByNameQuery(dto).getContent();
     List<AnimalDto> animalsDto = this.mapper.map(animals);
@@ -107,7 +106,7 @@ public class AnimalRestController {
 
   @GET
   @Path("nativeQuery")
-  public Page<AnimalDto> getAllNativeQuery(@BeanParam AnimalSearchCriteriaDto dto) {
+  public PageImpl<AnimalDto> getAllNativeQuery(@BeanParam AnimalSearchCriteriaDto dto) {
 
     List<Animal> animals = this.animalRepository.findByNameNativeQuery(dto).getContent();
     List<AnimalDto> animalsDto = this.mapper.map(animals);
@@ -116,7 +115,7 @@ public class AnimalRestController {
 
   @GET
   @Path("ordered")
-  public Page<AnimalDto> getAllOrderedByName() {
+  public PageImpl<AnimalDto> getAllOrderedByName() {
 
     List<Animal> animals = this.animalRepository.findAllByOrderByName().getContent();
     List<AnimalDto> animalsDto = this.mapper.map(animals);
