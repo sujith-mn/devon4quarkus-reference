@@ -1,4 +1,4 @@
-package com.devonfw.demoquarkus.rest.v1.model;
+package com.devonfw.demoquarkus.service.model;
 
 import lombok.Getter;
 import lombok.Setter;

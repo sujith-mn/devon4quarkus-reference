@@ -1,4 +1,4 @@
-package com.devonfw.demoquarkus.rest.v1.model;
+package com.devonfw.demoquarkus.service.model;
 
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.QueryParam;

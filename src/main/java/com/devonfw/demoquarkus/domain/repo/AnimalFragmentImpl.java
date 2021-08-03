@@ -19,7 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import com.devonfw.demoquarkus.domain.model.Animal;
 import com.devonfw.demoquarkus.domain.model.Animal_;
 import com.devonfw.demoquarkus.domain.model.QAnimal;
-import com.devonfw.demoquarkus.rest.v1.model.AnimalSearchCriteriaDto;
+import com.devonfw.demoquarkus.service.model.AnimalSearchCriteriaDto;
 import com.querydsl.jpa.impl.JPAQuery;
 
 public class AnimalFragmentImpl implements AnimalFragment {

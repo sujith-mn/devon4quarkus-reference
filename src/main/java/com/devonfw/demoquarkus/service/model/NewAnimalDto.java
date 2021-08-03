@@ -1,4 +1,4 @@
-package com.devonfw.demoquarkus.rest.v1.model;
+package com.devonfw.demoquarkus.service.model;
 
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;

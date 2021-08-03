@@ -1,4 +1,4 @@
-package com.devonfw.demoquarkus.rest.v1;
+package com.devonfw.demoquarkus.service;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -8,12 +8,11 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import javax.ws.rs.core.MediaType;
 
+import com.devonfw.demoquarkus.service.model.AnimalDto;
 import org.junit.jupiter.api.Test;
 import org.tkit.quarkus.rs.models.PageResultDTO;
 import org.tkit.quarkus.test.WithDBData;
 import org.tkit.quarkus.test.docker.DockerComposeTestResource;
-
-import com.devonfw.demoquarkus.rest.v1.model.AnimalDto;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
@@ -24,7 +23,7 @@ import io.restassured.response.Response;
 //we get a real postgresdb for our tests which will be stopped after tests. No manual test setup is needed.
 @QuarkusTest
 @QuarkusTestResource(DockerComposeTestResource.class)
-class AnimalRestControllerTest {// extends AbstractTest {
+class AnimalRestServiceTest {// extends AbstractTest {
 
   @Test
   // we also started a micro container, that can populated DB with data from excel

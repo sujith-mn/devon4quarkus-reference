@@ -1,4 +1,4 @@
-package com.devonfw.demoquarkus.rest.v1.controller;
+package com.devonfw.demoquarkus.service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
+import com.devonfw.demoquarkus.service.mapper.AnimalMapper;
+import com.devonfw.demoquarkus.service.model.AnimalDto;
+import com.devonfw.demoquarkus.service.model.AnimalSearchCriteriaDto;
+import com.devonfw.demoquarkus.service.model.NewAnimalDto;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -31,10 +35,6 @@ import org.tkit.quarkus.rs.models.PageResultDTO;
 
 import com.devonfw.demoquarkus.domain.model.Animal;
 import com.devonfw.demoquarkus.domain.repo.AnimalRepository;
-import com.devonfw.demoquarkus.rest.v1.mapper.AnimalMapper;
-import com.devonfw.demoquarkus.rest.v1.model.AnimalDto;
-import com.devonfw.demoquarkus.rest.v1.model.AnimalSearchCriteriaDto;
-import com.devonfw.demoquarkus.rest.v1.model.NewAnimalDto;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,7 +46,7 @@ import lombok.extern.slf4j.Slf4j;
 // how we deserialize params
 @Consumes(MediaType.APPLICATION_JSON)
 @Slf4j
-public class AnimalRestController {
+public class AnimalRestService {
 
   // our class is Bean(implicit Appscope), so we can inject any CDI bean into it
   @Inject
