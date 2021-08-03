@@ -33,7 +33,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.tkit.quarkus.rs.models.PageResultDTO;
 
-import com.devonfw.demoquarkus.domain.model.Animal;
+import com.devonfw.demoquarkus.domain.model.AnimalEntity;
 import com.devonfw.demoquarkus.domain.repo.AnimalRepository;
 
 import lombok.extern.slf4j.Slf4j;
@@ -70,8 +70,8 @@ public class AnimalRestService {
   // We did not define custom @Path - so it will use class level path
   public PageImpl<AnimalDto> getAll(@BeanParam AnimalSearchCriteriaDto dto) {
 
-    Iterable<Animal> animalsIterator = this.animalRepository.findAll();
-    List<Animal> animals = new ArrayList<Animal>();
+    Iterable<AnimalEntity> animalsIterator = this.animalRepository.findAll();
+    List<AnimalEntity> animals = new ArrayList<AnimalEntity>();
     animalsIterator.forEach(animals::add);
     List<AnimalDto> animalsDto = this.mapper.map(animals);
     return new PageImpl<>(animalsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animalsDto.size());
@@ -81,7 +81,7 @@ public class AnimalRestService {
   @Path("criteriaApi")
   public PageImpl<AnimalDto> getAllCriteriaApi(@BeanParam AnimalSearchCriteriaDto dto) {
 
-    List<Animal> animals = this.animalRepository.findAllCriteriaApi(dto).getContent();
+    List<AnimalEntity> animals = this.animalRepository.findAllCriteriaApi(dto).getContent();
     List<AnimalDto> animalsDto = this.mapper.map(animals);
     return new PageImpl<>(animalsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animalsDto.size());
   }
@@ -90,7 +90,7 @@ public class AnimalRestService {
   @Path("queryDsl")
   public PageImpl<AnimalDto> getAllQueryDsl(@BeanParam AnimalSearchCriteriaDto dto) {
 
-    List<Animal> animals = this.animalRepository.findAllQueryDsl(dto).getContent();
+    List<AnimalEntity> animals = this.animalRepository.findAllQueryDsl(dto).getContent();
     List<AnimalDto> animalsDto = this.mapper.map(animals);
     return new PageImpl<>(animalsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animalsDto.size());
   }
@@ -99,7 +99,7 @@ public class AnimalRestService {
   @Path("query")
   public PageImpl<AnimalDto> getAllQuery(@BeanParam AnimalSearchCriteriaDto dto) {
 
-    List<Animal> animals = this.animalRepository.findByNameQuery(dto).getContent();
+    List<AnimalEntity> animals = this.animalRepository.findByNameQuery(dto).getContent();
     List<AnimalDto> animalsDto = this.mapper.map(animals);
     return new PageImpl<>(animalsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animalsDto.size());
   }
@@ -108,7 +108,7 @@ public class AnimalRestService {
   @Path("nativeQuery")
   public PageImpl<AnimalDto> getAllNativeQuery(@BeanParam AnimalSearchCriteriaDto dto) {
 
-    List<Animal> animals = this.animalRepository.findByNameNativeQuery(dto).getContent();
+    List<AnimalEntity> animals = this.animalRepository.findByNameNativeQuery(dto).getContent();
     List<AnimalDto> animalsDto = this.mapper.map(animals);
     return new PageImpl<>(animalsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animalsDto.size());
   }
@@ -117,7 +117,7 @@ public class AnimalRestService {
   @Path("ordered")
   public PageImpl<AnimalDto> getAllOrderedByName() {
 
-    List<Animal> animals = this.animalRepository.findAllByOrderByName().getContent();
+    List<AnimalEntity> animals = this.animalRepository.findAllByOrderByName().getContent();
     List<AnimalDto> animalsDto = this.mapper.map(animals);
     return new PageImpl<>(animalsDto);
   }
@@ -132,7 +132,7 @@ public class AnimalRestService {
   // Although we now have 2 methods with same path, it is ok, because it is a different method (get vs post)
   public AnimalDto createNewAnimal(NewAnimalDto dto) {
 
-    Animal created = this.animalRepository.save(this.mapper.create(dto));
+    AnimalEntity created = this.animalRepository.save(this.mapper.create(dto));
     return this.mapper.map(created);
   }
 
@@ -144,7 +144,7 @@ public class AnimalRestService {
   @Path("{id}")
   public AnimalDto getAnimalById(@Parameter(description = "Animal unique id") @PathParam("id") String id) {
 
-    Animal animal = this.animalRepository.findById(Long.valueOf(id)).get();
+    AnimalEntity animal = this.animalRepository.findById(Long.valueOf(id)).get();
     if (animal != null) {
       return this.mapper.map(animal);
     } else {
@@ -156,7 +156,7 @@ public class AnimalRestService {
   @Path("name/{name}")
   public AnimalDto getAnimalByName(@PathParam("name") String name) {
 
-    Animal animal = this.animalRepository.findByName(name);
+    AnimalEntity animal = this.animalRepository.findByName(name);
     if (animal != null) {
       return this.mapper.map(animal);
     } else {
@@ -174,7 +174,7 @@ public class AnimalRestService {
   @Transactional
   public AnimalDto deleteAnimalByName(@Parameter(description = "Animal unique id") @PathParam("id") String id) {
 
-    Animal animal = this.animalRepository.findById(Long.valueOf(id)).get();
+    AnimalEntity animal = this.animalRepository.findById(Long.valueOf(id)).get();
     if (animal != null) {
       this.animalRepository.delete(animal);
       return this.mapper.map(animal);

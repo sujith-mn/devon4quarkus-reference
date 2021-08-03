@@ -5,7 +5,7 @@ import java.util.List;
 import org.mapstruct.Mapper;
 import org.tkit.quarkus.rs.mappers.OffsetDateTimeMapper;
 
-import com.devonfw.demoquarkus.domain.model.Animal;
+import com.devonfw.demoquarkus.domain.model.AnimalEntity;
 import com.devonfw.demoquarkus.service.model.AnimalDto;
 import com.devonfw.demoquarkus.service.model.NewAnimalDto;
 
@@ -13,9 +13,9 @@ import com.devonfw.demoquarkus.service.model.NewAnimalDto;
 @Mapper(uses = OffsetDateTimeMapper.class)
 public interface AnimalMapper {
 
-  AnimalDto map(Animal model);
+  AnimalDto map(AnimalEntity model);
 
-  Animal create(NewAnimalDto dto);
+  AnimalEntity create(NewAnimalDto dto);
 
-  List<AnimalDto> map(List<Animal> animals);
+  List<AnimalDto> map(List<AnimalEntity> animals);
 }
