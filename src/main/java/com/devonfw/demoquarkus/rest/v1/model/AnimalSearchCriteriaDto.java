@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AnimalSearchCriteriaDTO {
+public class AnimalSearchCriteriaDto {
 
   @QueryParam("name")
   private String name;
