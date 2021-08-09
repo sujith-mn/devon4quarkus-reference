@@ -5,7 +5,6 @@ import com.devonfw.demoquarkus.logic.UcManageAnimal;
 import com.devonfw.demoquarkus.service.model.AnimalDto;
 import com.devonfw.demoquarkus.service.model.AnimalSearchCriteriaDto;
 import com.devonfw.demoquarkus.service.model.NewAnimalDto;
-import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -20,7 +19,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
-import java.util.List;
 
 //In Quarkus all JAX-RS resources are treated as CDI beans
 //default is Singleton scope
@@ -119,16 +117,6 @@ public class AnimalRestService {
     @Path("{id}")
     public AnimalDto deleteAnimalById(@Parameter(description = "Animal unique id") @PathParam("id") String id) {
         return ucManageAnimal.deleteAnimal(id);
-    }
-
-    // here we simulate calling a source, that can fail
-    @GET
-    @Path("{id}/facts")
-    // we will retry upto 4 times if this method throws given exception
-    // we also delay for 300ms
-    @Retry(maxRetries = 4, retryOn = IllegalStateException.class, delay = 300)
-    public List<String> getAnimalFacts(@PathParam("id") String id) {
-        return ucFindAnimal.findAnimalFacts(id);
     }
 
     private static class PagedAnimalResponse extends PageResultDTO<AnimalDto> {

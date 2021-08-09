@@ -4,8 +4,6 @@ import com.devonfw.demoquarkus.service.model.AnimalDto;
 import com.devonfw.demoquarkus.service.model.AnimalSearchCriteriaDto;
 import org.springframework.data.domain.PageImpl;
 
-import java.util.List;
-
 public interface UcFindAnimal {
     PageImpl<AnimalDto> findAnimals(AnimalSearchCriteriaDto dto);
 
@@ -22,6 +20,4 @@ public interface UcFindAnimal {
     AnimalDto findAnimal(String id);
 
     AnimalDto findAnimalByName(String name);
-
-    List<String> findAnimalFacts(String id);
 }

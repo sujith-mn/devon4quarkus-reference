@@ -90,21 +90,4 @@ public class UcFindAnimalImpl implements UcFindAnimal {
         }
     }
 
-    @Override
-    public List<String> findAnimalFacts(String id) {
-        return getFactsFromUnreliableSource(id);
-    }
-
-    private List<String> getFactsFromUnreliableSource(String id) {
-        // This is for testing calling a source that can fail
-        // Our source will randomly fail
-        boolean willFail = new Random().nextBoolean();
-        if (willFail) {
-            log.info("Ooops, fact fetching failed");
-            throw new IllegalStateException("Unreliable source failed");
-        } else {
-            log.info("Cool, fact fetching succeed");
-            return List.of("imagine real data here", "and also this shocking fact");
-        }
-    }
 }
