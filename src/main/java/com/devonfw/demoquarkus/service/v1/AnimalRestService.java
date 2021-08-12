@@ -1,4 +1,4 @@
-package com.devonfw.demoquarkus.service;
+package com.devonfw.demoquarkus.service.v1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,10 +18,10 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
-import com.devonfw.demoquarkus.service.mapper.AnimalMapper;
-import com.devonfw.demoquarkus.service.model.AnimalDto;
-import com.devonfw.demoquarkus.service.model.AnimalSearchCriteriaDto;
-import com.devonfw.demoquarkus.service.model.NewAnimalDto;
+import com.devonfw.demoquarkus.service.v1.mapper.AnimalMapper;
+import com.devonfw.demoquarkus.service.v1.model.AnimalDto;
+import com.devonfw.demoquarkus.service.v1.model.AnimalSearchCriteriaDto;
+import com.devonfw.demoquarkus.service.v1.model.NewAnimalDto;
 import org.eclipse.microprofile.faulttolerance.Retry;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;

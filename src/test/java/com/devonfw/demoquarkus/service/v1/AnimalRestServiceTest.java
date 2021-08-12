@@ -1,4 +1,4 @@
-package com.devonfw.demoquarkus.service;
+package com.devonfw.demoquarkus.service.v1;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import javax.ws.rs.core.MediaType;
 
-import com.devonfw.demoquarkus.service.model.AnimalDto;
+import com.devonfw.demoquarkus.service.v1.model.AnimalDto;
 import org.junit.jupiter.api.Test;
 import org.tkit.quarkus.rs.models.PageResultDTO;
 import org.tkit.quarkus.test.WithDBData;
