@@ -5,12 +5,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
-import com.devonfw.demoquarkus.domain.model.Animal;
+import com.devonfw.demoquarkus.domain.model.AnimalEntity;
 
-public interface AnimalRepository extends CrudRepository<Animal, Long>, AnimalFragment {
+public interface AnimalRepository extends CrudRepository<AnimalEntity, Long>, AnimalFragment {
 
-  @Query("select a from Animal a where name = :name")
-  Animal findByName(@Param("name") String name);
+  @Query("select a from AnimalEntity a where name = :name")
+  AnimalEntity findByName(@Param("name") String name);
 
-  Page<Animal> findAllByOrderByName();
+  Page<AnimalEntity> findAllByOrderByName();
 }

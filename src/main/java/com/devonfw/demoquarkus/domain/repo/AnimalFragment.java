@@ -2,15 +2,15 @@ package com.devonfw.demoquarkus.domain.repo;
 
 import org.springframework.data.domain.Page;
 
-import com.devonfw.demoquarkus.domain.model.Animal;
-import com.devonfw.demoquarkus.rest.v1.model.AnimalSearchCriteriaDto;
+import com.devonfw.demoquarkus.domain.model.AnimalEntity;
+import com.devonfw.demoquarkus.service.v1.model.AnimalSearchCriteriaDto;
 
 public interface AnimalFragment {
-  public Page<Animal> findAllCriteriaApi(AnimalSearchCriteriaDto dto);
+  public Page<AnimalEntity> findAllCriteriaApi(AnimalSearchCriteriaDto dto);
 
-  public Page<Animal> findAllQueryDsl(AnimalSearchCriteriaDto dto);
+  public Page<AnimalEntity> findAllQueryDsl(AnimalSearchCriteriaDto dto);
 
-  public Page<Animal> findByNameNativeQuery(AnimalSearchCriteriaDto dto);
+  public Page<AnimalEntity> findByNameNativeQuery(AnimalSearchCriteriaDto dto);
 
-  public Page<Animal> findByNameQuery(AnimalSearchCriteriaDto dto);
+  public Page<AnimalEntity> findByNameQuery(AnimalSearchCriteriaDto dto);
 }

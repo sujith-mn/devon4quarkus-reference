@@ -16,10 +16,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
-import com.devonfw.demoquarkus.domain.model.Animal;
-import com.devonfw.demoquarkus.domain.model.Animal_;
-import com.devonfw.demoquarkus.domain.model.QAnimal;
-import com.devonfw.demoquarkus.rest.v1.model.AnimalSearchCriteriaDto;
+import com.devonfw.demoquarkus.domain.model.AnimalEntity;
+import com.devonfw.demoquarkus.domain.model.AnimalEntity_;
+import com.devonfw.demoquarkus.domain.model.QAnimalEntity;
+import com.devonfw.demoquarkus.service.v1.model.AnimalSearchCriteriaDto;
 import com.querydsl.jpa.impl.JPAQuery;
 
 public class AnimalFragmentImpl implements AnimalFragment {
@@ -28,36 +28,36 @@ public class AnimalFragmentImpl implements AnimalFragment {
   EntityManager em;
 
   @Override
-  public Page<Animal> findAllCriteriaApi(AnimalSearchCriteriaDto dto) {
+  public Page<AnimalEntity> findAllCriteriaApi(AnimalSearchCriteriaDto dto) {
 
-    CriteriaQuery<Animal> cq = this.em.getCriteriaBuilder().createQuery(Animal.class);
-    Root<Animal> root = cq.from(Animal.class);
+    CriteriaQuery<AnimalEntity> cq = this.em.getCriteriaBuilder().createQuery(AnimalEntity.class);
+    Root<AnimalEntity> root = cq.from(AnimalEntity.class);
     List<Predicate> predicates = new ArrayList<>();
     CriteriaBuilder cb = this.em.getCriteriaBuilder();
     if (dto.getName() != null && !dto.getName().isEmpty()) {
-      predicates.add(cb.like(root.get(Animal_.NAME), dto.getName()));
+      predicates.add(cb.like(root.get(AnimalEntity_.NAME), dto.getName()));
     }
     if (dto.getNumberOfLegs() != null) {
-      predicates.add(cb.equal(root.get(Animal_.NUMBER_OF_LEGS), dto.getNumberOfLegs()));
+      predicates.add(cb.equal(root.get(AnimalEntity_.NUMBER_OF_LEGS), dto.getNumberOfLegs()));
     }
     if (!predicates.isEmpty()) {
       cq.where(predicates.toArray(new Predicate[0]));
     }
 
     // Order by name
-    cq.orderBy(cb.desc(root.get(Animal_.NAME)));
+    cq.orderBy(cb.desc(root.get(AnimalEntity_.NAME)));
 
-    TypedQuery<Animal> animals = this.em.createQuery(cq).setFirstResult(dto.getPageNumber() * dto.getPageSize())
+    TypedQuery<AnimalEntity> animals = this.em.createQuery(cq).setFirstResult(dto.getPageNumber() * dto.getPageSize())
         .setMaxResults(dto.getPageSize());
-    return new PageImpl<Animal>(animals.getResultList(), PageRequest.of(dto.getPageNumber(), dto.getPageSize()),
+    return new PageImpl<AnimalEntity>(animals.getResultList(), PageRequest.of(dto.getPageNumber(), dto.getPageSize()),
         animals.getResultList().size());
   }
 
   @Override
-  public Page<Animal> findAllQueryDsl(AnimalSearchCriteriaDto dto) {
+  public Page<AnimalEntity> findAllQueryDsl(AnimalSearchCriteriaDto dto) {
 
-    QAnimal animal = QAnimal.animal;
-    JPAQuery<Animal> query = new JPAQuery<Animal>(this.em);
+    QAnimalEntity animal = QAnimalEntity.animalEntity;
+    JPAQuery<AnimalEntity> query = new JPAQuery<AnimalEntity>(this.em);
     query.from(animal);
     if (dto.getName() != null && !dto.getName().isEmpty()) {
       query.where(animal.name.eq(dto.getName()));
@@ -69,25 +69,25 @@ public class AnimalFragmentImpl implements AnimalFragment {
     // Order by name
     query.orderBy(animal.name.desc());
 
-    List<Animal> animals = query.limit(dto.getPageSize()).offset(dto.getPageNumber() * dto.getPageSize()).fetch();
+    List<AnimalEntity> animals = query.limit(dto.getPageSize()).offset(dto.getPageNumber() * dto.getPageSize()).fetch();
     return new PageImpl<>(animals, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animals.size());
   }
 
   @Override
-  public Page<Animal> findByNameQuery(AnimalSearchCriteriaDto dto) {
+  public Page<AnimalEntity> findByNameQuery(AnimalSearchCriteriaDto dto) {
 
-    Query query = this.em.createQuery("select a from Animal a where a.name = :name");
+    Query query = this.em.createQuery("select a from AnimalEntity a where a.name = :name");
     query.setParameter("name", dto.getName());
-    List<Animal> animals = query.getResultList();
+    List<AnimalEntity> animals = query.getResultList();
     return new PageImpl<>(animals, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animals.size());
   }
 
   @Override
-  public Page<Animal> findByNameNativeQuery(AnimalSearchCriteriaDto dto) {
+  public Page<AnimalEntity> findByNameNativeQuery(AnimalSearchCriteriaDto dto) {
 
-    Query query = this.em.createNativeQuery("select * from Animal where name = :name", Animal.class);
+    Query query = this.em.createNativeQuery("select * from AnimalEntity where name = :name", AnimalEntity.class);
     query.setParameter("name", dto.getName());
-    List<Animal> animals = query.getResultList();
+    List<AnimalEntity> animals = query.getResultList();
     return new PageImpl<>(animals, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animals.size());
   }
 }
