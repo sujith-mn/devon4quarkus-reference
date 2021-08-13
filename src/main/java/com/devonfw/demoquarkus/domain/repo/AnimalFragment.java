@@ -3,7 +3,7 @@ package com.devonfw.demoquarkus.domain.repo;
 import org.springframework.data.domain.Page;
 
 import com.devonfw.demoquarkus.domain.model.AnimalEntity;
-import com.devonfw.demoquarkus.service.model.AnimalSearchCriteriaDto;
+import com.devonfw.demoquarkus.service.v1.model.AnimalSearchCriteriaDto;
 
 public interface AnimalFragment {
   public Page<AnimalEntity> findAllCriteriaApi(AnimalSearchCriteriaDto dto);

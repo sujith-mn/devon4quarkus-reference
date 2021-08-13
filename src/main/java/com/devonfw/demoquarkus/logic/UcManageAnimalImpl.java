@@ -2,9 +2,9 @@ package com.devonfw.demoquarkus.logic;
 
 import com.devonfw.demoquarkus.domain.model.AnimalEntity;
 import com.devonfw.demoquarkus.domain.repo.AnimalRepository;
-import com.devonfw.demoquarkus.service.mapper.AnimalMapper;
-import com.devonfw.demoquarkus.service.model.AnimalDto;
-import com.devonfw.demoquarkus.service.model.NewAnimalDto;
+import com.devonfw.demoquarkus.service.v1.mapper.AnimalMapper;
+import com.devonfw.demoquarkus.service.v1.model.AnimalDto;
+import com.devonfw.demoquarkus.service.v1.model.NewAnimalDto;
 
 import javax.inject.Inject;
 import javax.inject.Named;

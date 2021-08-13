@@ -1,10 +1,23 @@
-package com.devonfw.demoquarkus.service;
+package com.devonfw.demoquarkus.service.v1;
+
+import javax.inject.Inject;
+import javax.ws.rs.BeanParam;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.UriInfo;
 
 import com.devonfw.demoquarkus.logic.UcFindAnimal;
 import com.devonfw.demoquarkus.logic.UcManageAnimal;
-import com.devonfw.demoquarkus.service.model.AnimalDto;
-import com.devonfw.demoquarkus.service.model.AnimalSearchCriteriaDto;
-import com.devonfw.demoquarkus.service.model.NewAnimalDto;
+import com.devonfw.demoquarkus.service.v1.model.AnimalDto;
+import com.devonfw.demoquarkus.service.v1.model.AnimalSearchCriteriaDto;
+import com.devonfw.demoquarkus.service.v1.model.NewAnimalDto;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
 import org.eclipse.microprofile.openapi.annotations.media.Schema;
@@ -13,12 +26,6 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.springframework.data.domain.PageImpl;
 import org.tkit.quarkus.rs.models.PageResultDTO;
-
-import javax.inject.Inject;
-import javax.ws.rs.*;
-import javax.ws.rs.core.Context;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
 
 //In Quarkus all JAX-RS resources are treated as CDI beans
 //default is Singleton scope

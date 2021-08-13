@@ -2,9 +2,9 @@ package com.devonfw.demoquarkus.logic;
 
 import com.devonfw.demoquarkus.domain.model.AnimalEntity;
 import com.devonfw.demoquarkus.domain.repo.AnimalRepository;
-import com.devonfw.demoquarkus.service.mapper.AnimalMapper;
-import com.devonfw.demoquarkus.service.model.AnimalDto;
-import com.devonfw.demoquarkus.service.model.AnimalSearchCriteriaDto;
+import com.devonfw.demoquarkus.service.v1.mapper.AnimalMapper;
+import com.devonfw.demoquarkus.service.v1.model.AnimalDto;
+import com.devonfw.demoquarkus.service.v1.model.AnimalSearchCriteriaDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -14,7 +14,6 @@ import javax.inject.Named;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Named
 @Transactional

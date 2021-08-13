@@ -1,7 +1,7 @@
 package com.devonfw.demoquarkus.logic;
 
-import com.devonfw.demoquarkus.service.model.AnimalDto;
-import com.devonfw.demoquarkus.service.model.AnimalSearchCriteriaDto;
+import com.devonfw.demoquarkus.service.v1.model.AnimalDto;
+import com.devonfw.demoquarkus.service.v1.model.AnimalSearchCriteriaDto;
 import org.springframework.data.domain.PageImpl;
 
 public interface UcFindAnimal {
