@@ -55,37 +55,37 @@ public class AnimalRestService {
     // tkit-rest
     // We did not define custom @Path - so it will use class level path
     public PageImpl<AnimalDto> getAll(@BeanParam AnimalSearchCriteriaDto dto) {
-        return ucFindAnimal.findAnimals(dto);
+        return (PageImpl) ucFindAnimal.findAnimals(dto);
     }
 
     @GET
     @Path("criteriaApi")
     public PageImpl<AnimalDto> getAllCriteriaApi(@BeanParam AnimalSearchCriteriaDto dto) {
-        return ucFindAnimal.findAnimalsByCriteriaApi(dto);
+        return (PageImpl) ucFindAnimal.findAnimalsByCriteriaApi(dto);
     }
 
     @GET
     @Path("queryDsl")
     public PageImpl<AnimalDto> getAllQueryDsl(@BeanParam AnimalSearchCriteriaDto dto) {
-        return ucFindAnimal.findAnimalsByQueryDsl(dto);
+        return (PageImpl) ucFindAnimal.findAnimalsByQueryDsl(dto);
     }
 
     @GET
     @Path("query")
     public PageImpl<AnimalDto> getAllQuery(@BeanParam AnimalSearchCriteriaDto dto) {
-        return ucFindAnimal.findAnimalsByNameQuery(dto);
+        return (PageImpl) ucFindAnimal.findAnimalsByNameQuery(dto);
     }
 
     @GET
     @Path("nativeQuery")
     public PageImpl<AnimalDto> getAllNativeQuery(@BeanParam AnimalSearchCriteriaDto dto) {
-        return ucFindAnimal.findAnimalsByNameNativeQuery(dto);
+        return (PageImpl) ucFindAnimal.findAnimalsByNameNativeQuery(dto);
     }
 
     @GET
     @Path("ordered")
     public PageImpl<AnimalDto> getAllOrderedByName() {
-        return ucFindAnimal.findAnimalsOrderedByName();
+        return (PageImpl) ucFindAnimal.findAnimalsOrderedByName();
     }
 
     @APIResponses({

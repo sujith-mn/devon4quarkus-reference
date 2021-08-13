@@ -2,20 +2,20 @@ package com.devonfw.demoquarkus.logic;
 
 import com.devonfw.demoquarkus.service.v1.model.AnimalDto;
 import com.devonfw.demoquarkus.service.v1.model.AnimalSearchCriteriaDto;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 
 public interface UcFindAnimal {
-    PageImpl<AnimalDto> findAnimals(AnimalSearchCriteriaDto dto);
+    Page<AnimalDto> findAnimals(AnimalSearchCriteriaDto dto);
 
-    PageImpl<AnimalDto> findAnimalsByCriteriaApi(AnimalSearchCriteriaDto dto);
+    Page<AnimalDto> findAnimalsByCriteriaApi(AnimalSearchCriteriaDto dto);
 
-    PageImpl<AnimalDto> findAnimalsByQueryDsl(AnimalSearchCriteriaDto dto);
+    Page<AnimalDto> findAnimalsByQueryDsl(AnimalSearchCriteriaDto dto);
 
-    PageImpl<AnimalDto> findAnimalsByNameQuery(AnimalSearchCriteriaDto dto);
+    Page<AnimalDto> findAnimalsByNameQuery(AnimalSearchCriteriaDto dto);
 
-    PageImpl<AnimalDto> findAnimalsByNameNativeQuery(AnimalSearchCriteriaDto dto);
+    Page<AnimalDto> findAnimalsByNameNativeQuery(AnimalSearchCriteriaDto dto);
 
-    PageImpl<AnimalDto> findAnimalsOrderedByName();
+    Page<AnimalDto> findAnimalsOrderedByName();
 
     AnimalDto findAnimal(String id);
 

@@ -6,6 +6,7 @@ import com.devonfw.demoquarkus.service.v1.mapper.AnimalMapper;
 import com.devonfw.demoquarkus.service.v1.model.AnimalDto;
 import com.devonfw.demoquarkus.service.v1.model.AnimalSearchCriteriaDto;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
@@ -26,7 +27,7 @@ public class UcFindAnimalImpl implements UcFindAnimal {
     AnimalMapper mapper;
 
     @Override
-    public PageImpl<AnimalDto> findAnimals(AnimalSearchCriteriaDto dto) {
+    public Page<AnimalDto> findAnimals(AnimalSearchCriteriaDto dto) {
         Iterable<AnimalEntity> animalsIterator = this.animalRepository.findAll();
         List<AnimalEntity> animals = new ArrayList<AnimalEntity>();
         animalsIterator.forEach(animals::add);
@@ -35,35 +36,35 @@ public class UcFindAnimalImpl implements UcFindAnimal {
     }
 
     @Override
-    public PageImpl<AnimalDto> findAnimalsByCriteriaApi(AnimalSearchCriteriaDto dto) {
+    public Page<AnimalDto> findAnimalsByCriteriaApi(AnimalSearchCriteriaDto dto) {
         List<AnimalEntity> animals = this.animalRepository.findAllCriteriaApi(dto).getContent();
         List<AnimalDto> animalsDto = this.mapper.map(animals);
         return new PageImpl<>(animalsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animalsDto.size());
     }
 
     @Override
-    public PageImpl<AnimalDto> findAnimalsByQueryDsl(AnimalSearchCriteriaDto dto) {
+    public Page<AnimalDto> findAnimalsByQueryDsl(AnimalSearchCriteriaDto dto) {
         List<AnimalEntity> animals = this.animalRepository.findAllQueryDsl(dto).getContent();
         List<AnimalDto> animalsDto = this.mapper.map(animals);
         return new PageImpl<>(animalsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animalsDto.size());
     }
 
     @Override
-    public PageImpl<AnimalDto> findAnimalsByNameQuery(AnimalSearchCriteriaDto dto) {
+    public Page<AnimalDto> findAnimalsByNameQuery(AnimalSearchCriteriaDto dto) {
         List<AnimalEntity> animals = this.animalRepository.findByNameQuery(dto).getContent();
         List<AnimalDto> animalsDto = this.mapper.map(animals);
         return new PageImpl<>(animalsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animalsDto.size());
     }
 
     @Override
-    public PageImpl<AnimalDto> findAnimalsByNameNativeQuery(AnimalSearchCriteriaDto dto) {
+    public Page<AnimalDto> findAnimalsByNameNativeQuery(AnimalSearchCriteriaDto dto) {
         List<AnimalEntity> animals = this.animalRepository.findByNameNativeQuery(dto).getContent();
         List<AnimalDto> animalsDto = this.mapper.map(animals);
         return new PageImpl<>(animalsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), animalsDto.size());
     }
 
     @Override
-    public PageImpl<AnimalDto> findAnimalsOrderedByName() {
+    public Page<AnimalDto> findAnimalsOrderedByName() {
         List<AnimalEntity> animals = this.animalRepository.findAllByOrderByName().getContent();
         List<AnimalDto> animalsDto = this.mapper.map(animals);
         return new PageImpl<>(animalsDto);
