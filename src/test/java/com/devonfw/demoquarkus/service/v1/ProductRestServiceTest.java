@@ -8,11 +8,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import javax.ws.rs.core.MediaType;
 
-import com.devonfw.demoquarkus.service.v1.model.AnimalDto;
 import org.junit.jupiter.api.Test;
 import org.tkit.quarkus.rs.models.PageResultDTO;
 import org.tkit.quarkus.test.WithDBData;
 import org.tkit.quarkus.test.docker.DockerComposeTestResource;
+
+import com.devonfw.quarkus.productmanagement.service.v1.model.ProductDto;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
@@ -23,75 +24,77 @@ import io.restassured.response.Response;
 //we get a real postgresdb for our tests which will be stopped after tests. No manual test setup is needed.
 @QuarkusTest
 @QuarkusTestResource(DockerComposeTestResource.class)
-class AnimalRestServiceTest {// extends AbstractTest {
+class ProductRestServiceTest {// extends AbstractTest {
 
   @Test
   // we also started a micro container, that can populated DB with data from excel
   // annotating class or method with @WithDBData allows us to scope data for each test even if we use the same DB
-  @WithDBData(value = "data/animal.xls", deleteBeforeInsert = true)
+  @WithDBData(value = "data/product.xls", deleteBeforeInsert = true)
   void getAll() {
 
-    Response response = given().when().contentType(MediaType.APPLICATION_JSON).get("/animals").then().statusCode(200)
+    Response response = given().when().contentType(MediaType.APPLICATION_JSON).get("/products").then().statusCode(200)
         // .body("$.size()", equalTo(2))
         .extract().response();
 
-    PageResultDTO<AnimalDto> animalsReturned = response.as(new TypeRef<PageResultDTO<AnimalDto>>() {
+    PageResultDTO<ProductDto> productsReturned = response.as(new TypeRef<PageResultDTO<ProductDto>>() {
     });
 
     // we import data from /import.sql - ergo expect 1 result
-    assertEquals(2, animalsReturned.getTotalElements());
+    assertEquals(2, productsReturned.getTotalElements());
   }
 
   @Test
   void getNonExistingTest() {
 
-    Response response = given().when().contentType(MediaType.APPLICATION_JSON).get("/animals/doesnoexist").then().log()
+    Response response = given().when().contentType(MediaType.APPLICATION_JSON).get("/products/doesnoexist").then().log()
         .all().statusCode(404).extract().response();
   }
 
   @Test
   @WithDBData(value = "data/empty.xls", deleteBeforeInsert = true)
-  void createNewAnimal() {
+  void createNewProduct() {
 
-    AnimalDto animal = new AnimalDto();
-    animal.setName("Dog");
-    animal.setBasicInfo("Live");
-    animal.setNumberOfLegs(4);
+    ProductDto product = new ProductDto();
+    product.setTitle("Dog");
+    product.setBasicInfo("Live");
+    product.setPrice(1, 50);
 
-    Response response = given().when().body(animal).contentType(MediaType.APPLICATION_JSON).post("/animals").then()
+    // product.setNumberOfLegs(4);
+
+    Response response = given().when().body(product).contentType(MediaType.APPLICATION_JSON).post("/products").then()
         .log().all().statusCode(201).header("Location", notNullValue()).extract().response();
 
     assertEquals(201, response.statusCode());
 
-    response = given().when().contentType(MediaType.APPLICATION_JSON).get("/animals").then().log().all().statusCode(200)
-        .extract().response();
+    response = given().when().contentType(MediaType.APPLICATION_JSON).get("/products").then().log().all()
+        .statusCode(200).extract().response();
 
-    PageResultDTO<AnimalDto> animalsReturned = response.as(new TypeRef<>() {
+    PageResultDTO<ProductDto> productsReturned = response.as(new TypeRef<>() {
     });
-    assertEquals(1, animalsReturned.getTotalElements());
-    AnimalDto created = animalsReturned.getStream().get(0);
+    assertEquals(1, productsReturned.getTotalElements());
+    ProductDto created = productsReturned.getStream().get(0);
     assertNotNull(created);
-    assertEquals(animal.getName(), created.getName());
+    assertEquals(product.getTitle(), created.getTitle());
   }
 
   @Test
-  @WithDBData(value = "data/animal.xls", deleteBeforeInsert = true)
+  @WithDBData(value = "data/product.xls", deleteBeforeInsert = true)
   public void testGetById() {
 
-    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/animals/1").then().statusCode(200)
+    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/products/1").then().statusCode(200)
         .body("basicInfo", equalTo("Cat"));
   }
 
   @Test
-  @WithDBData(value = "data/animal.xls", deleteBeforeInsert = true)
+  @WithDBData(value = "data/product.xls", deleteBeforeInsert = true)
   public void deleteById() {
 
     // delete
-    given().when().log().all().contentType(MediaType.APPLICATION_JSON).delete("/animals/1").then().statusCode(200)
-        .body("name", equalTo("Kitty"));
+    given().when().log().all().contentType(MediaType.APPLICATION_JSON).delete("/products/1").then().statusCode(200)
+        .body("title", equalTo("Kitty"));
 
     // after deletion it should be deleted
-    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/animals/1").then().statusCode(404);
+    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/products/1").then().statusCode(404);
 
   }
 
