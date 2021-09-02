@@ -1,7 +1,5 @@
 package com.devonfw.quarkus.productmanagement.logic;
 
-import java.math.BigDecimal;
-
 import org.springframework.data.domain.Page;
 
 import com.devonfw.quarkus.productmanagement.service.v1.model.ProductDto;
@@ -23,6 +21,4 @@ public interface UcFindProduct {
   ProductDto findProduct(String id);
 
   ProductDto findProductByTitle(String title);
-
-  ProductDto sortProductByPrice(BigDecimal priceMin, BigDecimal priceMax);
 }

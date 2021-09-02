@@ -15,9 +15,6 @@ public class ProductSearchCriteriaDto {
   @QueryParam("title")
   private String title;
 
-  // @QueryParam("legs")
-  // private Integer numberOfLegs;
-
   @QueryParam("page")
   @DefaultValue("0")
   private int pageNumber = 0;

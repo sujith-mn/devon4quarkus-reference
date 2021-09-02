@@ -1,5 +1,4 @@
-package com.devonfw.quarkus.productmanagement;
-//package com.devonfw.application.jtqj.general.dataaccess.api;
+package com.devonfw.quarkus.general.domain.model;
 
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -8,9 +7,6 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.Transient;
 import javax.persistence.Version;
 
-//import com.devonfw.application.jtqj.general.common.api.ApplicationEntity;
-//import com.devonfw.module.basic.common.api.entity.PersistenceEntity;
-
 /**
  * Abstract base class for all {@link PersistenceEntity persistence entities} with an {@link #getId() id} and a
  * {@link #getModificationCounter() modificationCounter} (version) field. All persistence entities of this application
@@ -18,7 +14,7 @@ import javax.persistence.Version;
  * implies that you have to annotate transient getter methods with the {@link Transient} annotation.
  */
 @MappedSuperclass
-public abstract class ApplicationPersistenceEntity implements ApplicationEntity {
+public abstract class ApplicationPersistenceEntity {
 
   private static final long serialVersionUID = 1L;
 

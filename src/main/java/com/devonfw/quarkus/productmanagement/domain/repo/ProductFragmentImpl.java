@@ -38,13 +38,10 @@ public class ProductFragmentImpl implements ProductFragment {
     if (dto.getTitle() != null && !dto.getTitle().isEmpty()) {
       predicates.add(cb.like(root.get(ProductEntity_.TITLE), dto.getTitle()));
     }
-    // if (dto.getNumberOfLegs() != null) {
-    // predicates.add(cb.equal(root.get(ProductEntity_.NUMBER_OF_LEGS), dto.getNumberOfLegs()));
-    // }
 
     BigDecimal price, priceMin, priceMax, x;
-    if (dto.getPriceMin() != null | dto.getPriceMax() != null) {
-      if (priceMin.compareTo(x) == 0 | priceMax.compareTo(x) == 0) {
+    if (dto.getPriceMin() != null || dto.getPriceMax() != null) {
+      if (priceMin.compareTo(x) == 0 || priceMax.compareTo(x) == 0) {
         price = x;
         predicates.add(cb.equal(root.get(ProductEntity_.PRICE), dto.getPrice()));
       } else if ((price.compareTo(priceMin) == 1) & (price.compareTo(priceMax) == -1)) {
@@ -74,9 +71,6 @@ public class ProductFragmentImpl implements ProductFragment {
     if (dto.getTitle() != null && !dto.getTitle().isEmpty()) {
       query.where(Product.title.eq(dto.getTitle()));
     }
-    // if (dto.getNumberOfLegs() != null) {
-    // query.where(Product.numberOfLegs.eq(dto.getNumberOfLegs()));
-    // }
 
     BigDecimal price, priceMin, priceMax, x;
     if (dto.getPriceMin() != null | dto.getPriceMax() != null) {

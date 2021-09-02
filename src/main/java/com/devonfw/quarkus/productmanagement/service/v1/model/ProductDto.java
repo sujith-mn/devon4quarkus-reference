@@ -15,8 +15,6 @@ public class ProductDto {
 
   private String basicInfo;
 
-  // private int numberOfLegs;
-
   private String description;
 
   private BigDecimal price;

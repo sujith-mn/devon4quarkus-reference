@@ -1,5 +1,3 @@
-package com.devonfw.quarkus.productmanagement;
-
 import javax.ws.rs.core.Application;
 
 import org.eclipse.microprofile.openapi.annotations.OpenAPIDefinition;

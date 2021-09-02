@@ -15,9 +15,6 @@ public class NewProductDto {
   @Schema(description = "Product tag line", minLength = 3, maxLength = 50)
   private String basicInfo;
 
-  // @Schema(type = SchemaType.INTEGER, description = "How many legs does the Product have", example = "3")
-  // private int numberOfLegs;
-
   @Schema(nullable = false, description = "Product description", minLength = 3, maxLength = 50)
   private String description;
 }

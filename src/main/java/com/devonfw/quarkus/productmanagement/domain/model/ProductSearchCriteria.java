@@ -11,8 +11,6 @@ public class ProductSearchCriteria {
 
   private String title;
 
-  // private Integer numberOfLegs;
-
   private Integer pageNumber;
 
   private Integer pageSize;
