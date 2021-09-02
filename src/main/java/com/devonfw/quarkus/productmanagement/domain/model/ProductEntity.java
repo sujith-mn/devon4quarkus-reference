@@ -25,5 +25,5 @@ public class ProductEntity extends ApplicationPersistenceEntity {
 
   private String description;
 
-  private BigDecimal price;
+  private BigDecimal price, priceMin, priceMax;
 }

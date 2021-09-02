@@ -1,7 +1,5 @@
 package com.devonfw.quarkus.productmanagement.domain.repo;
 
-import java.math.BigDecimal;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -15,6 +13,4 @@ public interface ProductRepository extends CrudRepository<ProductEntity, Long>, 
   ProductEntity findByTitle(@Param("title") String title);
 
   Page<ProductEntity> findAllByOrderByTitle();
-
-  ProductEntity findByPrice(@Param("price") BigDecimal price);
 }
