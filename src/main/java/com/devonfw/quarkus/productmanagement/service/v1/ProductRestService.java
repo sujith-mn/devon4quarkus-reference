@@ -30,7 +30,7 @@ import com.devonfw.quarkus.productmanagement.service.v1.model.ProductSearchCrite
 
 //In Quarkus all JAX-RS resources are treated as CDI beans
 //default is Singleton scope
-@Path("/Products")
+@Path("/products")
 // how we serialize response
 @Produces(MediaType.APPLICATION_JSON)
 // how we deserialize params

@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.devonfw.quarkus.productmanagement.ApplicationPersistenceEntity;
+import com.devonfw.quarkus.general.domain.model.ApplicationPersistenceEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -25,5 +25,5 @@ public class ProductEntity extends ApplicationPersistenceEntity {
 
   private String description;
 
-  private BigDecimal price, priceMin, priceMax;
+  private BigDecimal price;
 }

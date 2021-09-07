@@ -6,6 +6,8 @@ import static org.hamcrest.Matchers.notNullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.math.BigDecimal;
+
 import javax.ws.rs.core.MediaType;
 
 import org.junit.jupiter.api.Test;
@@ -57,7 +59,7 @@ class ProductRestServiceTest {// extends AbstractTest {
     ProductDto product = new ProductDto();
     product.setTitle("Dog");
     product.setBasicInfo("Live");
-    product.setPrice(1, 50);
+    product.setPrice(BigDecimal.valueOf(1));
 
     // product.setNumberOfLegs(4);
 

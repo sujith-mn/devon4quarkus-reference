@@ -1,6 +1,5 @@
 package com.devonfw.quarkus.productmanagement.domain.repo;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,17 +38,20 @@ public class ProductFragmentImpl implements ProductFragment {
       predicates.add(cb.like(root.get(ProductEntity_.TITLE), dto.getTitle()));
     }
 
-    BigDecimal price, priceMin, priceMax, x;
-    if (dto.getPriceMin() != null || dto.getPriceMax() != null) {
-      if (priceMin.compareTo(x) == 0 || priceMax.compareTo(x) == 0) {
-        price = x;
-        predicates.add(cb.equal(root.get(ProductEntity_.PRICE), dto.getPrice()));
-      } else if ((price.compareTo(priceMin) == 1) & (price.compareTo(priceMax) == -1)) {
-        predicates.add(cb.equal(root.get(ProductEntity_.PRICE), dto.getPrice()));
+    if (dto.getPrice() != null) {
+      predicates.add(cb.gt(root.get(ProductEntity_.PRICE), dto.getPrice()));
+    } else if (dto.getPriceMin() != null || dto.getPriceMax() != null) {
+      if (dto.getPriceMin() != null) {
+        predicates.add(cb.gt(root.get(ProductEntity_.PRICE), dto.getPriceMin()));
+      }
+      if (dto.getPriceMax() != null) {
+        predicates.add(cb.lt(root.get(ProductEntity_.PRICE), dto.getPriceMax()));
       }
     }
 
-    if (!predicates.isEmpty()) {
+    if (!predicates.isEmpty())
+
+    {
       cq.where(predicates.toArray(new Predicate[0]));
     }
 
@@ -72,13 +74,14 @@ public class ProductFragmentImpl implements ProductFragment {
       query.where(Product.title.eq(dto.getTitle()));
     }
 
-    BigDecimal price, priceMin, priceMax, x;
-    if (dto.getPriceMin() != null | dto.getPriceMax() != null) {
-      if (getPriceMin().compareTo(x) == 0 | priceMax.compareTo(x) == 0) {
-        price = x;
-        query.where(Product.price.eq(dto.getPrice()));
-      } else if ((price.compareTo(priceMin) == 1) & (price.compareTo(priceMax) == -1)) {
-        query.where(Product.price.eq(dto.getPrice()));
+    if (dto.getPrice() != null) {
+      query.where(Product.price.eq(dto.getPrice()));
+    } else if (dto.getPriceMin() != null || dto.getPriceMax() != null) {
+      if (dto.getPriceMin() != null) {
+        query.where(Product.price.gt(dto.getPriceMin()));
+      }
+      if (dto.getPriceMax() != null) {
+        query.where(Product.price.lt(dto.getPriceMax()));
       }
     }
 

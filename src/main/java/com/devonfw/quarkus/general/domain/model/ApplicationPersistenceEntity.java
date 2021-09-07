@@ -30,7 +30,6 @@ public abstract class ApplicationPersistenceEntity {
     super();
   }
 
-  @Override
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
   public Long getId() {
@@ -38,20 +37,17 @@ public abstract class ApplicationPersistenceEntity {
     return this.id;
   }
 
-  @Override
   public void setId(Long id) {
 
     this.id = id;
   }
 
-  @Override
   @Version
   public int getModificationCounter() {
 
     return this.modificationCounter;
   }
 
-  @Override
   public void setModificationCounter(int version) {
 
     this.modificationCounter = version;
