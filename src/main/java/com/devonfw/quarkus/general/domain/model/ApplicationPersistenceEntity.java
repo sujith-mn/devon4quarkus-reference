@@ -18,9 +18,11 @@ public abstract class ApplicationPersistenceEntity {
 
   private static final long serialVersionUID = 1L;
 
+  @Id
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  private int modificationCounter;
+  private Integer modificationCounter;
 
   /**
    * The constructor.
@@ -30,8 +32,6 @@ public abstract class ApplicationPersistenceEntity {
     super();
   }
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.AUTO)
   public Long getId() {
 
     return this.id;
@@ -43,12 +43,12 @@ public abstract class ApplicationPersistenceEntity {
   }
 
   @Version
-  public int getModificationCounter() {
+  public Integer getModificationCounter() {
 
     return this.modificationCounter;
   }
 
-  public void setModificationCounter(int version) {
+  public void setModificationCounter(Integer version) {
 
     this.modificationCounter = version;
   }

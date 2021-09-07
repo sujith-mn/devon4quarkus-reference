@@ -67,7 +67,7 @@ public class ProductFragmentImpl implements ProductFragment {
   @Override
   public Page<ProductEntity> findAllQueryDsl(ProductSearchCriteriaDto dto) {
 
-    QProductEntity Product = QProductEntity.ProductEntity;
+    QProductEntity Product = QProductEntity.productEntity;
     JPAQuery<ProductEntity> query = new JPAQuery<ProductEntity>(this.em);
     query.from(Product);
     if (dto.getTitle() != null && !dto.getTitle().isEmpty()) {
