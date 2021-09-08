@@ -58,39 +58,39 @@ public class ProductFragmentImpl implements ProductFragment {
     // Order by title
     cq.orderBy(cb.desc(root.get(ProductEntity_.TITLE)));
 
-    TypedQuery<ProductEntity> Products = this.em.createQuery(cq).setFirstResult(dto.getPageNumber() * dto.getPageSize())
+    TypedQuery<ProductEntity> products = this.em.createQuery(cq).setFirstResult(dto.getPageNumber() * dto.getPageSize())
         .setMaxResults(dto.getPageSize());
-    return new PageImpl<ProductEntity>(Products.getResultList(), PageRequest.of(dto.getPageNumber(), dto.getPageSize()),
-        Products.getResultList().size());
+    return new PageImpl<ProductEntity>(products.getResultList(), PageRequest.of(dto.getPageNumber(), dto.getPageSize()),
+        products.getResultList().size());
   }
 
   @Override
   public Page<ProductEntity> findAllQueryDsl(ProductSearchCriteriaDto dto) {
 
-    QProductEntity Product = QProductEntity.productEntity;
+    QProductEntity product = QProductEntity.productEntity;
     JPAQuery<ProductEntity> query = new JPAQuery<ProductEntity>(this.em);
-    query.from(Product);
+    query.from(product);
     if (dto.getTitle() != null && !dto.getTitle().isEmpty()) {
-      query.where(Product.title.eq(dto.getTitle()));
+      query.where(product.title.eq(dto.getTitle()));
     }
 
     if (dto.getPrice() != null) {
-      query.where(Product.price.eq(dto.getPrice()));
+      query.where(product.price.eq(dto.getPrice()));
     } else if (dto.getPriceMin() != null || dto.getPriceMax() != null) {
       if (dto.getPriceMin() != null) {
-        query.where(Product.price.gt(dto.getPriceMin()));
+        query.where(product.price.gt(dto.getPriceMin()));
       }
       if (dto.getPriceMax() != null) {
-        query.where(Product.price.lt(dto.getPriceMax()));
+        query.where(product.price.lt(dto.getPriceMax()));
       }
     }
 
     // Order by title
-    query.orderBy(Product.title.desc());
+    query.orderBy(product.title.desc());
 
-    List<ProductEntity> Products = query.limit(dto.getPageSize()).offset(dto.getPageNumber() * dto.getPageSize())
+    List<ProductEntity> products = query.limit(dto.getPageSize()).offset(dto.getPageNumber() * dto.getPageSize())
         .fetch();
-    return new PageImpl<>(Products, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), Products.size());
+    return new PageImpl<>(products, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), products.size());
   }
 
   @Override
@@ -98,8 +98,8 @@ public class ProductFragmentImpl implements ProductFragment {
 
     Query query = this.em.createQuery("select a from ProductEntity a where a.title = :title");
     query.setParameter("title", dto.getTitle());
-    List<ProductEntity> Products = query.getResultList();
-    return new PageImpl<>(Products, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), Products.size());
+    List<ProductEntity> products = query.getResultList();
+    return new PageImpl<>(products, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), products.size());
   }
 
   @Override
@@ -107,8 +107,8 @@ public class ProductFragmentImpl implements ProductFragment {
 
     Query query = this.em.createNativeQuery("select * from ProductEntity where title = :title", ProductEntity.class);
     query.setParameter("title", dto.getTitle());
-    List<ProductEntity> Products = query.getResultList();
-    return new PageImpl<>(Products, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), Products.size());
+    List<ProductEntity> products = query.getResultList();
+    return new PageImpl<>(products, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), products.size());
   }
 
 }

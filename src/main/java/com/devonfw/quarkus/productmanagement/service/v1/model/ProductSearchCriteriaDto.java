@@ -23,9 +23,6 @@ public class ProductSearchCriteriaDto {
   @DefaultValue("10")
   private int pageSize = 10;
 
-  @QueryParam("description")
-  private String description;
-
   @QueryParam("priceMin")
   private BigDecimal priceMin;
 

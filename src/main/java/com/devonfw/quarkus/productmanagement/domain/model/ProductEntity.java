@@ -21,7 +21,6 @@ public class ProductEntity extends ApplicationPersistenceEntity {
   private String title;
 
   // every primitive attribute on this class will be represented as column in Product table
-  private String basicInfo;
 
   private String description;
 

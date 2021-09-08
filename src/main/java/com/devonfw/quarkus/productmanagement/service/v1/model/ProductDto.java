@@ -13,8 +13,6 @@ public class ProductDto {
 
   private String title;
 
-  private String basicInfo;
-
   private String description;
 
   private BigDecimal price;

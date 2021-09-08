@@ -14,7 +14,7 @@ import com.devonfw.quarkus.productmanagement.service.v1.model.ProductDto;
 @Transactional
 public class UcManageProductImpl implements UcManageProduct {
   @Inject
-  ProductRepository ProductRepository;
+  ProductRepository productRepository;
 
   @Inject
   ProductMapper mapper;
@@ -22,17 +22,17 @@ public class UcManageProductImpl implements UcManageProduct {
   @Override
   public ProductDto saveProduct(NewProductDto dto) {
 
-    ProductEntity created = this.ProductRepository.save(this.mapper.create(dto));
+    ProductEntity created = this.productRepository.save(this.mapper.create(dto));
     return this.mapper.map(created);
   }
 
   @Override
   public ProductDto deleteProduct(String id) {
 
-    ProductEntity Product = this.ProductRepository.findById(Long.valueOf(id)).get();
-    if (Product != null) {
-      this.ProductRepository.delete(Product);
-      return this.mapper.map(Product);
+    ProductEntity product = this.productRepository.findById(Long.valueOf(id)).get();
+    if (product != null) {
+      this.productRepository.delete(product);
+      return this.mapper.map(product);
     } else {
       return null;
     }

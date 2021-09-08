@@ -32,59 +32,59 @@ public class UcFindProductImpl implements UcFindProduct {
   @Override
   public Page<ProductDto> findProducts(ProductSearchCriteriaDto dto) {
 
-    Iterable<ProductEntity> ProductsIterator = this.ProductRepository.findAll();
-    List<ProductEntity> Products = new ArrayList<ProductEntity>();
-    ProductsIterator.forEach(Products::add);
-    List<ProductDto> ProductsDto = this.mapper.map(Products);
-    return new PageImpl<>(ProductsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), ProductsDto.size());
+    Iterable<ProductEntity> productsIterator = this.ProductRepository.findAll();
+    List<ProductEntity> products = new ArrayList<ProductEntity>();
+    productsIterator.forEach(products::add);
+    List<ProductDto> productsDto = this.mapper.map(products);
+    return new PageImpl<>(productsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), productsDto.size());
   }
 
   @Override
   public Page<ProductDto> findProductsByCriteriaApi(ProductSearchCriteriaDto dto) {
 
-    List<ProductEntity> Products = this.ProductRepository.findAllCriteriaApi(dto).getContent();
-    List<ProductDto> ProductsDto = this.mapper.map(Products);
-    return new PageImpl<>(ProductsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), ProductsDto.size());
+    List<ProductEntity> products = this.ProductRepository.findAllCriteriaApi(dto).getContent();
+    List<ProductDto> productsDto = this.mapper.map(products);
+    return new PageImpl<>(productsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), productsDto.size());
   }
 
   @Override
   public Page<ProductDto> findProductsByQueryDsl(ProductSearchCriteriaDto dto) {
 
-    List<ProductEntity> Products = this.ProductRepository.findAllQueryDsl(dto).getContent();
-    List<ProductDto> ProductsDto = this.mapper.map(Products);
-    return new PageImpl<>(ProductsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), ProductsDto.size());
+    List<ProductEntity> products = this.ProductRepository.findAllQueryDsl(dto).getContent();
+    List<ProductDto> productsDto = this.mapper.map(products);
+    return new PageImpl<>(productsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), productsDto.size());
   }
 
   @Override
   public Page<ProductDto> findProductsByTitleQuery(ProductSearchCriteriaDto dto) {
 
-    List<ProductEntity> Products = this.ProductRepository.findByTitleQuery(dto).getContent();
-    List<ProductDto> ProductsDto = this.mapper.map(Products);
-    return new PageImpl<>(ProductsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), ProductsDto.size());
+    List<ProductEntity> products = this.ProductRepository.findByTitleQuery(dto).getContent();
+    List<ProductDto> productsDto = this.mapper.map(products);
+    return new PageImpl<>(productsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), productsDto.size());
   }
 
   @Override
   public Page<ProductDto> findProductsByTitleNativeQuery(ProductSearchCriteriaDto dto) {
 
-    List<ProductEntity> Products = this.ProductRepository.findByTitleNativeQuery(dto).getContent();
-    List<ProductDto> ProductsDto = this.mapper.map(Products);
-    return new PageImpl<>(ProductsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), ProductsDto.size());
+    List<ProductEntity> products = this.ProductRepository.findByTitleNativeQuery(dto).getContent();
+    List<ProductDto> productsDto = this.mapper.map(products);
+    return new PageImpl<>(productsDto, PageRequest.of(dto.getPageNumber(), dto.getPageSize()), productsDto.size());
   }
 
   @Override
   public Page<ProductDto> findProductsOrderedByTitle() {
 
-    List<ProductEntity> Products = this.ProductRepository.findAllByOrderByTitle().getContent();
-    List<ProductDto> ProductsDto = this.mapper.map(Products);
-    return new PageImpl<>(ProductsDto);
+    List<ProductEntity> products = this.ProductRepository.findAllByOrderByTitle().getContent();
+    List<ProductDto> productsDto = this.mapper.map(products);
+    return new PageImpl<>(productsDto);
   }
 
   @Override
   public ProductDto findProduct(String id) {
 
-    ProductEntity Product = this.ProductRepository.findById(Long.valueOf(id)).get();
-    if (Product != null) {
-      return this.mapper.map(Product);
+    ProductEntity product = this.ProductRepository.findById(Long.valueOf(id)).get();
+    if (product != null) {
+      return this.mapper.map(product);
     } else {
       return null;
     }
@@ -93,9 +93,9 @@ public class UcFindProductImpl implements UcFindProduct {
   @Override
   public ProductDto findProductByTitle(String title) {
 
-    ProductEntity Product = this.ProductRepository.findByTitle(title);
-    if (Product != null) {
-      return this.mapper.map(Product);
+    ProductEntity product = this.ProductRepository.findByTitle(title);
+    if (product != null) {
+      return this.mapper.map(product);
     } else {
       return null;
     }

@@ -35,7 +35,6 @@ class ProductRestServiceTest {// extends AbstractTest {
   void getAll() {
 
     Response response = given().when().contentType(MediaType.APPLICATION_JSON).get("/products").then().statusCode(200)
-        // .body("$.size()", equalTo(2))
         .extract().response();
 
     PageResultDTO<ProductDto> productsReturned = response.as(new TypeRef<PageResultDTO<ProductDto>>() {
@@ -57,11 +56,9 @@ class ProductRestServiceTest {// extends AbstractTest {
   void createNewProduct() {
 
     ProductDto product = new ProductDto();
-    product.setTitle("Dog");
-    product.setBasicInfo("Live");
+    product.setTitle("HP Notebook");
+    product.setDescription("ZBook");
     product.setPrice(BigDecimal.valueOf(1));
-
-    // product.setNumberOfLegs(4);
 
     Response response = given().when().body(product).contentType(MediaType.APPLICATION_JSON).post("/products").then()
         .log().all().statusCode(201).header("Location", notNullValue()).extract().response();
@@ -84,7 +81,7 @@ class ProductRestServiceTest {// extends AbstractTest {
   public void testGetById() {
 
     given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/products/1").then().statusCode(200)
-        .body("basicInfo", equalTo("Cat"));
+        .body("description", equalTo("Apple Notebook"));
   }
 
   @Test
@@ -93,7 +90,7 @@ class ProductRestServiceTest {// extends AbstractTest {
 
     // delete
     given().when().log().all().contentType(MediaType.APPLICATION_JSON).delete("/products/1").then().statusCode(200)
-        .body("title", equalTo("Kitty"));
+        .body("title", equalTo("MacBook Pro"));
 
     // after deletion it should be deleted
     given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/products/1").then().statusCode(404);

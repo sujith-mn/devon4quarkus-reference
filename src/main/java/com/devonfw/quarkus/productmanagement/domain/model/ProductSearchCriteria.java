@@ -15,7 +15,5 @@ public class ProductSearchCriteria {
 
   private Integer pageSize;
 
-  private String description;
-
   private BigDecimal price, priceMin, priceMax;
 }
