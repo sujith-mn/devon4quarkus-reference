@@ -17,7 +17,7 @@ public class NewProductDto {
   @Schema(description = "Product description", minLength = 3, maxLength = 500)
   private String description;
 
-  @Schema(description = "Product price", minLength = 1)
+  @Schema(description = "Product price")
   private BigDecimal price;
 
 }
