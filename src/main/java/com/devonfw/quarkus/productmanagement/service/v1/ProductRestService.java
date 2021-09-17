@@ -75,14 +75,14 @@ public class ProductRestService {
   }
 
   @GET
-  @Path("sarchbytitle")
+  @Path("searchbytitle")
   public PageImpl<ProductDto> getProductsByTitleQuery(@BeanParam ProductSearchCriteriaDto dto) {
 
     return (PageImpl) this.ucFindProduct.findProductsByTitleQuery(dto);
   }
 
   @POST
-  @Path("sarchbytitle")
+  @Path("searchbytitle")
   public PageImpl<ProductDto> getAllNativeQuery(@BeanParam ProductSearchCriteriaDto dto) {
 
     return (PageImpl) this.ucFindProduct.findProductsByTitleNativeQuery(dto);
