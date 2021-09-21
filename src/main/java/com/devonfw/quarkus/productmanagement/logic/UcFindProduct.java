@@ -1,6 +1,5 @@
 package com.devonfw.quarkus.productmanagement.logic;
 
-import java.util.List;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -8,7 +7,6 @@ import javax.inject.Named;
 import javax.transaction.Transactional;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 
 import com.devonfw.quarkus.productmanagement.domain.model.ProductEntity;
 import com.devonfw.quarkus.productmanagement.domain.repo.ProductRepository;
@@ -30,32 +28,29 @@ public class UcFindProduct {
 
   public Page<ProductEto> findProductsByCriteriaApi(ProductSearchCriteriaEto searchCriteria) {
 
-    List<ProductEntity> products = this.ProductRepository.findAllCriteriaApi(searchCriteria).getContent();
+    Page<ProductEntity> products = this.ProductRepository.findAllCriteriaApi(searchCriteria);
     if (products.isEmpty()) {
       return null;
     }
-    List<ProductEto> productsDto = this.mapper.map(products);
-    return new PageImpl<>(productsDto, searchCriteria.getPageRequest(), productsDto.size());
+    return this.mapper.map(products);
   }
 
   public Page<ProductEto> findProductsByQueryDsl(ProductSearchCriteriaEto searchCriteria) {
 
-    List<ProductEntity> products = this.ProductRepository.findAllQueryDsl(searchCriteria).getContent();
+    Page<ProductEntity> products = this.ProductRepository.findAllQueryDsl(searchCriteria);
     if (products.isEmpty()) {
       return null;
     }
-    List<ProductEto> productsDto = this.mapper.map(products);
-    return new PageImpl<>(productsDto, searchCriteria.getPageRequest(), productsDto.size());
+    return this.mapper.map(products);
   }
 
   public Page<ProductEto> findProductsOrderedByTitle() {
 
-    List<ProductEntity> products = this.ProductRepository.findAllByOrderByTitle().getContent();
+    Page<ProductEntity> products = this.ProductRepository.findAllByOrderByTitle();
     if (products.isEmpty()) {
       return null;
     }
-    List<ProductEto> productsDto = this.mapper.map(products);
-    return new PageImpl<>(productsDto);
+    return this.mapper.map(products);
   }
 
   public ProductEto findProduct(String id) {

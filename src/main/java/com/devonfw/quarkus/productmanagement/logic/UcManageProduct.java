@@ -17,9 +17,9 @@ public class UcManageProduct {
   @Inject
   ProductMapper mapper;
 
-  public void saveProduct(ProductEto dto) {
+  public void saveProduct(ProductEto product) {
 
-    this.productRepository.save(this.mapper.map(dto));
+    this.productRepository.save(this.mapper.map(product));
   }
 
   public void deleteProduct(String id) {

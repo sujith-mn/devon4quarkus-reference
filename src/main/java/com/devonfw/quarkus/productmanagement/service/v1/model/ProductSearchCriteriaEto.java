@@ -5,19 +5,12 @@ import java.math.BigDecimal;
 import javax.ws.rs.DefaultValue;
 import javax.ws.rs.QueryParam;
 
-import org.springframework.data.domain.PageRequest;
-
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 public class ProductSearchCriteriaEto {
-
-  public PageRequest getPageRequest() {
-
-    return PageRequest.of(this.pageNumber, this.pageSize);
-  }
 
   @QueryParam("title")
   private String title;

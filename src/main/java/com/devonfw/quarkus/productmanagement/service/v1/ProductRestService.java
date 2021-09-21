@@ -49,21 +49,21 @@ public class ProductRestService {
   @APIResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = ProductEto.class))),
   @APIResponse(responseCode = "500") })
   @Operation(operationId = "Get Products", description = "Returns list of Products matching given criteria, uses pagination")
-  @GET
+  @POST
   // REST service methods should not declare exceptions, any thrown error will be transformed by exceptionMapper in
   // tkit-rest
   // We did not define custom @Path - so it will use class level path
-  @Path("criteriaApi")
-  public PageImpl<ProductEto> getAllCriteriaApi(@BeanParam ProductSearchCriteriaEto dto) {
+  @Path("searchbycriteria")
+  public PageImpl<ProductEto> getAllCriteriaApi(@BeanParam ProductSearchCriteriaEto productSearch) {
 
-    return (PageImpl) this.ucFindProduct.findProductsByCriteriaApi(dto);
+    return (PageImpl) this.ucFindProduct.findProductsByCriteriaApi(productSearch);
   }
 
-  @GET
-  @Path("queryDsl")
-  public PageImpl<ProductEto> getAllQueryDsl(@BeanParam ProductSearchCriteriaEto dto) {
+  @POST
+  @Path("searchbydsl")
+  public PageImpl<ProductEto> getAllQueryDsl(@BeanParam ProductSearchCriteriaEto productSearch) {
 
-    return (PageImpl) this.ucFindProduct.findProductsByQueryDsl(dto);
+    return (PageImpl) this.ucFindProduct.findProductsByQueryDsl(productSearch);
   }
 
   @GET
@@ -80,9 +80,9 @@ public class ProductRestService {
   @POST
   // We did not define custom @Path - so it will use class level path.
   // Although we now have 2 methods with same path, it is ok, because it is a different method (get vs post)
-  public void createNewProduct(ProductEto dto) {
+  public void createNewProduct(ProductEto product) {
 
-    this.ucManageProduct.saveProduct(dto);
+    this.ucManageProduct.saveProduct(product);
   }
 
   @APIResponses({
