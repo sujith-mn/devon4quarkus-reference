@@ -26,12 +26,8 @@ import com.devonfw.quarkus.productmanagement.logic.UcManageProduct;
 import com.devonfw.quarkus.productmanagement.service.v1.model.ProductEto;
 import com.devonfw.quarkus.productmanagement.service.v1.model.ProductSearchCriteriaEto;
 
-//In Quarkus all JAX-RS resources are treated as CDI beans
-//default is Singleton scope
 @Path("/products/v1")
-// how we serialize response
 @Produces(MediaType.APPLICATION_JSON)
-// how we deserialize params
 @Consumes(MediaType.APPLICATION_JSON)
 public class ProductRestService {
 
