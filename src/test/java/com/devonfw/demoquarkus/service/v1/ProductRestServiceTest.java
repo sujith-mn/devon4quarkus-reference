@@ -15,7 +15,7 @@ import org.tkit.quarkus.rs.models.PageResultDTO;
 import org.tkit.quarkus.test.WithDBData;
 import org.tkit.quarkus.test.docker.DockerComposeTestResource;
 
-import com.devonfw.quarkus.productmanagement.service.v1.model.ProductDto;
+import com.devonfw.quarkus.productmanagement.service.v1.model.ProductEto;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
@@ -37,7 +37,7 @@ class ProductRestServiceTest {// extends AbstractTest {
     Response response = given().when().contentType(MediaType.APPLICATION_JSON).get("/products").then().statusCode(200)
         .extract().response();
 
-    PageResultDTO<ProductDto> productsReturned = response.as(new TypeRef<PageResultDTO<ProductDto>>() {
+    PageResultDTO<ProductEto> productsReturned = response.as(new TypeRef<PageResultDTO<ProductEto>>() {
     });
 
     // we import data from /import.sql - ergo expect 1 result
@@ -55,7 +55,7 @@ class ProductRestServiceTest {// extends AbstractTest {
   @WithDBData(value = "data/empty.xls", deleteBeforeInsert = true)
   void createNewProduct() {
 
-    ProductDto product = new ProductDto();
+    ProductEto product = new ProductEto();
     product.setTitle("HP Notebook");
     product.setDescription("ZBook");
     product.setPrice(BigDecimal.valueOf(1));
@@ -68,10 +68,10 @@ class ProductRestServiceTest {// extends AbstractTest {
     response = given().when().contentType(MediaType.APPLICATION_JSON).get("/products").then().log().all()
         .statusCode(200).extract().response();
 
-    PageResultDTO<ProductDto> productsReturned = response.as(new TypeRef<>() {
+    PageResultDTO<ProductEto> productsReturned = response.as(new TypeRef<>() {
     });
     assertEquals(1, productsReturned.getTotalElements());
-    ProductDto created = productsReturned.getStream().get(0);
+    ProductEto created = productsReturned.getStream().get(0);
     assertNotNull(created);
     assertEquals(product.getTitle(), created.getTitle());
   }
