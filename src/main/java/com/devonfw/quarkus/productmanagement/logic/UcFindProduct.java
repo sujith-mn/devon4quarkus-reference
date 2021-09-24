@@ -14,11 +14,8 @@ import com.devonfw.quarkus.productmanagement.service.v1.mapper.ProductMapper;
 import com.devonfw.quarkus.productmanagement.service.v1.model.ProductEto;
 import com.devonfw.quarkus.productmanagement.service.v1.model.ProductSearchCriteriaEto;
 
-import lombok.extern.slf4j.Slf4j;
-
 @Named
 @Transactional
-@Slf4j
 public class UcFindProduct {
   @Inject
   ProductRepository ProductRepository;
@@ -26,25 +23,16 @@ public class UcFindProduct {
   @Inject
   ProductMapper mapper;
 
-  public Page<ProductEto> findProductsByCriteriaApi(ProductSearchCriteriaEto searchCriteria) {
+  public Page<ProductEto> findProducts(ProductSearchCriteriaEto searchCriteria) {
 
-    Page<ProductEntity> products = this.ProductRepository.findAllCriteriaApi(searchCriteria);
+    Page<ProductEntity> products = this.ProductRepository.findProducts(searchCriteria);
     if (products.isEmpty()) {
       return null;
     }
     return this.mapper.map(products);
   }
 
-  public Page<ProductEto> findProductsByQueryDsl(ProductSearchCriteriaEto searchCriteria) {
-
-    Page<ProductEntity> products = this.ProductRepository.findAllQueryDsl(searchCriteria);
-    if (products.isEmpty()) {
-      return null;
-    }
-    return this.mapper.map(products);
-  }
-
-  public Page<ProductEto> findProductsOrderedByTitle() {
+  public Page<ProductEto> findProductsOrderByTitle() {
 
     Page<ProductEntity> products = this.ProductRepository.findAllByOrderByTitle();
     if (products.isEmpty()) {

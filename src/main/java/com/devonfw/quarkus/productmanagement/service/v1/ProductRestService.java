@@ -9,9 +9,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.UriInfo;
 
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -26,14 +24,10 @@ import com.devonfw.quarkus.productmanagement.logic.UcManageProduct;
 import com.devonfw.quarkus.productmanagement.service.v1.model.ProductEto;
 import com.devonfw.quarkus.productmanagement.service.v1.model.ProductSearchCriteriaEto;
 
-@Path("/products/v1")
+@Path("/product/v1")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public class ProductRestService {
-
-  // using @Context we can inject contextual info from JAXRS(e.g. http request, current uri info, endpoint info...)
-  @Context
-  UriInfo uriInfo;
 
   @Inject
   UcFindProduct ucFindProduct;
@@ -41,31 +35,17 @@ public class ProductRestService {
   @Inject
   UcManageProduct ucManageProduct;
 
-  @APIResponses({
-  @APIResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = ProductEto.class))),
-  @APIResponse(responseCode = "500") })
-  @Operation(operationId = "Get Products", description = "Returns list of Products matching given criteria, uses pagination")
   @POST
-  // REST service methods should not declare exceptions, any thrown error will be transformed by exceptionMapper in
-  // tkit-rest
-  // We did not define custom @Path - so it will use class level path
-  @Path("searchbycriteria")
-  public PageImpl<ProductEto> getAllCriteriaApi(@BeanParam ProductSearchCriteriaEto productSearch) {
-
-    return (PageImpl) this.ucFindProduct.findProductsByCriteriaApi(productSearch);
-  }
-
-  @POST
-  @Path("searchbydsl")
+  @Path("search")
   public PageImpl<ProductEto> getAllQueryDsl(@BeanParam ProductSearchCriteriaEto productSearch) {
 
-    return (PageImpl) this.ucFindProduct.findProductsByQueryDsl(productSearch);
+    return (PageImpl) this.ucFindProduct.findProducts(productSearch);
   }
 
   @GET
   public PageImpl<ProductEto> getAllOrderedByTitle() {
 
-    return (PageImpl) this.ucFindProduct.findProductsOrderedByTitle();
+    return (PageImpl) this.ucFindProduct.findProductsOrderByTitle();
   }
 
   @APIResponses({
@@ -74,8 +54,6 @@ public class ProductRestService {
   @APIResponse(responseCode = "500") })
   @Operation(operationId = "createNewProduct", description = "Stores new Product in DB")
   @POST
-  // We did not define custom @Path - so it will use class level path.
-  // Although we now have 2 methods with same path, it is ok, because it is a different method (get vs post)
   public void createNewProduct(ProductEto product) {
 
     this.ucManageProduct.saveProduct(product);
