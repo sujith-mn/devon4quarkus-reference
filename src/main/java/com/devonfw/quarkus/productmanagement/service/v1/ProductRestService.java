@@ -19,7 +19,7 @@ import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
-import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Page;
 import org.tkit.quarkus.rs.models.PageResultDTO;
 
 import com.devonfw.quarkus.productmanagement.logic.UcFindProduct;
@@ -55,44 +55,44 @@ public class ProductRestService {
   // REST service methods should not declare exceptions, any thrown error will be transformed by exceptionMapper in
   // tkit-rest
   // We did not define custom @Path - so it will use class level path
-  public PageImpl<ProductDto> getAll(@BeanParam ProductSearchCriteriaDto dto) {
+  public Page<ProductDto> getAll(@BeanParam ProductSearchCriteriaDto dto) {
 
-    return (PageImpl) this.ucFindProduct.findProducts(dto);
+    return this.ucFindProduct.findProducts(dto);
   }
 
   @GET
   @Path("criteriaApi")
-  public PageImpl<ProductDto> getAllCriteriaApi(@BeanParam ProductSearchCriteriaDto dto) {
+  public Page<ProductDto> getAllCriteriaApi(@BeanParam ProductSearchCriteriaDto dto) {
 
-    return (PageImpl) this.ucFindProduct.findProductsByCriteriaApi(dto);
+    return this.ucFindProduct.findProductsByCriteriaApi(dto);
   }
 
   @GET
   @Path("queryDsl")
-  public PageImpl<ProductDto> getAllQueryDsl(@BeanParam ProductSearchCriteriaDto dto) {
+  public Page<ProductDto> getAllQueryDsl(@BeanParam ProductSearchCriteriaDto dto) {
 
-    return (PageImpl) this.ucFindProduct.findProductsByQueryDsl(dto);
+    return this.ucFindProduct.findProductsByQueryDsl(dto);
   }
 
   @GET
   @Path("query")
-  public PageImpl<ProductDto> getAllQuery(@BeanParam ProductSearchCriteriaDto dto) {
+  public Page<ProductDto> getAllQuery(@BeanParam ProductSearchCriteriaDto dto) {
 
-    return (PageImpl) this.ucFindProduct.findProductsByTitleQuery(dto);
+    return this.ucFindProduct.findProductsByTitleQuery(dto);
   }
 
   @GET
   @Path("nativeQuery")
-  public PageImpl<ProductDto> getAllNativeQuery(@BeanParam ProductSearchCriteriaDto dto) {
+  public Page<ProductDto> getAllNativeQuery(@BeanParam ProductSearchCriteriaDto dto) {
 
-    return (PageImpl) this.ucFindProduct.findProductsByTitleNativeQuery(dto);
+    return this.ucFindProduct.findProductsByTitleNativeQuery(dto);
   }
 
   @GET
   @Path("ordered")
-  public PageImpl<ProductDto> getAllOrderedByTitle() {
+  public Page<ProductDto> getAllOrderedByTitle() {
 
-    return (PageImpl) this.ucFindProduct.findProductsOrderedByTitle();
+    return this.ucFindProduct.findProductsOrderedByTitle();
   }
 
   @APIResponses({
