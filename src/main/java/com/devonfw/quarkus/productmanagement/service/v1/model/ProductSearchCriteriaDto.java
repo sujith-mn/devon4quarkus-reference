@@ -10,7 +10,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductSearchCriteriaEto {
+public class ProductSearchCriteriaDto {
 
   @QueryParam("title")
   private String title;

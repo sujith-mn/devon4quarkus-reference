@@ -12,7 +12,7 @@ import org.springframework.util.StringUtils;
 
 import com.devonfw.quarkus.productmanagement.domain.model.ProductEntity;
 import com.devonfw.quarkus.productmanagement.domain.model.QProductEntity;
-import com.devonfw.quarkus.productmanagement.service.v1.model.ProductSearchCriteriaEto;
+import com.devonfw.quarkus.productmanagement.service.v1.model.ProductSearchCriteriaDto;
 import com.querydsl.jpa.impl.JPAQuery;
 
 public class ProductFragmentImpl implements ProductFragment {
@@ -21,7 +21,7 @@ public class ProductFragmentImpl implements ProductFragment {
   EntityManager em;
 
   @Override
-  public Page<ProductEntity> findProducts(ProductSearchCriteriaEto searchCriteria) {
+  public Page<ProductEntity> findProducts(ProductSearchCriteriaDto searchCriteria) {
 
     QProductEntity product = QProductEntity.productEntity;
     JPAQuery<ProductEntity> query = new JPAQuery<ProductEntity>(this.em).from(product);

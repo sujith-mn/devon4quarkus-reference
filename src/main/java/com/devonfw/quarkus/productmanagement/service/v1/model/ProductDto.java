@@ -9,7 +9,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class ProductEto extends AbstractEto {
+public class ProductDto extends AbstractDto {
 
   @Schema(nullable = false, description = "Product title", minLength = 3, maxLength = 500)
   private String title;

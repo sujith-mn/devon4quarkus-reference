@@ -11,8 +11,8 @@ import org.springframework.data.domain.Page;
 import com.devonfw.quarkus.productmanagement.domain.model.ProductEntity;
 import com.devonfw.quarkus.productmanagement.domain.repo.ProductRepository;
 import com.devonfw.quarkus.productmanagement.service.v1.mapper.ProductMapper;
-import com.devonfw.quarkus.productmanagement.service.v1.model.ProductEto;
-import com.devonfw.quarkus.productmanagement.service.v1.model.ProductSearchCriteriaEto;
+import com.devonfw.quarkus.productmanagement.service.v1.model.ProductDto;
+import com.devonfw.quarkus.productmanagement.service.v1.model.ProductSearchCriteriaDto;
 
 @Named
 @Transactional
@@ -23,7 +23,7 @@ public class UcFindProduct {
   @Inject
   ProductMapper mapper;
 
-  public Page<ProductEto> findProducts(ProductSearchCriteriaEto searchCriteria) {
+  public Page<ProductDto> findProducts(ProductSearchCriteriaDto searchCriteria) {
 
     Page<ProductEntity> products = this.ProductRepository.findProducts(searchCriteria);
     if (products.isEmpty()) {
@@ -32,7 +32,7 @@ public class UcFindProduct {
     return this.mapper.map(products);
   }
 
-  public Page<ProductEto> findProductsOrderByTitle() {
+  public Page<ProductDto> findProductsOrderByTitle() {
 
     Page<ProductEntity> products = this.ProductRepository.findAllByOrderByTitle();
     if (products.isEmpty()) {
@@ -41,7 +41,7 @@ public class UcFindProduct {
     return this.mapper.map(products);
   }
 
-  public ProductEto findProduct(String id) {
+  public ProductDto findProduct(String id) {
 
     Optional<ProductEntity> product = this.ProductRepository.findById(Long.valueOf(id));
     if (product.isPresent()) {
@@ -50,7 +50,7 @@ public class UcFindProduct {
     return null;
   }
 
-  public ProductEto findProductByTitle(String title) {
+  public ProductDto findProductByTitle(String title) {
 
     ProductEntity product = this.ProductRepository.findByTitle(title);
     if (product != null) {

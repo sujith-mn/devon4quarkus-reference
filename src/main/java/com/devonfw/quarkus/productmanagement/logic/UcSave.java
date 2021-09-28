@@ -6,24 +6,20 @@ import javax.transaction.Transactional;
 
 import com.devonfw.quarkus.productmanagement.domain.repo.ProductRepository;
 import com.devonfw.quarkus.productmanagement.service.v1.mapper.ProductMapper;
-import com.devonfw.quarkus.productmanagement.service.v1.model.ProductEto;
+import com.devonfw.quarkus.productmanagement.service.v1.model.ProductDto;
 
 @Named
 @Transactional
-public class UcManageProduct {
+public class UcSave {
+
   @Inject
   ProductRepository productRepository;
 
   @Inject
   ProductMapper mapper;
 
-  public void saveProduct(ProductEto product) {
+  public void saveProduct(ProductDto product) {
 
     this.productRepository.save(this.mapper.map(product));
-  }
-
-  public void deleteProduct(String id) {
-
-    this.productRepository.deleteById(Long.valueOf(id));
   }
 }

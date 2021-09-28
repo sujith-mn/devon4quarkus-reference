@@ -1,3 +1,6 @@
+
+CREATE SEQUENCE HIBERNATE_SEQUENCE START WITH 1000000;
+
 -- *** Product catalog ***
 
 CREATE TABLE Product

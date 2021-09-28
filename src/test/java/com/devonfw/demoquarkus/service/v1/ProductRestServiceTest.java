@@ -15,7 +15,7 @@ import org.tkit.quarkus.rs.models.PageResultDTO;
 import org.tkit.quarkus.test.WithDBData;
 import org.tkit.quarkus.test.docker.DockerComposeTestResource;
 
-import com.devonfw.quarkus.productmanagement.service.v1.model.ProductEto;
+import com.devonfw.quarkus.productmanagement.service.v1.model.ProductDto;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
@@ -34,10 +34,10 @@ class ProductRestServiceTest {// extends AbstractTest {
   @WithDBData(value = "data/product.xls", deleteBeforeInsert = true)
   void getAll() {
 
-    Response response = given().when().contentType(MediaType.APPLICATION_JSON).get("/products").then().statusCode(200)
+    Response response = given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1").then().statusCode(200)
         .extract().response();
 
-    PageResultDTO<ProductEto> productsReturned = response.as(new TypeRef<PageResultDTO<ProductEto>>() {
+    PageResultDTO<ProductDto> productsReturned = response.as(new TypeRef<PageResultDTO<ProductDto>>() {
     });
 
     // we import data from /import.sql - ergo expect 1 result
@@ -47,31 +47,31 @@ class ProductRestServiceTest {// extends AbstractTest {
   @Test
   void getNonExistingTest() {
 
-    Response response = given().when().contentType(MediaType.APPLICATION_JSON).get("/products/doesnoexist").then().log()
-        .all().statusCode(404).extract().response();
+    Response response = given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1/doesnoexist").then()
+        .log().all().statusCode(404).extract().response();
   }
 
   @Test
   @WithDBData(value = "data/empty.xls", deleteBeforeInsert = true)
-  void createNewProduct() {
+  void save() {
 
-    ProductEto product = new ProductEto();
+    ProductDto product = new ProductDto();
     product.setTitle("HP Notebook");
     product.setDescription("ZBook");
     product.setPrice(BigDecimal.valueOf(1));
 
-    Response response = given().when().body(product).contentType(MediaType.APPLICATION_JSON).post("/products").then()
+    Response response = given().when().body(product).contentType(MediaType.APPLICATION_JSON).post("/product/v1").then()
         .log().all().statusCode(201).header("Location", notNullValue()).extract().response();
 
     assertEquals(201, response.statusCode());
 
-    response = given().when().contentType(MediaType.APPLICATION_JSON).get("/products").then().log().all()
+    response = given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1").then().log().all()
         .statusCode(200).extract().response();
 
-    PageResultDTO<ProductEto> productsReturned = response.as(new TypeRef<>() {
+    PageResultDTO<ProductDto> productsReturned = response.as(new TypeRef<>() {
     });
     assertEquals(1, productsReturned.getTotalElements());
-    ProductEto created = productsReturned.getStream().get(0);
+    ProductDto created = productsReturned.getStream().get(0);
     assertNotNull(created);
     assertEquals(product.getTitle(), created.getTitle());
   }
@@ -80,7 +80,7 @@ class ProductRestServiceTest {// extends AbstractTest {
   @WithDBData(value = "data/product.xls", deleteBeforeInsert = true)
   public void testGetById() {
 
-    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/products/1").then().statusCode(200)
+    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/product/v1/1").then().statusCode(200)
         .body("description", equalTo("Apple Notebook"));
   }
 
@@ -89,11 +89,11 @@ class ProductRestServiceTest {// extends AbstractTest {
   public void deleteById() {
 
     // delete
-    given().when().log().all().contentType(MediaType.APPLICATION_JSON).delete("/products/1").then().statusCode(200)
+    given().when().log().all().contentType(MediaType.APPLICATION_JSON).delete("/product/v1/1").then().statusCode(200)
         .body("title", equalTo("MacBook Pro"));
 
     // after deletion it should be deleted
-    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/products/1").then().statusCode(404);
+    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/product/v1/1").then().statusCode(404);
 
   }
 
