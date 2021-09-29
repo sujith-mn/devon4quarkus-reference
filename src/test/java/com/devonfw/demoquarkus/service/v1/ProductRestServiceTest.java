@@ -2,25 +2,19 @@ package com.devonfw.demoquarkus.service.v1;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.notNullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.math.BigDecimal;
 
 import javax.ws.rs.core.MediaType;
 
 import org.junit.jupiter.api.Test;
-import org.tkit.quarkus.rs.models.PageResultDTO;
-import org.tkit.quarkus.test.WithDBData;
 import org.tkit.quarkus.test.docker.DockerComposeTestResource;
 
 import com.devonfw.quarkus.productmanagement.service.v1.model.ProductDto;
+import com.devonfw.quarkus.productmanagement.service.v1.model.ProductSearchCriteriaDto;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
-import io.restassured.common.mapper.TypeRef;
-import io.restassured.response.Response;
 
 //Before you run this test, tkit-test extension starts docker containers from resources/docker-compose.yaml
 //we get a real postgresdb for our tests which will be stopped after tests. No manual test setup is needed.
@@ -29,71 +23,43 @@ import io.restassured.response.Response;
 class ProductRestServiceTest {// extends AbstractTest {
 
   @Test
-  // we also started a micro container, that can populated DB with data from excel
-  // annotating class or method with @WithDBData allows us to scope data for each test even if we use the same DB
-  @WithDBData(value = "data/product.xls", deleteBeforeInsert = true)
-  void getAll() {
-
-    Response response = given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1").then().statusCode(200)
-        .extract().response();
-
-    PageResultDTO<ProductDto> productsReturned = response.as(new TypeRef<PageResultDTO<ProductDto>>() {
-    });
-
-    // we import data from /import.sql - ergo expect 1 result
-    assertEquals(2, productsReturned.getTotalElements());
-  }
-
-  @Test
-  void getNonExistingTest() {
-
-    Response response = given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1/doesnoexist").then()
-        .log().all().statusCode(404).extract().response();
-  }
-
-  @Test
-  @WithDBData(value = "data/empty.xls", deleteBeforeInsert = true)
-  void save() {
+  void testAll() {
 
     ProductDto product = new ProductDto();
-    product.setTitle("HP Notebook");
+    product.setTitle("Notebook");
     product.setDescription("ZBook");
     product.setPrice(BigDecimal.valueOf(1));
+    product.setId(null);
 
-    Response response = given().when().body(product).contentType(MediaType.APPLICATION_JSON).post("/product/v1").then()
-        .log().all().statusCode(201).header("Location", notNullValue()).extract().response();
+    ProductDto product1 = new ProductDto();
+    product1.setTitle("McBook");
+    product1.setDescription("Apple Notebook");
+    product1.setPrice(BigDecimal.valueOf(1));
 
-    assertEquals(201, response.statusCode());
+    ProductSearchCriteriaDto productSearch = new ProductSearchCriteriaDto();
+    productSearch.setTitle("Notebook");
 
-    response = given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1").then().log().all()
-        .statusCode(200).extract().response();
+    given().when().body(product).contentType(MediaType.APPLICATION_JSON).post("/product/v1").then().log().all()
+        .statusCode(201);
 
-    PageResultDTO<ProductDto> productsReturned = response.as(new TypeRef<>() {
-    });
-    assertEquals(1, productsReturned.getTotalElements());
-    ProductDto created = productsReturned.getStream().get(0);
-    assertNotNull(created);
-    assertEquals(product.getTitle(), created.getTitle());
-  }
+    given().when().body(product1).contentType(MediaType.APPLICATION_JSON).post("/product/v1").then().log().all()
+        .statusCode(201);
 
-  @Test
-  @WithDBData(value = "data/product.xls", deleteBeforeInsert = true)
-  public void testGetById() {
+    given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1/1").then().log().all().statusCode(200)
+        .body("title", equalTo("Notebook"));
 
-    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/product/v1/1").then().statusCode(200)
-        .body("description", equalTo("Apple Notebook"));
-  }
+    given().when().body(productSearch).contentType(MediaType.APPLICATION_JSON).post("/product/v1/search").then().log()
+        .all().statusCode(200).extract().jsonPath().getString("content[0].title").equals("Notebook");
 
-  @Test
-  @WithDBData(value = "data/product.xls", deleteBeforeInsert = true)
-  public void deleteById() {
+    given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1").then().log().all().statusCode(200)
+        .extract().jsonPath().getString("content[0].title").equals("Notebook");
 
-    // delete
-    given().when().log().all().contentType(MediaType.APPLICATION_JSON).delete("/product/v1/1").then().statusCode(200)
-        .body("title", equalTo("MacBook Pro"));
+    given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1/title/McBook").then().log().all()
+        .statusCode(200).body("description", equalTo("Apple Notebook"));
 
-    // after deletion it should be deleted
-    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/product/v1/1").then().statusCode(404);
+    given().when().contentType(MediaType.APPLICATION_JSON).delete("/product/v1/1").then().log().all().statusCode(204);
+
+    given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1/1").then().log().all().statusCode(204);
 
   }
 
