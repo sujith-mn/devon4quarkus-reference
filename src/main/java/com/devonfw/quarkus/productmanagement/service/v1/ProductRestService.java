@@ -48,7 +48,7 @@ public class ProductRestService {
   UcManageProduct ucManageProduct;
 
   @APIResponses({
-  @APIResponse(responseCode = "201", description = "OK", content = @Content(schema = @Schema(implementation = PagedProductResponse.class))),
+  @APIResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = PagedProductResponse.class))),
   @APIResponse(responseCode = "500") })
   @Operation(operationId = "Get Products", description = "Returns list of Products matching given criteria, uses pagination")
   @GET
