@@ -3,6 +3,7 @@ package com.devonfw.demoquarkus.service.v1;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.notNullValue;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
@@ -48,7 +49,7 @@ class ProductRestServiceTest {// extends AbstractTest {
   void getNonExistingTest() {
 
     Response response = given().when().contentType(MediaType.APPLICATION_JSON).get("/products/doesnoexist").then().log()
-        .all().statusCode(404).extract().response();
+        .all().statusCode(500).extract().response();
   }
 
   @Test
@@ -61,9 +62,9 @@ class ProductRestServiceTest {// extends AbstractTest {
     product.setPrice(BigDecimal.valueOf(1));
 
     Response response = given().when().body(product).contentType(MediaType.APPLICATION_JSON).post("/products").then()
-        .log().all().statusCode(201).header("Location", notNullValue()).extract().response();
+        .log().all().statusCode(200).header("Location", nullValue()).extract().response();
 
-    assertEquals(201, response.statusCode());
+    assertEquals(200, response.statusCode());
 
     response = given().when().contentType(MediaType.APPLICATION_JSON).get("/products").then().log().all()
         .statusCode(200).extract().response();
