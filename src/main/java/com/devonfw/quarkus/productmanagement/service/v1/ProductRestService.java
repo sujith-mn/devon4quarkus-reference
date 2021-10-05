@@ -96,7 +96,7 @@ public class ProductRestService {
   }
 
   @APIResponses({
-  @APIResponse(responseCode = "201", description = "OK, New Product created", content = @Content(schema = @Schema(implementation = NewProductDto.class))),
+  @APIResponse(responseCode = "200", description = "OK, New Product created", content = @Content(schema = @Schema(implementation = NewProductDto.class))),
   @APIResponse(responseCode = "400", description = "Client side error, invalid request"),
   @APIResponse(responseCode = "500") })
   @Operation(operationId = "createNewProduct", description = "Stores new Product in DB")
