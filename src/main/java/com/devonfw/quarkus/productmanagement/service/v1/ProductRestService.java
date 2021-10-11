@@ -21,6 +21,8 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.util.StringUtils;
+import org.springframework.data.domain.Page;
+import org.tkit.quarkus.rs.models.PageResultDTO;
 
 import com.devonfw.quarkus.productmanagement.logic.UcDelete;
 import com.devonfw.quarkus.productmanagement.logic.UcFindProduct;
@@ -44,15 +46,15 @@ public class ProductRestService {
 
   @POST
   @Path("search")
-  public PageImpl<ProductDto> getAllQueryDsl(@BeanParam ProductSearchCriteriaDto productSearch) {
+  public Page<ProductDto> getAllQueryDsl(@BeanParam ProductSearchCriteriaDto productSearch) {
 
-    return (PageImpl) this.ucFindProduct.findProducts(productSearch);
+    return  this.ucFindProduct.findProducts(productSearch);
   }
 
   @GET
-  public PageImpl<ProductDto> getAllOrderedByTitle() {
+  public Page<ProductDto> getAllOrderedByTitle() {
 
-    return (PageImpl) this.ucFindProduct.findProductsOrderByTitle();
+    return  this.ucFindProduct.findProductsOrderByTitle();
   }
 
   @APIResponses({
