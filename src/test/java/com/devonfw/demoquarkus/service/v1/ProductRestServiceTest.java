@@ -2,31 +2,25 @@ package com.devonfw.demoquarkus.service.v1;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.math.BigDecimal;
-import java.util.LinkedHashMap;
-import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
 import org.junit.jupiter.api.Test;
-import org.tkit.quarkus.test.WithDBData;
-import org.tkit.quarkus.test.docker.DockerComposeTestResource;
 
 import com.devonfw.quarkus.productmanagement.service.v1.model.ProductDto;
 import com.devonfw.quarkus.productmanagement.service.v1.model.ProductSearchCriteriaDto;
 
 import io.quarkus.test.common.QuarkusTestResource;
+import io.quarkus.test.h2.H2DatabaseTestResource;
 import io.quarkus.test.junit.QuarkusTest;
-import io.restassured.response.Response;
 
 //Before you run this test, tkit-test extension starts docker containers from resources/docker-compose.yaml
 //we get a real postgresdb for our tests which will be stopped after tests. No manual test setup is needed.
 @QuarkusTest
-@QuarkusTestResource(DockerComposeTestResource.class)
+// @QuarkusTestResource(DockerComposeTestResource.class)
+@QuarkusTestResource(H2DatabaseTestResource.class)
 class ProductRestServiceTest {// extends AbstractTest {
 
   @Test
