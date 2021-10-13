@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.tkit.quarkus.test.docker.DockerComposeTestResource;
 
@@ -17,11 +18,10 @@ import com.devonfw.quarkus.productmanagement.service.v1.model.ProductSearchCrite
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 
-//Before you run this test, tkit-test extension starts docker containers from resources/docker-compose.yaml
-//we get a real postgresdb for our tests which will be stopped after tests. No manual test setup is needed.
 @QuarkusTest
+@Tag("integration")
 @QuarkusTestResource(DockerComposeTestResource.class)
-class ProductRestServiceTest {// extends AbstractTest {
+class ProductRestServiceTest {
 
   @Test
   void testAll() {
