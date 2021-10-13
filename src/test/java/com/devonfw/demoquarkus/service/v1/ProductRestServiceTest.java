@@ -58,7 +58,7 @@ class ProductRestServiceTest {
         .statusCode(OK.getStatusCode()).extract().jsonPath().getString("content[0].title").equals("Notebook");
 
     given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1/title/McBook").then().log().all()
-        .statusCode(200).body("description", equalTo("Apple Notebook"));
+        .statusCode(OK.getStatusCode()).body("description", equalTo("Apple Notebook"));
 
     given().when().contentType(MediaType.APPLICATION_JSON).delete("/product/v1/1").then().log().all()
         .statusCode(NO_CONTENT.getStatusCode());
