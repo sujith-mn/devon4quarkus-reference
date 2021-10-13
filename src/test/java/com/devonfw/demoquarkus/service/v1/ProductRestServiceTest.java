@@ -6,21 +6,21 @@ import static org.hamcrest.Matchers.equalTo;
 import java.math.BigDecimal;
 
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.junit.jupiter.api.Test;
+import org.tkit.quarkus.test.docker.DockerComposeTestResource;
 
 import com.devonfw.quarkus.productmanagement.service.v1.model.ProductDto;
 import com.devonfw.quarkus.productmanagement.service.v1.model.ProductSearchCriteriaDto;
 
 import io.quarkus.test.common.QuarkusTestResource;
-import io.quarkus.test.h2.H2DatabaseTestResource;
 import io.quarkus.test.junit.QuarkusTest;
 
 //Before you run this test, tkit-test extension starts docker containers from resources/docker-compose.yaml
 //we get a real postgresdb for our tests which will be stopped after tests. No manual test setup is needed.
 @QuarkusTest
-// @QuarkusTestResource(DockerComposeTestResource.class)
-@QuarkusTestResource(H2DatabaseTestResource.class)
+@QuarkusTestResource(DockerComposeTestResource.class)
 class ProductRestServiceTest {// extends AbstractTest {
 
   @Test
@@ -50,7 +50,8 @@ class ProductRestServiceTest {// extends AbstractTest {
         .body("title", equalTo("Notebook"));
 
     given().when().body(productSearch).contentType(MediaType.APPLICATION_JSON).post("/product/v1/search").then().log()
-        .all().statusCode(200).extract().jsonPath().getString("content[0].title").equals("Notebook");
+        .all().statusCode(Response.Status.OK.getStatusCode()).extract().jsonPath().getString("content[0].title")
+        .equals("Notebook");
 
     given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1").then().log().all().statusCode(200)
         .extract().jsonPath().getString("content[0].title").equals("Notebook");

@@ -7,5 +7,5 @@ import com.devonfw.quarkus.productmanagement.service.v1.model.ProductSearchCrite
 
 public interface ProductFragment {
 
-  public Page<ProductEntity> findProducts(ProductSearchCriteriaDto searchCriteria);
+  public Page<ProductEntity> findByCriteria(ProductSearchCriteriaDto searchCriteria);
 }
