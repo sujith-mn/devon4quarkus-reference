@@ -2,9 +2,6 @@ package com.devonfw.demoquarkus.service.v1;
 
 import static io.restassured.RestAssured.given;
 import static javax.ws.rs.core.Response.Status.CREATED;
-import static javax.ws.rs.core.Response.Status.NO_CONTENT;
-import static javax.ws.rs.core.Response.Status.OK;
-import static org.hamcrest.Matchers.equalTo;
 
 import java.math.BigDecimal;
 
@@ -32,7 +29,6 @@ class ProductRestServiceTest {
     product1.setTitle("Notebook");
     product1.setDescription("ZBook");
     product1.setPrice(BigDecimal.valueOf(1));
-    product1.setId(null);
 
     ProductDto product2 = new ProductDto();
     product2.setTitle("McBook");
@@ -47,24 +43,6 @@ class ProductRestServiceTest {
 
     given().when().body(product2).contentType(MediaType.APPLICATION_JSON).post("/product/v1").then().log().all()
         .statusCode(CREATED.getStatusCode());
-
-    given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1/1").then().log().all()
-        .statusCode(OK.getStatusCode()).body("title", equalTo("Notebook"));
-
-    given().when().body(productSearch).contentType(MediaType.APPLICATION_JSON).post("/product/v1/search").then().log()
-        .all().statusCode(OK.getStatusCode()).extract().jsonPath().getString("content[0].title").equals("Notebook");
-
-    given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1").then().log().all()
-        .statusCode(OK.getStatusCode()).extract().jsonPath().getString("content[0].title").equals("Notebook");
-
-    given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1/title/McBook").then().log().all()
-        .statusCode(OK.getStatusCode()).body("description", equalTo("Apple Notebook"));
-
-    given().when().contentType(MediaType.APPLICATION_JSON).delete("/product/v1/1").then().log().all()
-        .statusCode(NO_CONTENT.getStatusCode());
-
-    given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1/1").then().log().all()
-        .statusCode(NO_CONTENT.getStatusCode());
 
   }
 
