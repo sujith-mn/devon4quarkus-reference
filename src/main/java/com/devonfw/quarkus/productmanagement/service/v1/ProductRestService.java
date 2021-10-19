@@ -1,5 +1,6 @@
 package com.devonfw.quarkus.productmanagement.service.v1;
 
+import static com.devonfw.quarkus.productmanagement.utils.StringUtils.isEmpty;
 import static javax.ws.rs.core.Response.created;
 import static javax.ws.rs.core.Response.status;
 
@@ -29,7 +30,6 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.springframework.data.domain.Page;
-import org.springframework.util.StringUtils;
 
 import com.devonfw.quarkus.productmanagement.domain.model.ProductEntity;
 import com.devonfw.quarkus.productmanagement.domain.repo.ProductRepository;
@@ -80,7 +80,7 @@ public class ProductRestService {
   @POST
   public Response createNewProduct(ProductDto product) {
 
-    if (StringUtils.isEmpty(product.getTitle())) {
+    if (isEmpty(product.getTitle())) {
       throw new WebApplicationException("Title was not set on request.", 400);
     }
 
