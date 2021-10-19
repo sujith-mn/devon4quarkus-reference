@@ -22,7 +22,7 @@ public interface ProductMapper {
 
   default Page<ProductDto> map(Page<ProductEntity> products) {
 
-    List<ProductDto> productsEto = this.map(products.getContent());
-    return new PageImpl<>(productsEto, products.getPageable(), productsEto.size());
+    List<ProductDto> productsDto = this.map(products.getContent());
+    return new PageImpl<>(productsDto, products.getPageable(), products.getTotalElements());
   }
 }
