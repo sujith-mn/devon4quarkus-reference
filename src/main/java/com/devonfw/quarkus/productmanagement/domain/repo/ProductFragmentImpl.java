@@ -48,11 +48,12 @@ public class ProductFragmentImpl implements ProductFragment {
     JPAQuery<ProductEntity> query = new JPAQuery<ProductEntity>(this.em).from(product);
     query.where(predicates);
     query.orderBy(product.title.desc());
+    long total = query.fetchCount();
 
     List<ProductEntity> products = query.limit(searchCriteria.getPageSize())
         .offset(searchCriteria.getPageNumber() * searchCriteria.getPageSize()).fetch();
     return new PageImpl<>(products, PageRequest.of(searchCriteria.getPageNumber(), searchCriteria.getPageSize()),
-        products.size());
+        total);
   }
 
 }
