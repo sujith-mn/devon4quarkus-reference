@@ -3,6 +3,7 @@ package com.devonfw.quarkus.productmanagement.domain.repo;
 import static com.devonfw.quarkus.productmanagement.utils.StringUtils.isEmpty;
 import static java.util.Objects.isNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,26 +29,26 @@ public class ProductFragmentImpl implements ProductFragment {
 
     QProductEntity product = QProductEntity.productEntity;
 
-    Predicate[] predicates = new Predicate[3];
+    List<Predicate> predicates = new ArrayList<>();
     int index = 0;
 
     if (!isEmpty(searchCriteria.getTitle())) {
-      predicates[index++] = product.title.eq(searchCriteria.getTitle());
+      predicates.add(product.title.eq(searchCriteria.getTitle()));
     }
 
     if (!isNull(searchCriteria.getPrice())) {
-      predicates[index++] = product.price.eq(searchCriteria.getPrice());
+      predicates.add(product.price.eq(searchCriteria.getPrice()));
     } else {
       if (!isNull(searchCriteria.getPriceMin())) {
-        predicates[index++] = product.price.gt(searchCriteria.getPriceMin());
+        predicates.add(product.price.gt(searchCriteria.getPriceMin()));
       }
       if (!isNull(searchCriteria.getPriceMax())) {
-        predicates[index++] = product.price.lt(searchCriteria.getPriceMax());
+        predicates.add(product.price.lt(searchCriteria.getPriceMax()));
       }
     }
 
     JPAQuery<ProductEntity> query = new JPAQuery<ProductEntity>(this.em).from(product);
-    query.where(predicates);
+    query.where(predicates.toArray(Predicate[]::new));
     query.orderBy(product.title.desc());
     long total = query.fetchCount();
 

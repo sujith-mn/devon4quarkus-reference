@@ -1,7 +1,6 @@
 package com.devonfw.quarkus.productmanagement.service.v1;
 
 import static com.devonfw.quarkus.productmanagement.utils.StringUtils.isEmpty;
-import static java.util.Objects.isNull;
 import static javax.ws.rs.core.Response.created;
 import static javax.ws.rs.core.Response.status;
 
@@ -54,7 +53,7 @@ public class ProductRestService {
 
   @POST
   @Path("search")
-  public Page<ProductDto> getAllQueryDsl(@BeanParam ProductSearchCriteriaDto searchCriteria) {
+  public Page<ProductDto> findProducts(@BeanParam ProductSearchCriteriaDto searchCriteria) {
 
     Page<ProductEntity> products = this.productRepository.findByCriteria(searchCriteria);
     if (products.isEmpty()) {
@@ -110,11 +109,7 @@ public class ProductRestService {
   @Path("title/{title}")
   public ProductDto getProductByTitle(@PathParam("title") String title) {
 
-    ProductEntity product = this.productRepository.findByTitle(title);
-    if (isNull(product)) {
-      return this.productMapper.map(product);
-    }
-    return null;
+    return this.productMapper.map(this.productRepository.findByTitle(title));
   }
 
   @APIResponses({
