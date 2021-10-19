@@ -1,6 +1,7 @@
 package com.devonfw.quarkus.productmanagement.service.v1;
 
 import static com.devonfw.quarkus.productmanagement.utils.StringUtils.isEmpty;
+import static java.util.Objects.isNull;
 import static javax.ws.rs.core.Response.created;
 import static javax.ws.rs.core.Response.status;
 
@@ -110,7 +111,7 @@ public class ProductRestService {
   public ProductDto getProductByTitle(@PathParam("title") String title) {
 
     ProductEntity product = this.productRepository.findByTitle(title);
-    if (product != null) {
+    if (isNull(product)) {
       return this.productMapper.map(product);
     }
     return null;

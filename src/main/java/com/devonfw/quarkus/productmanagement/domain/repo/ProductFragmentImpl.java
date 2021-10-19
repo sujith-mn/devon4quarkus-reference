@@ -1,6 +1,7 @@
 package com.devonfw.quarkus.productmanagement.domain.repo;
 
 import static com.devonfw.quarkus.productmanagement.utils.StringUtils.isEmpty;
+import static java.util.Objects.isNull;
 
 import java.util.List;
 
@@ -34,13 +35,13 @@ public class ProductFragmentImpl implements ProductFragment {
       predicates[index++] = product.title.eq(searchCriteria.getTitle());
     }
 
-    if (searchCriteria.getPrice() != null) {
+    if (!isNull(searchCriteria.getPrice())) {
       predicates[index++] = product.price.eq(searchCriteria.getPrice());
     } else {
-      if (searchCriteria.getPriceMin() != null) {
+      if (!isNull(searchCriteria.getPriceMin())) {
         predicates[index++] = product.price.gt(searchCriteria.getPriceMin());
       }
-      if (searchCriteria.getPriceMax() != null) {
+      if (!isNull(searchCriteria.getPriceMax())) {
         predicates[index++] = product.price.lt(searchCriteria.getPriceMax());
       }
     }

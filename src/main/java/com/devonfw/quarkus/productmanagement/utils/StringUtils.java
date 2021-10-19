@@ -1,9 +1,7 @@
 package com.devonfw.quarkus.productmanagement.utils;
 
-import org.springframework.lang.Nullable;
-
 public class StringUtils {
-  public static boolean isEmpty(@Nullable String str) {
+  public static boolean isEmpty(String str) {
 
     return (str == null || "".equals(str));
   }
