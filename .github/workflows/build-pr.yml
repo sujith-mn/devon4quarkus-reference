@@ -1,14 +1,11 @@
-name: CI Build
-on: 
-  push:
-    branches: [ master ]
+name: CI Build PR
+on: pull_request
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
@@ -16,7 +13,7 @@ jobs:
       - name: Start containers
         run: docker-compose -f docker-compose.yaml up -d
       - name: Build project with Maven in Quarkus
-        run: mvn compile
+        run: mvn package
       - name: Stop containers
         if: always()
         run: docker-compose -f docker-compose.yaml down
