@@ -28,14 +28,10 @@ public class ProductFragmentImpl implements ProductFragment {
   public Page<ProductEntity> findByCriteria(ProductSearchCriteriaDto searchCriteria) {
 
     QProductEntity product = QProductEntity.productEntity;
-
     List<Predicate> predicates = new ArrayList<>();
-    int index = 0;
-
     if (!isEmpty(searchCriteria.getTitle())) {
       predicates.add(product.title.eq(searchCriteria.getTitle()));
     }
-
     if (!isNull(searchCriteria.getPrice())) {
       predicates.add(product.price.eq(searchCriteria.getPrice()));
     } else {
