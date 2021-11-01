@@ -47,9 +47,6 @@ public class ProductRestService {
   @Inject
   UcManageProduct ucManageProduct;
 
-  @APIResponses({
-  @APIResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = PagedProductResponse.class))),
-  @APIResponse(responseCode = "500") })
   @Operation(operationId = "Get Products", description = "Returns list of Products matching given criteria, uses pagination")
   @GET
   // REST service methods should not declare exceptions, any thrown error will be transformed by exceptionMapper in
@@ -95,10 +92,6 @@ public class ProductRestService {
     return this.ucFindProduct.findProductsOrderedByTitle();
   }
 
-  @APIResponses({
-  @APIResponse(responseCode = "200", description = "OK, New Product created", content = @Content(schema = @Schema(implementation = NewProductDto.class))),
-  @APIResponse(responseCode = "400", description = "Client side error, invalid request"),
-  @APIResponse(responseCode = "500") })
   @Operation(operationId = "createNewProduct", description = "Stores new Product in DB")
   @POST
   // We did not define custom @Path - so it will use class level path.
@@ -108,9 +101,6 @@ public class ProductRestService {
     return this.ucManageProduct.saveProduct(dto);
   }
 
-  @APIResponses({
-  @APIResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = ProductDto.class))),
-  @APIResponse(responseCode = "404", description = "Product not found"), @APIResponse(responseCode = "500") })
   @Operation(operationId = "getProductById", description = "Returns Product with given id")
   @GET
   @Path("{id}")
@@ -126,9 +116,6 @@ public class ProductRestService {
     return this.ucFindProduct.findProductByTitle(title);
   }
 
-  @APIResponses({
-  @APIResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = ProductDto.class))),
-  @APIResponse(responseCode = "404", description = "Product not found"), @APIResponse(responseCode = "500") })
   @Operation(operationId = "deleteProductById", description = "Deletes the Product with given id")
   @DELETE
   @Path("{id}")
