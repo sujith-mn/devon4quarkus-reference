@@ -31,4 +31,7 @@ public class ProductSearchCriteriaDto {
 
   @QueryParam("price")
   private BigDecimal price;
+
+  @QueryParam("determineTotal")
+  private Boolean determineTotal;
 }
