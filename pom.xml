@@ -67,23 +67,9 @@
       <artifactId>quarkus-smallrye-openapi</artifactId>
     </dependency>
 
-    <!-- tracing, healthchecks, metrics, fault tolerance -->
-<!--     <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-smallrye-opentracing</artifactId>
-    </dependency> -->
-    <dependency>
-      <groupId>io.quarkus</groupId>
-      <artifactId>quarkus-opentelemetry</artifactId>
-    </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-opentelemetry-exporter-jaeger</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.opentelemetry</groupId>
-      <artifactId>opentelemetry-extension-annotations</artifactId>
-      <version>1.0.0</version>
     </dependency>
     <dependency>
       <groupId>io.quarkus</groupId>
@@ -97,7 +83,7 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-smallrye-fault-tolerance</artifactId>
     </dependency>
-    
+
     <dependency>
       <groupId>org.hibernate</groupId>
       <artifactId>hibernate-jpamodelgen</artifactId>
@@ -106,7 +92,7 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-spring-data-jpa</artifactId>
     </dependency>
-	
+
     <dependency>
       <groupId>com.querydsl</groupId>
       <artifactId>querydsl-jpa</artifactId>
@@ -238,8 +224,8 @@
           </systemPropertyVariables>
         </configuration>
       </plugin>
-      
-    
+
+
 	  <plugin>
         <groupId>com.mysema.maven</groupId>
         <artifactId>apt-maven-plugin</artifactId>

@@ -9,8 +9,8 @@ spec:
   ports:
     - name: http-port
       protocol: TCP
-      port: {{ .Values.service.port }}
-      targetPort: {{ .Values.pod.port }}
+      port: {{ .Values.application.service.port }}
+      targetPort: {{ .Values.application.pod.port }}
 # how to find the pods we are load balancing
   selector:
     app: demo-quarkus

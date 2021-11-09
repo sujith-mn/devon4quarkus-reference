@@ -1,32 +1,34 @@
+# Application configuration
+application:
+  image:
+    registry: "k3d-registry.localhost:5000"
+    repository: "demo-quarkus"
+    tag: "latest"
 
-# Application image
-image:
-  # Docker registry
-  registry: "k3d-registry:5000"
-  # Docker repository (application name)
-  repository: "demo-quarkus"
-  # Docker image tag (application version)
-  tag: "latest"
+  replicas: 1
 
-# Number of replicas       
-replicas: 1
+  livenessProbe:
+    url: /q/health/live
 
-# Livess probe
-livenessProbe:
-  url: /q/health/live
+  readinessProbe:
+    url: /q/health/ready
 
-# Readines probe  
-readinessProbe:
-  url: /q/health/ready
+  pod:
+    port: 8080
 
-# Pod configuration
-pod:
-  port: 8080
+  service:
+    port: 8080
 
-# Service configuration
-service:
-  port: 8080
-     
+
+# Database configuration
+postgres:
+  image: "docker.io/bitnami/postgresql"
+  imageTag: "12.2.0"
+
+  service:
+    port: 5432
+
+
 # Ingress configuration
 ingress:
-  host: "demo-quarkus.localhost" 
+  host: "demo-quarkus.localhost"

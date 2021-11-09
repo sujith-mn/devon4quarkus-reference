@@ -7,7 +7,6 @@ metadata:
     app: demo-quarkus
     app.kubernetes.io/name: demo-quarkus
   name: demo-quarkus
-  namespace: default
 spec:
   # scale to 2 instances
   replicas: 2

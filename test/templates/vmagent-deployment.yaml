@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml -o test
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: vmagent
+  name: vmagent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: vmagent
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml -o test
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/demo: "true"
+        io.kompose.service: vmagent
+    spec:
+      containers:
+        - args:
+            - --promscrape.config=/conf/vMetrics.yaml
+            - --remoteWrite.url=http://victoriametrics:8428/api/v1/write
+          image: victoriametrics/vmagent
+          name: vmagent
+          ports:
+            - containerPort: 8429
+          resources: {}
+          volumeMounts:
+          - mountPath: /conf
+            name: vmetrics-config
+      restartPolicy: Always
+      volumes:
+      - configMap:
+          items:
+          - key: vMetrics.yaml
+            path: vMetrics.yaml
+          name: vmetrics-config
+        name: vmetrics-config
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml -o test
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: vmagent
+  name: vmagent
+spec:
+  ports:
+    - name: "8429"
+      port: 8429
+      targetPort: 8429
+  selector:
+    io.kompose.service: vmagent
+status:
+  loadBalancer: {}

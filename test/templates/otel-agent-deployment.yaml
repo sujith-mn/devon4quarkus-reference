@@ -1,0 +1,101 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml -o test
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: otel-agent
+  name: otel-agent
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: otel-agent
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert -f docker-compose.yaml -o test
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/demo: "true"
+        io.kompose.service: otel-agent
+    spec:
+      containers:
+      - args:
+        - --config=/conf/agent.yaml
+        - --log-level=DEBUG
+        image: otel/opentelemetry-collector-dev:latest
+        name: otel-agent
+        ports:
+        - containerPort: 8888
+        - containerPort: 14250
+        - containerPort: 14268
+        - containerPort: 55678
+        - containerPort: 4317
+        - containerPort: 9411
+        - containerPort: 1777
+        - containerPort: 13133
+        resources: {}
+        volumeMounts:
+        - mountPath: /conf
+          name: agent-config
+      volumes:
+      - configMap:
+          items:
+          - key: agent.yaml
+            path: agent.yaml
+          name: agent-config
+        name: agent-config
+      restartPolicy: Always
+status: {}
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  annotations:
+    kompose.cmd: kompose convert -f docker-compose.yaml -o test
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: otel-agent
+  name: otel-agent
+spec:
+  ports:
+    - name: "8887"
+      port: 8887
+      targetPort: 8888
+    - name: "14250"
+      port: 14250
+      targetPort: 14250
+    - name: "14268"
+      port: 14268
+      targetPort: 14268
+    - name: "55678"
+      port: 55678
+      targetPort: 55678
+    - name: "4317"
+      port: 4317
+      targetPort: 4317
+    - name: "9411"
+      port: 9411
+      targetPort: 9411
+    - name: "1777"
+      port: 1777
+      targetPort: 1777
+    - name: "55679"
+      port: 55679
+      targetPort: 55679
+    - name: "13133"
+      port: 13133
+      targetPort: 13133
+  selector:
+    io.kompose.service: otel-agent
+status:
+  loadBalancer: {}
