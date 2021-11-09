@@ -7,7 +7,6 @@ import static javax.ws.rs.core.Response.status;
 import java.util.Optional;
 
 import javax.inject.Inject;
-import javax.ws.rs.BeanParam;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -51,17 +50,6 @@ public class ProductRestService {
   @Context
   UriInfo uriInfo;
 
-  @POST
-  @Path("search")
-  public Page<ProductDto> findProducts(@BeanParam ProductSearchCriteriaDto searchCriteria) {
-
-    Page<ProductEntity> products = this.productRepository.findByCriteria(searchCriteria);
-    if (products.isEmpty()) {
-      return Page.empty();
-    }
-    return this.productMapper.map(products);
-  }
-
   @GET
   public Page<ProductDto> getAllOrderedByTitle() {
 
@@ -88,6 +76,17 @@ public class ProductRestService {
 
     UriBuilder uriBuilder = this.uriInfo.getAbsolutePathBuilder().path(Long.toString(productEntity.getId()));
     return created(uriBuilder.build()).build();
+  }
+
+  @POST
+  @Path("search")
+  public Page<ProductDto> findProducts(ProductSearchCriteriaDto searchCriteria) {
+
+    Page<ProductEntity> products = this.productRepository.findByCriteria(searchCriteria);
+    if (products.isEmpty()) {
+      return Page.empty();
+    }
+    return this.productMapper.map(products);
   }
 
   @APIResponses({

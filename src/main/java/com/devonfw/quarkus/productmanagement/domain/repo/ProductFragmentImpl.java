@@ -10,12 +10,13 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import com.devonfw.quarkus.productmanagement.domain.model.ProductEntity;
 import com.devonfw.quarkus.productmanagement.domain.model.QProductEntity;
 import com.devonfw.quarkus.productmanagement.service.v1.model.ProductSearchCriteriaDto;
+import com.devonfw.quarkus.productmanagement.utils.QueryUtil;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.jpa.impl.JPAQuery;
 
@@ -42,20 +43,13 @@ public class ProductFragmentImpl implements ProductFragment {
         predicates.add(product.price.lt(searchCriteria.getPriceMax()));
       }
     }
-
     JPAQuery<ProductEntity> query = new JPAQuery<ProductEntity>(this.em).from(product);
     if (!predicates.isEmpty()) {
       query.where(predicates.toArray(Predicate[]::new));
     }
+    Pageable pageable = PageRequest.of(searchCriteria.getPageNumber(), searchCriteria.getPageSize());
     query.orderBy(product.title.desc());
-
-    List<ProductEntity> products = query.limit(searchCriteria.getPageSize())
-        .offset(searchCriteria.getPageNumber() * searchCriteria.getPageSize()).fetch();
-
-    long total = isNull(searchCriteria.getDetermineTotal()) || !searchCriteria.getDetermineTotal() ? products.size()
-        : query.fetchCount();
-    return new PageImpl<>(products, PageRequest.of(searchCriteria.getPageNumber(), searchCriteria.getPageSize()),
-        total);
+    return QueryUtil.findPaginated(pageable, query, searchCriteria.isDetermineTotal());
   }
 
 }
