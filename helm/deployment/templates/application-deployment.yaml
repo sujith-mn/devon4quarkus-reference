@@ -1,6 +1,5 @@
 apiVersion: apps/v1
 kind: Deployment
-# deployment v1
 metadata:
   # metadata labels - tags under which this resources can be found in k8s api
   labels:
@@ -8,10 +7,9 @@ metadata:
     app.kubernetes.io/name: demo-quarkus
   name: demo-quarkus
 spec:
-  # scale to 2 instances
-  replicas: 2
+  # scale default to 2 instances
+  replicas: {{ .Values.application.replicas | default 2 }}
   selector:
-    #how are the pods linked together
     matchLabels:
       app: demo-quarkus
   template:
@@ -22,14 +20,11 @@ spec:
       # pod spec, we want a single container in our pods
       containers:
         - name: demo-quarkus
-          ## TODO: Insert the registry from which you want to pull the image
-          image: 'your-registry/demo-quarkus:latest'
-          # always perform pull when creating pod
+          image:  {{ .Values.application.image.registry }}/{{ .Values.application.image.repository }}:{{ .Values.application.image.tag }}
           imagePullPolicy: Always
-          # env vars so we can connect to DB
           env:
             - name: QUARKUS_DATASOURCE_JDBC_URL
-              value: jdbc:postgresql://postgresql:5432/demo
+              value: jdbc:postgresql://postgresql:{{ .Values.postgres.service.port }}/demo
             - name: QUARKUS_DATASOURCE_USERNAME
               value: demo
             - name: QUARKUS_DATASOURCE_PASSWORD
@@ -38,20 +33,20 @@ spec:
           livenessProbe:
             failureThreshold: 5
             httpGet:
-              path: /q/health/live
-              port: 8080
+              path: {{ .Values.application.livenessProbe.url }}
+              port: {{ .Values.application.pod.port }}
               scheme: HTTP
             initialDelaySeconds: 5
             periodSeconds: 30
             successThreshold: 1
             timeoutSeconds: 3
           ports:
-            - containerPort: 8080
+            - containerPort: {{ .Values.application.pod.port }}
           readinessProbe:
             failureThreshold: 5
             httpGet:
-              path: /q/health/ready
-              port: 8080
+              path: {{ .Values.application.readinessProbe.url }}
+              port: {{ .Values.application.pod.port }}
               scheme: HTTP
             initialDelaySeconds: 5
             periodSeconds: 30
@@ -73,7 +68,7 @@ spec:
             - name: PGHOST
               value: postgresql
             - name: PGPORT
-              value: '5432'
+              value: '{{ .Values.postgres.service.port }}'
             - name: PGDATABASE
               value: null
             - name: PGUSER
@@ -82,7 +77,7 @@ spec:
               value: postgres
             - name: DISABLE_WELCOME_MESSAGE
               value: 'true'
-          image: 'docker.io/bitnami/postgresql:12.2.0'
+          image: {{ .Values.postgres.image }}:{{ .Values.postgres.imageTag }}
           name: create-db
         - command:
             - /bin/bash
@@ -92,7 +87,7 @@ spec:
             - name: PGHOST
               value: postgresql
             - name: PGPORT
-              value: '5432'
+              value: '{{ .Values.postgres.service.port }}'
             - name: PGDATABASE
               value: demo
             - name: PGUSER
@@ -101,5 +96,5 @@ spec:
               value: demo
             - name: DISABLE_WELCOME_MESSAGE
               value: 'true'
-          image: 'docker.io/bitnami/postgresql:12.2.0'
+          image: {{ .Values.postgres.image }}:{{ .Values.postgres.imageTag }}
           name: check-db

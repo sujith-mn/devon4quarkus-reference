@@ -1,0 +1,43 @@
+# Application configuration
+application:
+  image:
+    ## TODO: Insert the registry from which you want to pull the image
+    registry: "your-registry.localhost:5000"
+    repository: "demo-quarkus"
+    tag: "latest"
+
+  replicas: 1
+
+  pod:
+    port: 8080
+
+  service:
+    name: demo-quarkus
+    port: 8080
+
+  metrics:
+    url: "/q/metrics"
+    jobname: demo-quarkus
+
+
+# Database configuration
+postgres:
+  image: "postgres"
+  imageTag: "11.5"
+  port: 5432
+
+
+# Ingress configuration
+ingress:
+  application:
+    host: "demo-quarkus.localhost"
+    port: 8080
+  jaeger:
+    host: "jaeger.localhost"
+    port: 16686
+  zipkin:
+    host: "zipkin.localhost"
+    port: 9411
+  grafana:
+    host: "grafana.localhost"
+    port: 3000

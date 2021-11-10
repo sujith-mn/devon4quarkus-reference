@@ -1,0 +1,55 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    component: demo-quarkus
+  name: demo-quarkus
+spec:
+  replicas: {{ .Values.application.replicas | default 1 }}
+  selector:
+    matchLabels:
+      component: demo-quarkus
+  template:
+    metadata:
+      labels:
+        component: demo-quarkus
+    spec:
+      containers:
+      - env:
+        - name: QUARKUS_DATASOURCE_PASSWORD
+          value: demo
+        - name: QUARKUS_DATASOURCE_USERNAME
+          value: demo
+        - name: quarkus.datasource.jdbc.url
+          value: jdbc:postgresql://postgresdb:{{ .Values.postgres.port }}/demo
+        - name: quarkus.opentelemetry.enabled
+          value: "true"
+        - name: quarkus.opentelemetry.tracer.exporter.otlp.endpoint
+          value: http://otel-agent:4317
+        - name: quarkus.application.name
+          value: demo-quarkus
+        image:  {{ .Values.application.image.registry }}/{{ .Values.application.image.repository }}:{{ .Values.application.image.tag }}
+        imagePullPolicy: ""
+        name: demo-quarkus
+        ports:
+        - containerPort: {{ .Values.application.pod.port }}
+        resources: {}
+      restartPolicy: Always
+      serviceAccountName: ""
+      volumes: null
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    component: demo-quarkus
+  name: demo-quarkus
+spec:
+  ports:
+  - name: demo-quarkus-port
+    port: {{ .Values.application.service.port }}
+    targetPort: {{ .Values.application.pod.port }}
+  selector:
+    component: demo-quarkus

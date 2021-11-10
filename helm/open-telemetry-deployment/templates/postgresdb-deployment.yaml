@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    component: postgresdb
+  name: postgresdb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      component: postgresdb
+  template:
+    metadata:
+      labels:
+        component: postgresdb
+    spec:
+      containers:
+        - args:
+            - -cmax_prepared_transactions=100
+          env:
+            - name: POSTGRES_DB
+              value: demo
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: trust
+            - name: POSTGRES_PASSWORD
+              value: demo
+            - name: POSTGRES_USER
+              value: demo
+          image: postgres:11.5
+          name: postgresdb
+          ports:
+            - containerPort: {{ .Values.postgres.port }}
+          resources: {}
+      restartPolicy: Always
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    component: postgresdb
+  name: postgresdb
+spec:
+  ports:
+    - name: postgres-port
+      port: {{ .Values.postgres.port }}
+      targetPort: {{ .Values.postgres.port }}
+  selector:
+    component: postgresdb
