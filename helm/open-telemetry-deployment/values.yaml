@@ -15,6 +15,12 @@ application:
     name: demo-quarkus
     port: 8080
 
+  livenessProbe:
+    url: /q/health/live
+
+  readinessProbe:
+    url: /q/health/ready
+
   metrics:
     url: "/q/metrics"
     jobname: demo-quarkus
@@ -24,7 +30,9 @@ application:
 postgres:
   image: "docker.io/bitnami/postgresql"
   imageTag: "12.2.0"
-  port: 5432
+  
+  service:
+    port: 5432
 
 
 # Ingress configuration
