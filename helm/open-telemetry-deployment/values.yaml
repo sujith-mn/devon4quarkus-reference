@@ -2,7 +2,7 @@
 application:
   image:
     ## TODO: Insert the registry from which you want to pull the image
-    registry: "your-registry.localhost:5000"
+    registry: "your-registry"
     repository: "demo-quarkus"
     tag: "latest"
 
@@ -22,8 +22,8 @@ application:
 
 # Database configuration
 postgres:
-  image: "postgres"
-  imageTag: "11.5"
+  image: "docker.io/bitnami/postgresql"
+  imageTag: "12.2.0"
   port: 5432
 
 
