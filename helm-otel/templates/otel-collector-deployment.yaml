@@ -30,7 +30,7 @@ spec:
       - args:
         - --config=/conf/collector.yaml
         - --log-level=DEBUG
-        image: otel/opentelemetry-collector-dev:latest
+        image: otel/opentelemetry-collector:latest
         imagePullPolicy: ""
         name: otel-collector
         ports:

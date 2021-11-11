@@ -13,8 +13,10 @@ spec:
   ports:
   - name: "8429"
     port: 8429
+    protocol: TCP
     targetPort: 8429
   selector:
     io.kompose.service: vmagent
+  type: LoadBalancer #ClusterIP
 status:
   loadBalancer: {}

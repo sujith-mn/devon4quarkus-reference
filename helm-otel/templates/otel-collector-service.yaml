@@ -13,23 +13,30 @@ spec:
   ports:
   - name: "1888"
     port: 1888
+    protocol: TCP
     targetPort: 1888
   - name: "8888"
     port: 8888
+    protocol: TCP
     targetPort: 8888
   - name: "8889"
     port: 8889
+    protocol: TCP
     targetPort: 8889
   - name: "13133"
     port: 13133
+    protocol: TCP
     targetPort: 13133
   - name: "4317"
     port: 4317
+    protocol: TCP
     targetPort: 4317
   - name: "55670"
     port: 55670
+    protocol: TCP
     targetPort: 55679
   selector:
     io.kompose.service: otel-collector
+  type: LoadBalancer #ClusterIP
 status:
   loadBalancer: {}

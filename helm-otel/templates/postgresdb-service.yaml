@@ -13,8 +13,10 @@ spec:
   ports:
   - name: "5432"
     port: 5432
+    protocol: TCP
     targetPort: 5432
   selector:
     io.kompose.service: postgresdb
+  type: LoadBalancer #ClusterIP
 status:
   loadBalancer: {}
