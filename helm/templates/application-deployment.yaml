@@ -2,19 +2,20 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    component: demo-quarkus
+    app: demo-quarkus
+    app.kubernetes.io/name: demo-quarkus
   name: demo-quarkus
 spec:
-  replicas: {{ .Values.application.replicas | default 1 }}
+  # scale default to 2 instances
+  replicas: {{ .Values.application.replicas | default 2 }}
   selector:
     matchLabels:
-      component: demo-quarkus
+      app: demo-quarkus
   template:
     metadata:
       labels:
-        component: demo-quarkus
+        app: demo-quarkus
     spec:
-      # pod spec, we want a single container in our pods
       containers:
         - name: demo-quarkus
           image:  {{ .Values.application.image.registry }}/{{ .Values.application.image.repository }}:{{ .Values.application.image.tag }}
@@ -101,19 +102,3 @@ spec:
               value: 'true'
           image: {{ .Values.postgres.image }}:{{ .Values.postgres.imageTag }}
           name: check-db
-
----
-
-apiVersion: v1
-kind: Service
-metadata:
-  labels:
-    component: demo-quarkus
-  name: demo-quarkus
-spec:
-  ports:
-  - name: demo-quarkus-port
-    port: {{ .Values.application.service.port }}
-    targetPort: {{ .Values.application.pod.port }}
-  selector:
-    component: demo-quarkus

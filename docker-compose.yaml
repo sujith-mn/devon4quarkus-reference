@@ -54,13 +54,6 @@ services:
     networks:
       - demo
 
-  zipkin-all-in-one:
-    image: openzipkin/zipkin:latest
-    ports:
-      - "9411:9411"
-    networks:
-      - demo
-
   jaeger-all-in-one:
     image: jaegertracing/all-in-one:latest
     ports:
@@ -99,16 +92,6 @@ services:
       - --promscrape.config=/etc/victoriametrics/vMetrics.yml
     volumes:
       - ./vMetrics.yaml:/etc/victoriametrics/vMetrics.yml:ro
-    networks:
-      - demo
-
-  prometheus:
-    container_name: prometheus
-    image: prom/prometheus:latest
-    volumes:
-      - ./prometheus.yaml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090"
     networks:
       - demo
 

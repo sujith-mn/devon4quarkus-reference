@@ -2,7 +2,7 @@
 application:
   image:
     ## TODO: Insert the registry from which you want to pull the image
-    registry: "your-registry"
+    registry: "k3d-registry.localhost:5000"
     repository: "demo-quarkus"
     tag: "latest"
 
