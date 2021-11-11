@@ -114,11 +114,11 @@ Give it a few moments and then open http://demo-quarkus.localhost/products/ in y
 kubectl delete -f k8s
 ```
 
-First, in the `helm/deployment/values.yaml` file, specify the path to your registry from which you want to obtain the image.
+First, in the `helm/values.yaml` file, specify the path to your registry from which you want to obtain the image.
 Then you can deploy the application with the following command:
 
 ```shell
-helm install demo-quarkus helm/deployment
+helm install demo-quarkus helm
 ```
 
 This will deploy the application and the corresponding Postgres database.
@@ -131,24 +131,7 @@ helm uninstall demo-quarkus
 
 ### OpenTelemetry integration
 
-The `helm/open-telemetry-deployment` directory contains a second Helm chart with additional files for deploying OpenTelemetry functionality.
-The following resources are additionally deployed:
- * OpenTelemetry Agent
- * OpenTelemetry Collector
- * Jaeger (http://jaeger.localhost/)
- * Zipkin (http://zipkin.localhost/)
- * Prometheus
- * VictoriaMetrics
- * Grafana (http://grafana.localhost/)
-
-You can agin check out the application by browsing to http://demo-quarkus.localhost/products/.
-
-Open the Jaeger or Zipkin user interface to take a look at the application's traces. The application's metrics can be viewed in the Grafana dashboard.
-To do this, configure Prometheus or VictoriaMetrics as the data source using one of the following URLs:
-```
-http://victoriametrics.default.svc.cluster.local:8428
-http://prometheus.default.svc.cluster.local:9090
-
-```
-
+Quarkus can be easily configured to support OpenTelemetry features that can be used in combination with tools such as Jaeger or VictoriaMetrics to monitor traces and metrics.
 To learn more about OpenTelemetry, see the devonfw architecture browser in the [chapter about OpenTelemetry](https://devonfw.com/website/pages/architectures/solutions/monitoring_openTelemetry/).
+
+The `documentation` folder contains a guide with instructions on how to set up the application in combination with these tools.

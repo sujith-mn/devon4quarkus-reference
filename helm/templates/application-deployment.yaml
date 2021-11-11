@@ -27,12 +27,6 @@ spec:
               value: demo
             - name: QUARKUS_DATASOURCE_PASSWORD
               value: demo
-            - name: quarkus.opentelemetry.enabled
-              value: "true"
-            - name: quarkus.opentelemetry.tracer.exporter.otlp.endpoint
-              value: http://otel-agent:4317
-            - name: quarkus.application.name
-              value: demo-quarkus
           # live & ready probes, using our healthcheck endpoints
           livenessProbe:
             failureThreshold: 5
