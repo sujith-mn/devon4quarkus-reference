@@ -114,11 +114,11 @@ Give it a few moments and then open http://demo-quarkus.localhost/products/ in y
 kubectl delete -f k8s
 ```
 
-First, in the `helm/values.yaml` file, specify the path to your registry from which you want to obtain the image.
+First, in the `src/main/helm/values.yaml` file, specify the path to your registry from which you want to obtain the image.
 Then you can deploy the application with the following command:
 
 ```shell
-helm install demo-quarkus helm
+helm install demo-quarkus src/main/helm
 ```
 
 This will deploy the application and the corresponding Postgres database.

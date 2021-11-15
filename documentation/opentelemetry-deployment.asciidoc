@@ -56,7 +56,7 @@ This will deploy the following components:
 == Configure the application
 
 The Quarkus application uses the `quarkus-opentelemetry-exporter-otlp` extension to export the traces. The extension is already added to the project. We just need to configure the application accordingly.
-To do this, set the following environment variables in the `helm/templates/application-deployment.yaml` file.
+To do this, set the following environment variables in the `src/main/helm/templates/application-deployment.yaml` file.
 
 [yaml]
 ----
@@ -71,6 +71,8 @@ To do this, set the following environment variables in the `helm/templates/appli
 ----
 
 This will enable the export of the traces to the OpenTelemetry collector.
+
+Then deploy the application by executing `helm install demo-quarkus src/main/helm`.
 
 == Testing the components
 
