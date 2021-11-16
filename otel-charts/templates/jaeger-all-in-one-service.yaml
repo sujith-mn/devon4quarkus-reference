@@ -7,16 +7,24 @@ metadata:
     kompose.version: 1.21.0 (992df58d8)
   creationTimestamp: null
   labels:
-    io.kompose.service: vmagent
-  name: vmagent
+    io.kompose.service: jaeger-all-in-one
+  name: jaeger-all-in-one
 spec:
   ports:
-  - name: "8429"
-    port: 8429
+  - name: "16686"
+    port: 16686
     protocol: TCP
-    targetPort: 8429
+    targetPort: 16686
+  - name: "14268"
+    port: 14268
+    protocol: TCP
+    targetPort: 14268
+  - name: "14250"
+    port: 14250
+    protocol: TCP
+    targetPort: 14250
   selector:
-    io.kompose.service: vmagent
+    io.kompose.service: jaeger-all-in-one
   type: LoadBalancer #ClusterIP
 status:
   loadBalancer: {}

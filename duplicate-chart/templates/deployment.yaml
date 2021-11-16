@@ -25,9 +25,15 @@ spec:
         - name: demo-quarkus
           # where should the image come from
           image: 'acrimage101.azurecr.io/acrimage101/demo-quarkus:latest'
-
+          #command: ["java", "-javaagent:agent/opentelemetry-javaagent-all.jar", "-Dotel.metrics.exporter=none", "-Dotel.exporter.otlp.endpoint=http://otel-collector:4317", "-Dotel.resource.attributes="service.name=quarkus-demo"]
+          #command: ["/deployments/run-java.sh"]
           # always perform pull when creating pod
           imagePullPolicy: Always
+          #env Secrets to pull image from regidtry
+          #envFrom:
+          #- secretRef:
+          #    name: credentials
+               # command: ["/deployments/run-java.sh", "&&", "java", "-javaagent:agent/opentelemetry-javaagent-all.jar", "-Dotel.metrics.exporter=none", "-Dotel.exporter.otlp.endpoint=http://otel-collector:4317", "-Dotel.resource.attributes='service.name=quarkus-demo'"]
           # env vars so we can connect to DB
           env:
             - name: QUARKUS_DATASOURCE_JDBC_URL
@@ -36,6 +42,12 @@ spec:
               value: demo
             - name: QUARKUS_DATASOURCE_PASSWORD
               value: demo
+            - name: QUARKUS.OPENTELEMETRY.ENABLED
+              value: "true"
+            - name: QUARKUS.OPENTELEMETRY.TRACER.EXPORTER.OTLP.ENDPOINT
+              value: http://otel-collector:4317
+            - name: QUARKUS.APPLICATION.NAME
+              value: demo-quarkus
           # live & ready probes, using our healthcheck endpoints
           livenessProbe:
             failureThreshold: 5

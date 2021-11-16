@@ -7,13 +7,13 @@ metadata:
     kompose.version: 1.21.0 (992df58d8)
   creationTimestamp: null
   labels:
-    io.kompose.service: prometheus
-  name: prometheus
+    io.kompose.service: zipkin-all-in-one
+  name: zipkin-all-in-one
 spec:
   replicas: 1
   selector:
     matchLabels:
-      io.kompose.service: prometheus
+      io.kompose.service: zipkin-all-in-one
   strategy: {}
   template:
     metadata:
@@ -24,26 +24,16 @@ spec:
       creationTimestamp: null
       labels:
         io.kompose.network/demo: "true"
-        io.kompose.service: prometheus
+        io.kompose.service: zipkin-all-in-one
     spec:
       containers:
-      - image: prom/prometheus:latest
+      - image: openzipkin/zipkin:latest
         imagePullPolicy: ""
-        name: prometheus
+        name: zipkin-all-in-one
         ports:
-        - containerPort: 9090
+        - containerPort: 9411
         resources: {}
       restartPolicy: Always
       serviceAccountName: ""
-      volumeMounts:
-      - mountPath: /etc/prometheus/
-        name: prometheus-config-volume
-    restartPolicy: Always
-    volumes:
-       - name: prometheus-config-volume
-         configMap:
-            name: prometheus
-            items:
-              - key: prometheus-config
-                path: prometheus.yml
+      volumes: null
 status: {}

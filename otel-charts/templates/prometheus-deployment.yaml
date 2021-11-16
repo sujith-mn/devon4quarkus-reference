@@ -35,15 +35,5 @@ spec:
         resources: {}
       restartPolicy: Always
       serviceAccountName: ""
-      volumeMounts:
-      - mountPath: /etc/prometheus/
-        name: prometheus-config-volume
-    restartPolicy: Always
-    volumes:
-       - name: prometheus-config-volume
-         configMap:
-            name: prometheus
-            items:
-              - key: prometheus-config
-                path: prometheus.yml
+      volumes: null
 status: {}

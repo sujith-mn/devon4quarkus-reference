@@ -26,6 +26,10 @@ spec:
           image:  {{ .Values.image.registry }}/{{ .Values.image.repository }}:{{ .Values.image.tag }}
           # always perform pull when creating pod
           imagePullPolicy: Always
+          envFrom:
+          - secretRef:
+              name: credentials
+
           # env vars so we can connect to DB
           env:
             - name: QUARKUS_DATASOURCE_JDBC_URL
@@ -34,6 +38,12 @@ spec:
               value: demo
             - name: QUARKUS_DATASOURCE_PASSWORD
               value: demo
+            - name: quarkus.opentelemetry.enabled
+                value: "true"
+            - name: quarkus.opentelemetry.tracer.exporter.otlp.endpoint
+                value: http://otel-agent:4317
+            - name: quarkus.application.name
+                value: demo-quarkus
           # live & ready probes, using our healthcheck endpoints
           livenessProbe:
             failureThreshold: 5
@@ -101,5 +111,5 @@ spec:
               value: demo
             - name: DISABLE_WELCOME_MESSAGE
               value: 'true'
-          image: 'docker.io/bitnami/postgresql:12.2.0'
+          image: {{ .Values.postgres.image }}:{{ .Values.postgres.imageTag }}
           name: check-db

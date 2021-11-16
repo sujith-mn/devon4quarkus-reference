@@ -17,7 +17,7 @@ services:
 
   # Collector
   otel-collector:
-    image: otel/opentelemetry-collector-dev:latest
+    image: otel/opentelemetry-collector:latest
     command: ["--config=/conf/otel-collector-config.yaml", "--log-level=DEBUG"]
     volumes:
       - ./otel-collector-config.yaml:/conf/otel-collector-config.yaml
@@ -52,7 +52,7 @@ services:
       - demo
 
   otel-agent:
-    image: otel/opentelemetry-collector-dev:latest
+    image: otel/opentelemetry-collector:latest
     command: ["--config=/etc/otel-agent-config.yaml", "--log-level=DEBUG"]
     volumes:
       - ./otel-agent-config.yaml:/etc/otel-agent-config.yaml

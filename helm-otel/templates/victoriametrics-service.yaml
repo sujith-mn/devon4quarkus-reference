@@ -13,11 +13,9 @@ spec:
   ports:
   - name: "8428"
     port: 8428
-    protocol: TCP
     targetPort: 8428
   - name: "8089"
     port: 8089
-    protocol: TCP
     targetPort: 8089
   - name: 8089-udp
     port: 8089

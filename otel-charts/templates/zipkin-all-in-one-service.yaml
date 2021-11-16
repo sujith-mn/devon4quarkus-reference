@@ -7,16 +7,16 @@ metadata:
     kompose.version: 1.21.0 (992df58d8)
   creationTimestamp: null
   labels:
-    io.kompose.service: postgresdb
-  name: postgresdb
+    io.kompose.service: zipkin-all-in-one
+  name: zipkin-all-in-one
 spec:
   ports:
-  - name: "5432"
-    port: 5432
+  - name: "9411"
+    port: 9411
     protocol: TCP
-    targetPort: 5432
+    targetPort: 9411
   selector:
-    io.kompose.service: postgresdb
-  type: LoadBalancer #ClusterIP
+    io.kompose.service: zipkin-all-in-one
+  type: LoadBalancer
 status:
   loadBalancer: {}

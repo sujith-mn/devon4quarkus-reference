@@ -2,9 +2,9 @@
 # Application image
 image:
   # Docker registry
-  registry: "k3d-registry:5000"
+  #registry:  dockerregistry101 #"k3d-registry:5000"
   # Docker repository (application name)
-  repository: "demo-quarkus"
+  repository: acrimage101.azurecr.io/acrimage101/demo-quarkus #"demo-quarkus"
   # Docker image tag (application version)
   tag: "latest"
 
@@ -26,7 +26,14 @@ pod:
 # Service configuration
 service:
   port: 8080
-     
+
+  # Database configuration
+postgres:
+   image: "docker.io/bitnami/postgresql"
+   imageTag: "12.2.0"
+
+   service:
+     port: 5432  
 # Ingress configuration
 ingress:
   host: "demo-quarkus.localhost" 

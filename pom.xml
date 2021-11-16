@@ -71,6 +71,10 @@
     </dependency>  
     <dependency> 
       <groupId>io.quarkus</groupId>  
+      <artifactId>quarkus-opentelemetry-exporter-otlp</artifactId> 
+    </dependency>  
+    <dependency> 
+      <groupId>io.quarkus</groupId>  
       <artifactId>quarkus-opentelemetry-exporter-jaeger</artifactId> 
     </dependency>  
     <dependency> 
@@ -236,7 +240,7 @@
           <region>westeurope</region>  
           <runtime> 
             <os>Linux</os>  
-            <javaVersion>Java 8</javaVersion>  
+            <javaVersion>Java 11</javaVersion>  
             <webContainer>Java SE</webContainer> 
           </runtime>  
           <appSettings> 

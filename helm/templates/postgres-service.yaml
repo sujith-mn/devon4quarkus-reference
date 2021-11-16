@@ -8,7 +8,7 @@ spec:
   ports:
     - name: tcp-postgresql
       protocol: TCP
-      port: 5432
+      port: {{ .Values.postgres.service.port }}
       targetPort: tcp-postgresql
   selector:
     app: postgresql
