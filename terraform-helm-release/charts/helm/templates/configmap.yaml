@@ -14,7 +14,7 @@ data:
 
     exporters:
       otlp:
-        endpoint: otel-collector:4317 #"otel-collector.default.svc.cluster.local:4317"
+        endpoint: "otel-collector.default.svc.cluster.local:4317"
         insecure: true
 
     service:
@@ -53,7 +53,7 @@ data:
         endpoint: "http://zipkin-all-in-one.default.svc.cluster.local:9411/api/v2/spans"
         format: proto
       jaeger:
-        endpoint: jaeger-all-in-one:14250 #jaeger-all-in-one.default.svc.cluster.local:14250
+        endpoint: jaeger-all-in-one.default.svc.cluster.local:14250
         insecure: true
       prometheus:
         endpoint: "0.0.0.0:8889"
