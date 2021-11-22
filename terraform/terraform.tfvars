@@ -1,0 +1,2 @@
+appId    = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+password = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
