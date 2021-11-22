@@ -47,7 +47,6 @@ public class ProductRestService {
   @Inject
   UcManageProduct ucManageProduct;
 
-  @Operation(operationId = "Get Products", description = "Returns list of Products matching given criteria, uses pagination")
   @GET
   // REST service methods should not declare exceptions, any thrown error will be transformed by exceptionMapper in
   // tkit-rest
@@ -92,7 +91,6 @@ public class ProductRestService {
     return this.ucFindProduct.findProductsOrderedByTitle();
   }
 
-  @Operation(operationId = "createNewProduct", description = "Stores new Product in DB")
   @POST
   // We did not define custom @Path - so it will use class level path.
   // Although we now have 2 methods with same path, it is ok, because it is a different method (get vs post)
@@ -101,7 +99,6 @@ public class ProductRestService {
     return this.ucManageProduct.saveProduct(dto);
   }
 
-  @Operation(operationId = "getProductById", description = "Returns Product with given id")
   @GET
   @Path("{id}")
   public ProductDto getProductById(@Parameter(description = "Product unique id") @PathParam("id") String id) {
@@ -116,7 +113,6 @@ public class ProductRestService {
     return this.ucFindProduct.findProductByTitle(title);
   }
 
-  @Operation(operationId = "deleteProductById", description = "Deletes the Product with given id")
   @DELETE
   @Path("{id}")
   public ProductDto deleteProductById(@Parameter(description = "Product unique id") @PathParam("id") String id) {
