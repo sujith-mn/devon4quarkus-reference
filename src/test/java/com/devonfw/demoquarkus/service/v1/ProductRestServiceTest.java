@@ -36,7 +36,7 @@ class ProductRestServiceTest {
         .extract().response();
 
     int products = Integer.valueOf(response.jsonPath().getString("totalElements"));
-    assertEquals(2, products);
+    assertEquals(350, products);
   }
 
   @Test
@@ -64,13 +64,13 @@ class ProductRestServiceTest {
     response = given().when().contentType(MediaType.APPLICATION_JSON).get("/products").then().log().all()
         .statusCode(200).extract().response();
 
-    // number of elements is 3, because there are already two test products in the database
+    // number of elements is 351, because there are already 350 products in the database
     int products = Integer.valueOf(response.jsonPath().getString("totalElements"));
-    assertEquals(3, products);
+    assertEquals(351, products);
 
     List<LinkedHashMap<String, String>> created = response.jsonPath().getList("content");
     assertNotNull(created);
-    assertEquals(product.getTitle(), created.get(2).get("title"));
+    assertEquals(product.getTitle(), created.get(350).get("title"));
   }
 
   @Test
@@ -78,7 +78,8 @@ class ProductRestServiceTest {
   public void testGetById() {
 
     given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/products/1").then().statusCode(200)
-        .body("description", equalTo("Description of testproduct one")).body("price", equalTo(Float.valueOf(1.99F)));
+        .body("title", equalTo("Bose Acoustimass 5 Series III Speaker System - AM53BK"))
+        .body("price", equalTo(Float.valueOf(399)));
   }
 
   @Test
@@ -86,7 +87,8 @@ class ProductRestServiceTest {
   public void deleteById() {
 
     given().when().log().all().contentType(MediaType.APPLICATION_JSON).delete("/products/1").then().statusCode(200)
-        .body("title", equalTo("Testproduct 1")).body("price", equalTo(Float.valueOf(1.99F)));
+        .body("title", equalTo("Bose Acoustimass 5 Series III Speaker System - AM53BK"))
+        .body("price", equalTo(Float.valueOf(399F)));
 
     // after deletion it should be deleted
     given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/products/1").then().statusCode(500);
