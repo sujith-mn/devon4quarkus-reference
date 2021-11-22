@@ -83,7 +83,12 @@ After you have saved your customized variables file, initialize your Terraform w
 
 `$ terraform init`
 
-== *Provision the AKS cluster*
+== *Terraform plan*
+terraform plan command creates an execution of plan and save it to the local file tfplan.
+
+`$terraform plan`
+
+== *Terraform apply*
 In your initialized directory, run terraform apply and review the planned actions. Your terminal output should indicate the plan is running and what resources will be created.
 
 `$ terraform apply`
