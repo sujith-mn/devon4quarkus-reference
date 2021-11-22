@@ -1,0 +1,2 @@
+INSERT INTO Product(modificationCounter, title, description, price) VALUES (1, 'Testproduct 1', 'Description of testproduct one', 1.99);
+INSERT INTO Product(modificationCounter, title, description, price) VALUES (1, 'Testproduct 2', 'Description of testproduct two', 2.49);

@@ -20,7 +20,6 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.springframework.data.domain.Page;
-import org.tkit.quarkus.rs.models.PageResultDTO;
 
 import com.devonfw.quarkus.productmanagement.logic.UcFindProduct;
 import com.devonfw.quarkus.productmanagement.logic.UcManageProduct;
@@ -47,14 +46,9 @@ public class ProductRestService {
   @Inject
   UcManageProduct ucManageProduct;
 
-  @APIResponses({
-  @APIResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = PagedProductResponse.class))),
-  @APIResponse(responseCode = "500") })
+  @APIResponses({ @APIResponse(responseCode = "200", description = "OK"), @APIResponse(responseCode = "500") })
   @Operation(operationId = "Get Products", description = "Returns list of Products matching given criteria, uses pagination")
   @GET
-  // REST service methods should not declare exceptions, any thrown error will be transformed by exceptionMapper in
-  // tkit-rest
-  // We did not define custom @Path - so it will use class level path
   public Page<ProductDto> getAll(@BeanParam ProductSearchCriteriaDto dto) {
 
     return this.ucFindProduct.findProducts(dto);
@@ -136,8 +130,4 @@ public class ProductRestService {
 
     return this.ucManageProduct.deleteProduct(id);
   }
-
-  private static class PagedProductResponse extends PageResultDTO<ProductDto> {
-  }
-
 }
