@@ -1,9 +1,6 @@
 # make sure terraform CLI is installed
 terraform
 
-# format the tf files
-terraform fmt
-
 # initialize terraform Azure modules
 terraform init
 
