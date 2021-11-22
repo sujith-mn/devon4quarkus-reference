@@ -1,0 +1,115 @@
+
+== Provision an AKS Cluster with Terraform
+
+:url-az-account: https://portal.azure.com/#home
+
+:url-az-CLI:  https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
+
+:url-az-kubectl: https://docs.microsoft.com/en-us/azure/aks/tutorial-kubernetes-deploy-cluster?tabs=azure-cli
+
+:url-helm:  https://helm.sh/docs/intro/install/
+
+:url-terraform: https://learn.hashicorp.com/tutorials/terraform/install-cli
+
+:url-repo-code:
+
+The Azure Kubernetes Service (AKS) is a fully managed Kubernetes service for deploying, managing, and scaling containerized applications on Azure.
+
+== *Prerequisites:*
+
+. Sign up into {url-az-account}[Azure Account].
+. Install the Azure {url-az-CLI}[CLI].
+. Install the {url-az-kubectl}[kubectl].
+. Install {url-helm}[Helm].
+. Installing {url-terraform}[Terraform].
+
+== *Set up and initialize your Terraform workspace*
+In your terminal, clone the following {url-repo-code}[repository] code.
+
+`$ git clone xxxxxxxxxxxxxxxxxxxxxx`
+
+You can explore this repository by changing directories.
+
+`cd xxxxxxxxxxxxxxxxxx`
+
+In here, you will find three files used to provision the AKS cluster.
+
+1. `aks-cluster.tf` provisions a resource group and an AKS cluster. The default_node_pool defines the number of VMs and the VM type the cluster uses.
+
+2. `variables.tf` declares the appID and password so Terraform can use reference its configuration
+
+3. `terraform.tfvars` defines the appId and password variables to authenticate to Azure
+
+4. `outputs.tf` declares values that can be useful to interact with your AKS cluster
+
+
+5. `versions.tf` set the Terraform version and defines the required_provider block
+
+== *Create an Active Directory service principal account*
+
+Here you will use an Azure Active Directory service principal to authenticate to the Azure provider. 
+
+First, you need to create an Active Directory service principal account using the Azure CLI. You should see something like the following.
+
+```
+$ az ad sp create-for-rbac --skip-assignment
+{
+  "appId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+  "displayName": "azure-cli-2021-11-17-00-46-05",
+  "name": "http://azure-cli-2021-11-17-00-46-05",
+  "password": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+  "tenant": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+}
+
+```
+
+== *Update your terraform.tfvars file*
+
+Replace the values in your `terraform.tfvars` file with your `appId` and `password`. Terraform will use these values to authenticate to Azure before provisioning your resources. 
+
+```
+# terraform.tfvars
+appId    = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
+password = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" 
+
+```
+== *Deploy Applications with the Helm Provider*
+The Terraform Helm provider allows you to deploy and manage your Kubernetes applications dynamically and securely.
+
+Create the Helm Provider in `aks-cluster.tf` and configure the helm repository location.
+
+== *Initialize Terraform*
+After you have saved your customized variables file, initialize your Terraform workspace, which will download the provider and initialize it with the values provided in your terraform.tfvars file.
+
+`$ terraform init`
+
+== *Provision the AKS cluster*
+In your initialized directory, run terraform apply and review the planned actions. Your terminal output should indicate the plan is running and what resources will be created.
+
+`$ terraform apply`
+
+You can see this terraform apply will provision an Azure resource group and an AKS cluster. Confirm the apply with a yes.
+
+== *Configure kubectl*
+
+Now that you've provisioned your AKS cluster, you need to configure kubectl.
+
+Run the following command to retrieve the access credentials for your cluster and automatically configure kubectl.
+
+`az aks get-credentials --resource-group $(terraform output -raw resource_group_name) --name $(terraform output -raw kubernetes_cluster_name)`
+
+The resource group name and Kubernetes Cluster name correspond to the output variables showed after the successful Terraform run.
+
+== *Access Kubernetes Dashboard*
+Run the following command to generate the Azure portal link.
+
+`az aks browse --resource-group $(terraform output -raw resource_group_name) --name $(terraform output -raw kubernetes_cluster_name)`
+
+Go to the URL in your preferred browser to view the Kubernetes resource view.
+
+== *Clean up your workspace*
+Run the destroy command and confirm with yes in your terminal.
+
+`$ terraform destroy`
+
+
