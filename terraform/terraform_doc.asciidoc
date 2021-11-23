@@ -26,11 +26,11 @@ The Azure Kubernetes Service (AKS) is a fully managed Kubernetes service for dep
 == *Set up and initialize your Terraform workspace*
 In your terminal, clone the following {url-repo-code}[repository] code.
 
-`$ git clone xxxxxxxxxxxxxxxxxxxxxx`
+`$ git clone https://github.com/prathibhapadma/devon4quarkus-reference/terraform`
 
 You can explore this repository by changing directories.
 
-`cd xxxxxxxxxxxxxxxxxx`
+`cd terraform`
 
 In here, you will find three files used to provision the AKS cluster.
 
