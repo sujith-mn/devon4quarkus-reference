@@ -25,7 +25,7 @@ The Azure Kubernetes Service (AKS) is a fully managed Kubernetes service for dep
 
 == *Login to Azure Account*
 
-Before the terraform implementation we need to login Azure account through Azure CLI.
+Before the terraform implementation we need to login Azure account through `Azure CLI`.
 
 `az login`
 
@@ -41,7 +41,7 @@ You can explore this repository by changing directories.
 
 List of the files used to provision the Aks Cluster.
 
-. `aks-cluster.tf` provisions a Resource Group and Aks Cluster. The default node pool defines the number of VMs and the VM type cluster uses.
+. `aks-cluster.tf` provisions a Resource Group and AKS Cluster. The default node pool defines the number of VMs and the VM type cluster uses.
 
 . `variables.tf` declares the variables to terraform, It can use reference to its configuration.
 
@@ -53,9 +53,9 @@ List of the files used to provision the Aks Cluster.
 
 == *Create an Active Directory Service Principal Account*
 
-Here you will use an Azure Active Directory Service Principal to authenticate the Azure provider. 
+Here you will use an Azure `Active Directory Service Principal` to authenticate the Azure provider. 
 
-First, you need to create an Active Directory Service Principal account using the Azure CLI. You should see something like the following.
+First, you need to create an `Active Directory Service Principal` account using the `Azure CLI`. You should see something like the following.
 
 ```
 $ az ad sp create-for-rbac --name az-aks-sp --role Contributor
