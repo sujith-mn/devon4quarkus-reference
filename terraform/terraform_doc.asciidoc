@@ -126,6 +126,6 @@ Run the destroy command and confirm with yes in your terminal.
 `$ terraform destroy`
 
 ```
-Note: terraform destroy can clean your Aks Cluster but not Resource Group, Because we are not authorized to perform RG deletion. For the RG deletion we need to raise ticket for IT Group.
+Note: terraform destroy can clean your Aks Cluster but not Resource Group, Because we are not authorized to perform RG deletion. For that we need to raise ticket for IT Group.
 ```
 
