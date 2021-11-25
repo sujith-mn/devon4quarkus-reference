@@ -11,7 +11,7 @@
 
 :url-terraform: https://learn.hashicorp.com/tutorials/terraform/install-cli
 
-:url-repo-code:
+:url-repo-code:  https://github.com/devon4quarkus-reference/azure-terraform
 
 The Azure Kubernetes Service (AKS) is a fully managed Kubernetes service for deploying, managing and scaling containerized applications on Azure.
 
@@ -23,23 +23,33 @@ The Azure Kubernetes Service (AKS) is a fully managed Kubernetes service for dep
 . Install the {url-helm}[Helm].
 . Install the {url-terraform}[Terraform].
 
+*Setup using Script*
+
+Install all Prerequisites using an automated script, you can find this script in `https://github.com/devon4quarkus-reference/azure-terraform/initial_setup_script.sh`
+
+*Usage*
+
+`bash initial_setup_script.sh`
+
 == *Login to Azure Account*
 
 Before the terraform implementation we need to login Azure account through `Azure CLI`.
-
-`az login`
+```
+az login
+az account set --subscription $SUBSCRIPTION
+```
 
 == *Set-Up And Initialize Terraform Workspace*
 
 In your terminal, clone the following {url-repo-code}[repository] code.
 
-`$ git clone https://github.com/devon4quarkus-reference/terraform`
+`$ git clone https://github.com/devon4quarkus-reference`
 
-You can explore this repository by changing directories.
+You can explore this repository by changing the directories.
 
-`cd terraform`
+`cd azure-terraform/terraform-aks-setup`
 
-List of the files used to provision the Aks Cluster.
+List of the files used to provision the AKS Cluster.
 
 . `aks-cluster.tf` provisions a Resource Group and AKS Cluster. The default node pool defines the number of VMs and the VM type cluster uses.
 
@@ -50,41 +60,6 @@ List of the files used to provision the Aks Cluster.
 . `outputs.tf` declares values that can be useful to interact with your Aks Cluster.
 
 . `versions.tf` set the Terraform version and defines the required provider block.
-
-== *Create an Active Directory Service Principal Account*
-
-Here you will use an Azure `Active Directory Service Principal` to authenticate the Azure provider. 
-
-First, you need to create an `Active Directory Service Principal` account using the `Azure CLI`. You should see something like the following.
-
-```
-$ az ad sp create-for-rbac --name az-aks-sp --role Contributor
-
-{
-  "appId": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
-  "displayName": "azure-cli-2021-11-17-00-46-05",
-  "name": "http://azure-cli-2021-11-17-00-46-05",
-  "password": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
-  "tenant": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
-}
-
-```
-
-== *Update your terraform.tfvars file*
-
-Replace the values in your `terraform.tfvars` file with your `appId` and `password`, Terraform will use these values to authenticate to Azure before provisioning your resources. 
-
-```
-# terraform.tfvars
-appId    = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"
-password = "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" 
-
-```
-== *Deploy Helm-charts with the Helm Provider*
-
-The Terraform Helm provider allows you to deploy and manage your Kubernetes applications dynamically and securely.
-
-Create the Helm Provider in `aks-cluster.tf` and configure the helm repository location.
 
 == *Initialize Terraform*
 After you have saved your customized variables file, Initialize your Terraform workspace, which will download the provider and initialize it with the values provided in your terraform.tfvars file.
@@ -102,6 +77,24 @@ Terraform apply will review the planned actions, your terminal output should ind
 `$ terraform apply`
 
 You can see this terraform apply will provision an Azure Resource Group and Aks Cluster. Confirm the apply with a yes.
+
+== *Deploy Helm-charts with the Helm Provider*
+
+The Terraform Helm provider allows you to deploy and manage your Kubernetes applications dynamically and securely. Create the Helm Provider in `helm_release.tf` and configure the helm-charts repository location.
+
+Change the directory in to `Helm Release Provider`.
+
+`cd azure-terraform/terraform-helm-deploy`
+
+Here we need to follow same steps as above process to deploy helm charts in to AKS cluster (Example: terraform init and terraform apply).
+
+== Terraform initialize and apply using Script
+
+Install all Prerequisites using an automated script, you can find this script in `https://github.com/devon4quarkus-reference/azure-terraform/script_execute.sh`
+
+== Usage
+
+`bash script_execute.sh`
 
 == *Configure kubectl*
 
