@@ -1,4 +1,4 @@
-package com.devonfw.quarkus.productmanagement.service.v1;
+package com.devonfw.quarkus.productmanagement.rest.v1;
 
 import javax.inject.Inject;
 import javax.ws.rs.BeanParam;
