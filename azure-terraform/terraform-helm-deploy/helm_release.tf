@@ -34,7 +34,7 @@ resource helm_release otel-release {
   name       = "otel-release-controller"
 
 # repository = "https://github.com/prathibhapadma/quarkus-otel-test-repo/tree/master/charts"
-  chart      = "/root/quarkus-opentelemetry-example/charts/helm"
+  chart      = "../devon4quarkus-reference/charts/helm"
 
   set {
     name  = "service.type"
@@ -46,7 +46,7 @@ resource helm_release quarkus-app-release {
   name       = "quarkus-app-controller"
 
  #repository = "https://github.com/prathibhapadma/quarkus-otel-test-repo/tree/master/charts"
-  chart      = "/root/quarkus-opentelemetry-example/charts/quarkus-app"
+  chart      = "../devon4quarkus-reference/charts/quarkus-app"
 
   set {
     name  = "service.type"
