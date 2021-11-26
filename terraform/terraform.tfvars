@@ -1,2 +1,0 @@
-appId    = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-password = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
