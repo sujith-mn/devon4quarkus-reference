@@ -1,0 +1,36 @@
+# Application configuration
+application:
+  image:
+    ## TODO: Insert the registry from which you want to pull the image
+    #registry: "hub.docker.com/dockerregistry101"
+    #repository: "guentherjulian/devon4quarkus-reference:latest"
+    repository: "dockerregistry101/demo-quarkus:latest"
+    # tag: "latest"
+
+  replicas: 2
+
+  livenessProbe:
+    url: /q/health/live
+
+  readinessProbe:
+    url: /q/health/ready
+
+  pod:
+    port: 8080
+
+  service:
+    port: 8080
+
+
+# Database configuration
+postgres:
+  image: "docker.io/bitnami/postgresql"
+  imageTag: "12.2.0"
+
+  service:
+    port: 5432
+
+
+# Ingress configuration
+ingress:
+  host: "demo-quarkus.demo-cluster-dns-be5e9d93.hcp.centralus.azmk8s.io"

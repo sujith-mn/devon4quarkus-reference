@@ -1,0 +1,19 @@
+# Application configuration
+application:
+  # Configuration to get the metrics information
+  metrics:
+    jobname: "demo-quarkus"
+    url: "/q/metrics"
+  
+  service:
+    name: "demo-quarkus"
+    port: 8080
+
+# Ingress configuration
+ingress:
+  jaeger:
+    host: "jaeger.demo-cluster-dns-be5e9d93.hcp.centralus.azmk8s.io"
+    port: 16686
+  grafana:
+    host: "grafana.demo-cluster-dns-be5e9d93.hcp.centralus.azmk8s.io"
+    port: 3000

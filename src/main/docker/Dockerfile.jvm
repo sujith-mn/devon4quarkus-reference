@@ -47,9 +47,8 @@ COPY --chown=1001 target/quarkus-app/lib/ /deployments/lib/
 COPY --chown=1001 target/quarkus-app/*.jar /deployments/
 COPY --chown=1001 target/quarkus-app/app/ /deployments/app/
 COPY --chown=1001 target/quarkus-app/quarkus/ /deployments/quarkus/
-COPY --chown=1001 agent/opentelemetry-javaagent-all.jar /deployments/agent/
+
 EXPOSE 8080
 USER 1001
 
-#CMD [ "/deployments/run-java.sh" ]
 ENTRYPOINT [ "/deployments/run-java.sh" ]

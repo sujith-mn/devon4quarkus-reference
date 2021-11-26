@@ -1,12 +1,10 @@
 apiVersion: apps/v1
 kind: Deployment
-# deployment v1
 metadata:
   name: postgresql
 spec:
   replicas: 1
   selector:
-    #how are the pods linked together
     matchLabels:
       app: postgresql
   template:

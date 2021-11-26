@@ -12,4 +12,4 @@ spec:
       targetPort: tcp-postgresql
   selector:
     app: postgresql
-  type: LoadBalancer #ClusterIP
+  type: ClusterIP
