@@ -1,4 +1,4 @@
-package com.devonfw.quarkus.productmanagement.service.v1.mapper;
+package com.devonfw.quarkus.productmanagement.rest.v1.mapper;
 
 import java.util.List;
 
