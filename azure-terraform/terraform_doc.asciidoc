@@ -11,7 +11,7 @@
 
 :url-terraform: https://learn.hashicorp.com/tutorials/terraform/install-cli
 
-:url-repo-code:  https://github.com/devon4quarkus-reference/azure-terraform
+:url-repo-code:  https://github.com/devonfw-sample/devon4quarkus-reference/azure-terraform
 
 The Azure Kubernetes Service (AKS) is a fully managed Kubernetes service for deploying, managing and scaling containerized applications on Azure.
 
@@ -25,7 +25,7 @@ The Azure Kubernetes Service (AKS) is a fully managed Kubernetes service for dep
 
 *Setup using Script*
 
-Install all Prerequisites using an automated script, you can find this script in `https://github.com/devon4quarkus-reference/azure-terraform/initial_setup_script.sh`
+Install all Prerequisites using an automated script, you can find this script in `https://github.com/devonfw-sample/devon4quarkus-reference/azure-terraform/initial_setup_script.sh`
 
 *Usage*
 
@@ -43,7 +43,7 @@ az account set --subscription $SUBSCRIPTION
 
 In your terminal, clone the following {url-repo-code}[repository] code.
 
-`$ git clone https://github.com/devon4quarkus-reference`
+`$ git clone https://github.com/devonfw-sample/devon4quarkus-reference`
 
 You can explore this repository by changing the directories.
 
@@ -93,7 +93,7 @@ Here we need to follow same steps as above process to deploy helm charts in to A
 
 == Terraform initialize and apply using Script
 
-Install all Prerequisites using an automated script, you can find this script in `https://github.com/devon4quarkus-reference/azure-terraform/script_execute.sh`
+Install all Prerequisites using an automated script, you can find this script in `https://github.com/devonfw-sample/devon4quarkus-reference/azure-terraform/script_execute.sh`
 
 == Usage
 
