@@ -1,7 +1,7 @@
 data "terraform_remote_state" "aks" {
   backend = "local"
   config = {
-    path = "/root/quarkus-opentelemetry-example/azure-terraform/terraform-aks-setup/terraform.tfstate"
+    path = "../quarkus-opentelemetry-example/azure-terraform/terraform-aks-setup/terraform.tfstate"
   }
 }
 
