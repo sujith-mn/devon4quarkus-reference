@@ -1,4 +1,4 @@
-package com.devonfw.demoquarkus.service.v1;
+package com.devonfw.demoquarkus.rest.v1;
 
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.equalTo;
