@@ -89,7 +89,7 @@ Change the directory in to `Helm Release Provider`.
 Here we need to follow same steps as above process to deploy helm charts in to AKS cluster (Example: terraform init and terraform apply).
 
 
-*Note*: You need to change helm charts path location in `terraform-helm-deploy/helm_release.tf` file.
+*Note*: You need to change `terraform-remote-state` path and `helm charts` path in `terraform-helm-deploy/helm_release.tf` file.
 
 == Terraform initialize and apply using Script
 
