@@ -88,10 +88,10 @@ public class ProductRestService {
 
     return this.ucManageProduct.saveProduct(dto);
   }
-  
+
   @GET
   @Path("{id}")
-  public ProductDto getProductById(@Parameter(description = "Product unique id") @PathParam("id") String id) {
+  public ProductDto getProductById(@PathParam("id") String id) {
 
     return this.ucFindProduct.findProduct(id);
   }
@@ -105,9 +105,8 @@ public class ProductRestService {
 
   @DELETE
   @Path("{id}")
-  public ProductDto deleteProductById(@Parameter(description = "Product unique id") @PathParam("id") String id) {
+  public ProductDto deleteProductById(@PathParam("id") String id) {
 
     return this.ucManageProduct.deleteProduct(id);
   }
 }
-
