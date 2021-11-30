@@ -7,9 +7,9 @@
 # The above will handle all files NOT found below
 #
 # These files are text and should be normalized (Convert crlf => lf)
-*.asciidoc	    text
-*.adoc		    text
-*.md		    text
+*.asciidoc      text
+*.adoc          text
+*.md            text
 *.css           text
 *.df            text
 *.htm           text
@@ -43,6 +43,6 @@
 *.png           binary
 *.so            binary
 *.war           binary
-*.pdf		    binary
-*.exe		    binary
-*.zip		    binary
+*.pdf           binary
+*.exe           binary
+*.zip           binary
