@@ -30,11 +30,11 @@ The Azure Kubernetes Service (AKS) is a fully managed Kubernetes service for dep
 == *Install the Prerequisites using Script*
 Install all Prerequisites using an Automated script for Windows and Linux.
 
-- You can find the script to Linux {url-script-linux}[here].
+. You can find the script to Linux {url-script-linux}[here].
 
 `.\installation_setup_linux.sh`
 
-- You can find the script to windows {url-script-windows}[here].
+. You can find the script to windows {url-script-windows}[here].
 
 ```
 . .\installation_setup_windows.ps1
