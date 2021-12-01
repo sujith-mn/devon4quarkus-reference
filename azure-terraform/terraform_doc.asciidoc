@@ -34,7 +34,7 @@ Install all Prerequisites using an Automated script for Windows and Linux.
 
 You can find the script to Linux {url-script-linux}[here].
 
-`bash installation_setup_linux.sh`
+`.\installation_setup_linux.sh`
 
 *Windows*
 
