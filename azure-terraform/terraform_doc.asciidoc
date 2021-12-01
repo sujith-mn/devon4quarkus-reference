@@ -13,6 +13,10 @@
 
 :url-repo-code:  https://github.com/devonfw-sample/devon4quarkus-reference/azure-terraform
 
+:url-script-linux: https://github.com/devonfw-sample/devon4quarkus-reference/azure-terraform/installation_setup_linux.sh
+
+:url-script-windows: https://github.com/devonfw-sample/devon4quarkus-reference/azure-terraform/installation_setup_windows.ps1
+
 The Azure Kubernetes Service (AKS) is a fully managed Kubernetes service for deploying, managing and scaling containerized applications on Azure.
 
 == *Prerequisites:*
@@ -23,13 +27,25 @@ The Azure Kubernetes Service (AKS) is a fully managed Kubernetes service for dep
 . Install the {url-helm}[Helm].
 . Install the {url-terraform}[Terraform].
 
-*Setup using Script*
+== *Install the Prerequisites using Script*
+Install all Prerequisites using an Automated script for Windows and Linux.
 
-Install all Prerequisites using an automated script, you can find this script in `https://github.com/devonfw-sample/devon4quarkus-reference/azure-terraform/initial_setup_script.sh`
+*Linux*
 
-*Usage*
+You can find the script to Linux {url-script-linux}[here].
 
-`bash initial_setup_script.sh`
+`bash installation_setup_linux.sh`
+
+*Windows*
+
+You can find the script to wndows {url-script-windows}[here].
+
+```
+. .\installation_setup_windows.ps1
+installation_setup_windows
+```
+
+
 
 == *Login to Azure Account*
 
@@ -89,7 +105,7 @@ Change the directory in to `Helm Release Provider`.
 Here we need to follow same steps as above process to deploy helm charts in to AKS cluster (Example: terraform init and terraform apply).
 
 
-*Note*: You need to change `terraform-remote-state` path and `helm charts` path in `terraform-helm-deploy/helm_release.tf` file.
+*Note*: According to your working directory, you need to change `terraform-remote-state` path and `Helm Charts` path in `terraform-helm-deploy/helm_release.tf` file.
 
 == Terraform initialize and apply using Script
 

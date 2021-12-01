@@ -16,7 +16,7 @@ output "aks_fqdn" {
 output "host" {
    value = azurerm_kubernetes_cluster.aks.kube_config.0.host
 }
-
+/*
 output "client_key" {
    value = azurerm_kubernetes_cluster.aks.kube_config.0.client_key
 }
@@ -37,3 +37,4 @@ output "cluster_username" {
 output "cluster_password" {
    value = azurerm_kubernetes_cluster.aks.kube_config.0.password
 }
+*/

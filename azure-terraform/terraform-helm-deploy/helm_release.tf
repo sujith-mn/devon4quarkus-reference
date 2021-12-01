@@ -1,13 +1,13 @@
 data "terraform_remote_state" "aks" {
   backend = "local"
   config = {
-    path = "../quarkus-opentelemetry-example/azure-terraform/terraform-aks-setup/terraform.tfstate"
+    path = "../../azure-terraform/terraform-aks-setup/terraform.tfstate"
   }
 }
 
 data "azurerm_kubernetes_cluster" "aks" {
-  name                = "k8s-cluster"
-  resource_group_name = "AKSRG103"
+  name                = var.cluster_name
+  resource_group_name = var.resource_group_name
 }
 
 provider "kubernetes" {
@@ -34,7 +34,7 @@ resource helm_release otel-release {
   name       = "otel-release-controller"
 
 # repository = "https://github.com/prathibhapadma/quarkus-otel-test-repo/tree/master/charts"
-  chart      = "../devon4quarkus-reference/helm-charts/opentelementry"
+  chart      = "../../helm-charts/opentelementry"
 
   set {
     name  = "service.type"
@@ -46,7 +46,7 @@ resource helm_release quarkus-app-release {
   name       = "quarkus-app-controller"
 
  #repository = "https://github.com/prathibhapadma/quarkus-otel-test-repo/tree/master/charts"
-  chart      = "../devon4quarkus-reference/helm-charts/demo-quarkus"
+  chart      = "../../helm-charts/demo-quarkus"
 
   set {
     name  = "service.type"
