@@ -32,11 +32,11 @@ Install all Prerequisites using an Automated script for Windows and Linux.
 
 1. You can find the script to Linux {url-script-linux}[here] and use below command to execute.
 
-`.\installation_setup_linux.sh`
+   `.\installation_setup_linux.sh`
 
 2. You can find the script to windows {url-script-windows}[here], Follow the command to execute the script.
 
-`.\installation_setup_windows.ps1`
+   `.\installation_setup_windows.ps1`
 
 == *Login to Azure Account*
 
