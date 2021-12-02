@@ -49,7 +49,4 @@
 	#terraform -help
 	terraform version
 	
-	touch ~/.bashrc
-	terraform -install-autocomplete
-	source ~/.bashrc
 	
