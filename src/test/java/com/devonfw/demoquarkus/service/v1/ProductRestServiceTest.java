@@ -1,69 +1,97 @@
 package com.devonfw.demoquarkus.service.v1;
 
 import static io.restassured.RestAssured.given;
-import static javax.ws.rs.core.Response.Status.CREATED;
-import static javax.ws.rs.core.Response.Status.NO_CONTENT;
-import static javax.ws.rs.core.Response.Status.OK;
 import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.nullValue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.math.BigDecimal;
+import java.util.LinkedHashMap;
+import java.util.List;
 
 import javax.ws.rs.core.MediaType;
 
-import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.tkit.quarkus.test.docker.DockerComposeTestResource;
+import org.junit.jupiter.api.TestMethodOrder;
 
 import com.devonfw.quarkus.productmanagement.service.v1.model.ProductDto;
-import com.devonfw.quarkus.productmanagement.service.v1.model.ProductSearchCriteriaDto;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
+import io.restassured.response.Response;
 
 @QuarkusTest
-@Tag("integration")
-@QuarkusTestResource(DockerComposeTestResource.class)
+@QuarkusTestResource(PostgresResource.class)
+@TestMethodOrder(OrderAnnotation.class)
 class ProductRestServiceTest {
 
   @Test
-  void testAll() {
+  @Order(1)
+  void getAll() {
 
-    ProductDto product1 = new ProductDto();
-    product1.setTitle("Notebook");
-    product1.setDescription("ZBook");
-    product1.setPrice(BigDecimal.valueOf(1));
+    Response response = given().when().contentType(MediaType.APPLICATION_JSON).get("/products").then().statusCode(200)
+        .extract().response();
 
-    ProductDto product2 = new ProductDto();
-    product2.setTitle("McBook");
-    product2.setDescription("Apple Notebook");
-    product2.setPrice(BigDecimal.valueOf(2));
+    int products = Integer.valueOf(response.jsonPath().getString("totalElements"));
+    assertEquals(350, products);
+  }
 
-    ProductSearchCriteriaDto productSearch = new ProductSearchCriteriaDto();
-    productSearch.setTitle("Notebook");
+  @Test
+  @Order(2)
+  void getNonExistingTest() {
 
-    given().when().body(product1).contentType(MediaType.APPLICATION_JSON).post("/product/v1").then().log().all()
-        .statusCode(CREATED.getStatusCode());
+    given().when().contentType(MediaType.APPLICATION_JSON).get("/products/doesnoexist").then().log().all()
+        .statusCode(500).extract().response();
+  }
 
-    given().when().body(product2).contentType(MediaType.APPLICATION_JSON).post("/product/v1").then().log().all()
-        .statusCode(CREATED.getStatusCode());
+  @Test
+  @Order(3)
+  void createNewProduct() {
 
-    given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1/1").then().log().all()
-        .statusCode(OK.getStatusCode()).body("title", equalTo("Notebook"));
+    ProductDto product = new ProductDto();
+    product.setTitle("HP Notebook");
+    product.setDescription("ZBook");
+    product.setPrice(BigDecimal.valueOf(1));
 
-    given().when().body(productSearch).contentType(MediaType.APPLICATION_JSON).post("/product/v1/search").then().log()
-        .all().statusCode(OK.getStatusCode()).extract().jsonPath().getString("content[0].title").equals("Notebook");
+    Response response = given().when().body(product).contentType(MediaType.APPLICATION_JSON).post("/products").then()
+        .log().all().statusCode(200).header("Location", nullValue()).extract().response();
 
-    given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1").then().log().all()
-        .statusCode(OK.getStatusCode()).extract().jsonPath().getString("content[0].title").equals("Notebook");
+    assertEquals(200, response.statusCode());
 
-    given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1/title/McBook").then().log().all()
-        .statusCode(OK.getStatusCode()).body("description", equalTo("Apple Notebook"));
+    response = given().when().contentType(MediaType.APPLICATION_JSON).get("/products").then().log().all()
+        .statusCode(200).extract().response();
 
-    given().when().contentType(MediaType.APPLICATION_JSON).delete("/product/v1/1").then().log().all()
-        .statusCode(NO_CONTENT.getStatusCode());
+    // number of elements is 351, because there are already 350 products in the database
+    int products = Integer.valueOf(response.jsonPath().getString("totalElements"));
+    assertEquals(351, products);
 
-    given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1/1").then().log().all()
-        .statusCode(NO_CONTENT.getStatusCode());
+    List<LinkedHashMap<String, String>> created = response.jsonPath().getList("content");
+    assertNotNull(created);
+    assertEquals(product.getTitle(), created.get(350).get("title"));
+  }
+
+  @Test
+  @Order(4)
+  public void testGetById() {
+
+    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/products/1").then().statusCode(200)
+        .body("title", equalTo("Bose Acoustimass 5 Series III Speaker System - AM53BK"))
+        .body("price", equalTo(Float.valueOf(399)));
+  }
+
+  @Test
+  @Order(5)
+  public void deleteById() {
+
+    given().when().log().all().contentType(MediaType.APPLICATION_JSON).delete("/products/1").then().statusCode(200)
+        .body("title", equalTo("Bose Acoustimass 5 Series III Speaker System - AM53BK"))
+        .body("price", equalTo(Float.valueOf(399F)));
+
+    // after deletion it should be deleted
+    given().when().log().all().contentType(MediaType.APPLICATION_JSON).get("/products/1").then().statusCode(500);
 
   }
 

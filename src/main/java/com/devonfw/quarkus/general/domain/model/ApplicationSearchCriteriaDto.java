@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public abstract class ApplicationSearchCriteriaDto {
+public class ApplicationSearchCriteriaDto {
 
   @Schema(description = "Page Number", defaultValue = "0")
   private int pageNumber = 0;

@@ -48,6 +48,7 @@ public class ProductFragmentImpl implements ProductFragment {
       query.where(predicates.toArray(Predicate[]::new));
     }
     Pageable pageable = PageRequest.of(searchCriteria.getPageNumber(), searchCriteria.getPageSize());
+    // Pageable pageable = searchCriteria.getPageable();
     query.orderBy(product.title.desc());
     return QueryUtil.findPaginated(pageable, query, searchCriteria.isDetermineTotal());
   }
