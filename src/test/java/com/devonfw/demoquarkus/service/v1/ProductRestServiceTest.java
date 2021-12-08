@@ -39,8 +39,7 @@ class ProductRestServiceTest {
   @Order(2)
   void getNonExistingTest() {
 
-    given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1/doesnoexist").then().log().all()
-        .statusCode(500);
+    given().when().contentType(MediaType.APPLICATION_JSON).get("/product/v1/99999").then().log().all().statusCode(204);
   }
 
   @Test
