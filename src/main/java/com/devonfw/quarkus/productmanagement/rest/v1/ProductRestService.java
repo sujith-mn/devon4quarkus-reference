@@ -30,19 +30,11 @@ import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.springframework.data.domain.Page;
 
-<<<<<<< HEAD:src/main/java/com/devonfw/quarkus/productmanagement/service/v1/ProductRestService.java
 import com.devonfw.quarkus.productmanagement.domain.model.ProductEntity;
 import com.devonfw.quarkus.productmanagement.domain.repo.ProductRepository;
-import com.devonfw.quarkus.productmanagement.service.v1.mapper.ProductMapper;
-import com.devonfw.quarkus.productmanagement.service.v1.model.ProductDto;
-import com.devonfw.quarkus.productmanagement.service.v1.model.ProductSearchCriteriaDto;
-=======
-import com.devonfw.quarkus.productmanagement.logic.UcFindProduct;
-import com.devonfw.quarkus.productmanagement.logic.UcManageProduct;
-import com.devonfw.quarkus.productmanagement.rest.v1.model.NewProductDto;
+import com.devonfw.quarkus.productmanagement.rest.v1.mapper.ProductMapper;
 import com.devonfw.quarkus.productmanagement.rest.v1.model.ProductDto;
 import com.devonfw.quarkus.productmanagement.rest.v1.model.ProductSearchCriteriaDto;
->>>>>>> master:src/main/java/com/devonfw/quarkus/productmanagement/rest/v1/ProductRestService.java
 
 @Path("/product/v1")
 @Produces(MediaType.APPLICATION_JSON)

@@ -15,13 +15,9 @@ import org.springframework.data.domain.Pageable;
 
 import com.devonfw.quarkus.productmanagement.domain.model.ProductEntity;
 import com.devonfw.quarkus.productmanagement.domain.model.QProductEntity;
-<<<<<<< HEAD
-import com.devonfw.quarkus.productmanagement.service.v1.model.ProductSearchCriteriaDto;
+import com.devonfw.quarkus.productmanagement.rest.v1.model.ProductSearchCriteriaDto;
 import com.devonfw.quarkus.productmanagement.utils.QueryUtil;
 import com.querydsl.core.types.Predicate;
-=======
-import com.devonfw.quarkus.productmanagement.rest.v1.model.ProductSearchCriteriaDto;
->>>>>>> master
 import com.querydsl.jpa.impl.JPAQuery;
 
 public class ProductFragmentImpl implements ProductFragment {
@@ -52,7 +48,6 @@ public class ProductFragmentImpl implements ProductFragment {
       query.where(predicates.toArray(Predicate[]::new));
     }
     Pageable pageable = PageRequest.of(searchCriteria.getPageNumber(), searchCriteria.getPageSize());
-    // Pageable pageable = searchCriteria.getPageable();
     query.orderBy(product.title.desc());
     return QueryUtil.findPaginated(pageable, query, searchCriteria.isDetermineTotal());
   }
