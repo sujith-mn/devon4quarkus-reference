@@ -22,12 +22,7 @@ import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 import javax.ws.rs.core.UriInfo;
 
-import org.eclipse.microprofile.openapi.annotations.Operation;
-import org.eclipse.microprofile.openapi.annotations.media.Content;
-import org.eclipse.microprofile.openapi.annotations.media.Schema;
 import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
-import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
-import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.springframework.data.domain.Page;
 
 import com.devonfw.quarkus.productmanagement.domain.model.ProductEntity;
@@ -60,11 +55,6 @@ public class ProductRestService {
     return this.productMapper.map(products);
   }
 
-  @APIResponses({
-  @APIResponse(responseCode = "201", description = "OK, New Product created", content = @Content(schema = @Schema(implementation = ProductDto.class))),
-  @APIResponse(responseCode = "400", description = "Client side error, invalid request"),
-  @APIResponse(responseCode = "500") })
-  @Operation(operationId = "createNewProduct", description = "Stores new Product in DB")
   @POST
   public Response createNewProduct(ProductDto product) {
 
@@ -89,10 +79,6 @@ public class ProductRestService {
     return this.productMapper.map(products);
   }
 
-  @APIResponses({
-  @APIResponse(responseCode = "200", description = "OK", content = @Content(schema = @Schema(implementation = ProductDto.class))),
-  @APIResponse(responseCode = "404", description = "Product not found"), @APIResponse(responseCode = "500") })
-  @Operation(operationId = "getProductById", description = "Returns Product with given id")
   @GET
   @Path("{id}")
   public ProductDto getProductById(@Parameter(description = "Product unique id") @PathParam("id") String id) {
@@ -111,10 +97,6 @@ public class ProductRestService {
     return this.productMapper.map(this.productRepository.findByTitle(title));
   }
 
-  @APIResponses({
-  @APIResponse(responseCode = "204", description = "OK", content = @Content(schema = @Schema(implementation = ProductDto.class))),
-  @APIResponse(responseCode = "404", description = "Product not found"), @APIResponse(responseCode = "500") })
-  @Operation(operationId = "deleteProductById", description = "Deletes the Product with given id")
   @DELETE
   @Path("{id}")
   public Response deleteProductById(@Parameter(description = "Product unique id") @PathParam("id") String id) {
