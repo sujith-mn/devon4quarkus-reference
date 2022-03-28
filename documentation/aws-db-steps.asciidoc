@@ -1,0 +1,53 @@
+== Using AWS RDS for PostgreSQL in place of default PostgreSQL DB
+
+=== Pre-requisites
+* AWS RDS for PostgreSQL is required to be up and running for this deployment. In case, you need to create new database, please refer link:https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.CreatingConnecting.PostgreSQL.html[AWS Console] or link:https://www.mydatahack.com/how-to-launch-postgres-rds-with-aws-command-line-interface-cli/[CLI].
+* AWS CLI is to be installed. For installing, please refer this link:https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html[link].
+
+=== Steps
+Here are the high level steps which are followed by AWS CLI Commands.
+
+* Connect to AWS RDS for PostgreSQL.
+* Create the database.
+* Update the application.properties file and continue with the deployment steps.
+
+```
+#Connect to AWS from CLI (either local machine or VM) - in case, AWS CLI not present, install 
+aws --version
+
+#Check if it is connected
+aws sts get-caller-identity
+
+#If connected to AWS, skip this command or else, use this and connect
+aws configure
+
+#Connect to DB using the below format
+psql --host=<dbserver-name>.<aws-account-id>.<region>.rds.amazonaws.com --port=5432 --username=postgres --dbname=postgres
+
+#Sample
+psql --host=d4qdb.11011000110011.eu-west-1.rds.amazonaws.com --port=5432 --username=postgres --dbname=postgres
+
+#After logging into psql prompt, create the demo DB to use in our reference project
+CREATE DATABASE demo;
+
+```
+
+* Update the application.properties file by changing the below section.
+
+```
+# Datasource configuration
+quarkus.datasource.db-kind=postgresql
+quarkus.datasource.jdbc.url=jdbc:postgresql://localhost:5432/demo
+quarkus.datasource.username=demo
+quarkus.datasource.password=********
+```
+* Sample for reference
+```
+# Datasource configuration
+quarkus.datasource.db-kind=postgresql
+quarkus.datasource.jdbc.url=jdbc:postgresql://d4qdb.11011000110011.eu-west-1.rds.amazonaws.com:5432/demo
+quarkus.datasource.username=postgres
+quarkus.datasource.password=**********
+```
+
+* Continue with the deployment steps as per the link:https://github.com/devonfw-sample/devon4quarkus-reference/#readme[main document].
